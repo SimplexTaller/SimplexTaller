@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Crear cuenta | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .contenedor {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 15px;
+        }
+
+        .tarjeta {
+            width: 100%;
+            max-width: 460px;
+            background: white;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 17px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: 0;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #mensaje {
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .volver {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="tarjeta">
+
+        <h1>Crear cuenta</h1>
+
+        <p class="subtitulo">
+            Registra tu taller en SimplexTaller.
+        </p>
+
+        <form id="formRegistro">
+
+            <label for="nombreTaller">
+                Nombre del taller
+            </label>
+
+            <input
+                type="text"
+                id="nombreTaller"
+                required
+            >
+
+            <label for="responsable">
+                Nombre del responsable
+            </label>
+
+            <input
+                type="text"
+                id="responsable"
+                required
+            >
+
+            <label for="correo">
+                Correo electrónico
+            </label>
+
+            <input
+                type="email"
+                id="correo"
+                required
+            >
+
+            <label for="password">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                minlength="6"
+                required
+            >
+
+            <button id="btnRegistro" type="submit">
+                Crear cuenta
+            </button>
+
+        </form>
+
+        <div id="mensaje"></div>
+
+        <div class="volver">
+            ¿Ya tienes una cuenta?
+            <a href="login.html">Iniciar sesión</a>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Librería oficial de Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- Nuestra configuración -->
+<script src="js/supabase.js"></script>
+
+<script>
+
+const formulario = document.getElementById("formRegistro");
+const mensaje = document.getElementById("mensaje");
+const boton = document.getElementById("btnRegistro");
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    boton.disabled = true;
+    boton.textContent = "Creando cuenta...";
+
+    mensaje.textContent = "";
+
+    const nombreTaller =
+        document.getElementById("nombreTaller").value.trim();
+
+    const responsable =
+        document.getElementById("responsable").value.trim();
+
+    const correo =
+        document.getElementById("correo").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    try {
+
+        // 1. Crear usuario en Supabase Auth
+
+        const { data, error } =
+            await supabaseClient.auth.signUp({
+                email: correo,
+                password: password
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data.user) {
+            throw new Error(
+                "No se pudo crear el usuario."
+            );
+        }
+
+        /*
+        Si Supabase exige confirmar el correo,
+        todavía no tendremos una sesión autenticada.
+        En ese caso guardaremos el perfil después
+        de que el usuario confirme e inicie sesión.
+        */
+
+        if (!data.session) {
+
+            mensaje.innerHTML =
+                "Cuenta creada. Revisa tu correo electrónico " +
+                "y confirma tu cuenta antes de iniciar sesión.";
+
+            formulario.reset();
+            return;
+        }
+
+        // 2. Crear perfil del taller
+
+        const { error: errorTaller } =
+            await supabaseClient
+                .from("talleres")
+                .insert({
+                    usuario_id: data.user.id,
+                    nombre_taller: nombreTaller,
+                    nombre_responsable: responsable
+                });
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+        mensaje.textContent =
+            "Cuenta creada correctamente.";
+
+        // Próximamente crearemos esta página
+        setTimeout(function() {
+            window.location.href = "dashboard.html";
+        }, 1000);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        mensaje.textContent =
+            "Error: " + error.message;
+
+    }
+
+    finally {
+
+        boton.disabled = false;
+        boton.textContent = "Crear cuenta";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

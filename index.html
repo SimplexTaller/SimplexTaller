@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            font-size: 19px;
+            color: #4b5563;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .botones {
+            display: flex;
+            gap: 15px;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 13px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .principal {
+            background: #2563eb;
+            color: white;
+        }
+
+        .secundario {
+            background: white;
+            color: #2563eb;
+            border: 1px solid #2563eb;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #6b7280;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .botones {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">SimplexTaller</div>
+
+    <nav>
+        <a href="login.html">Iniciar sesión</a>
+        <a href="registro.html">Registrarse</a>
+    </nav>
+</header>
+
+<main class="hero">
+
+    <h1>Administra tu taller de forma simple</h1>
+
+    <p>
+        Gestiona clientes, crea órdenes de trabajo y mantén organizada
+        la información de tu taller desde una sola plataforma.
+    </p>
+
+    <div class="botones">
+        <a class="boton principal" href="registro.html">
+            Crear cuenta
+        </a>
+
+        <a class="boton secundario" href="login.html">
+            Iniciar sesión
+        </a>
+    </div>
+
+</main>
+
+<footer>
+    © 2026 SimplexTaller
+</footer>
+
+</body>
+</html>

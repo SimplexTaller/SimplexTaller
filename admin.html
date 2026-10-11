@@ -86,9 +86,9 @@
             background:
                 linear-gradient(
                     110deg,
-                    #06192d,
-                    #0b3158 58%,
-                    #125a9c
+                    var(--azul-profundo),
+                    var(--azul-marino) 58%,
+                    var(--azul)
                 );
 
             border-bottom:
@@ -101,12 +101,11 @@
 
         .cabecera-contenido {
             width: 100%;
-            max-width: 1350px;
+            max-width: 1400px;
 
             min-height: 84px;
 
             margin: auto;
-
             padding: 10px 28px;
 
             display: flex;
@@ -127,7 +126,6 @@
         .marca-logo {
             width: 62px;
             height: 62px;
-
             flex-shrink: 0;
         }
 
@@ -137,7 +135,6 @@
             height: 100%;
 
             display: block;
-
             object-fit: contain;
 
             filter:
@@ -168,7 +165,6 @@
             font-weight: 700;
 
             letter-spacing: 1.4px;
-
             text-transform: uppercase;
         }
 
@@ -197,7 +193,6 @@
             font-weight: 800;
 
             letter-spacing: .8px;
-
             text-transform: uppercase;
         }
 
@@ -264,11 +259,11 @@
             z-index: 5;
 
             width: 100%;
-            max-width: 1350px;
+            max-width: 1400px;
 
             margin: auto;
 
-            padding: 42px 28px 70px;
+            padding: 35px 28px 70px;
         }
 
 
@@ -367,7 +362,7 @@
 
             overflow: hidden;
 
-            margin-bottom: 28px;
+            margin-bottom: 20px;
 
             padding: 27px 30px;
 
@@ -444,7 +439,6 @@
             font-weight: 800;
 
             letter-spacing: 1.2px;
-
             text-transform: uppercase;
         }
 
@@ -466,20 +460,126 @@
             position: relative;
             z-index: 2;
 
-            max-width: 750px;
+            max-width: 780px;
 
             margin: 0;
 
             color: var(--texto-secundario);
 
             font-size: 14px;
-
             line-height: 1.6;
         }
 
 
         /* ==========================================
-           ESTADÍSTICAS
+           NAVEGACIÓN DEL ADMINISTRADOR
+        ========================================== */
+
+        .navegacion-admin {
+            display: flex;
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 24px;
+
+            padding: 6px;
+
+            width: fit-content;
+
+            border:
+                1px solid #dbe3ec;
+
+            border-radius: 12px;
+
+            background:
+                rgba(255,255,255,.82);
+
+            box-shadow:
+                0 5px 18px rgba(15,23,42,.05);
+        }
+
+
+        .tab-admin {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 8px;
+
+            min-height: 42px;
+
+            padding: 9px 18px;
+
+            border: none;
+            border-radius: 8px;
+
+            background: transparent;
+
+            color: #64748b;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                color .2s ease,
+                background .2s ease,
+                box-shadow .2s ease,
+                transform .2s ease;
+        }
+
+
+        .tab-admin:hover {
+            color: var(--azul-marino);
+            background: #f1f5f9;
+        }
+
+
+        .tab-admin.activo {
+            color: #ffffff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-marino),
+                    var(--azul)
+                );
+
+            box-shadow:
+                0 6px 15px rgba(11,49,88,.20);
+        }
+
+
+        .tab-admin svg {
+            width: 17px;
+            height: 17px;
+        }
+
+
+        .vista-admin {
+            animation:
+                aparecer .22s ease;
+        }
+
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* ==========================================
+           TARJETAS GENERALES
         ========================================== */
 
         .estadisticas {
@@ -521,8 +621,7 @@
 
 
         .estadistica:hover {
-            transform:
-                translateY(-4px);
+            transform: translateY(-4px);
 
             box-shadow:
                 0 16px 35px rgba(15,23,42,.11);
@@ -617,7 +716,7 @@
 
 
         /* ==========================================
-           PANEL DE TALLERES
+           PANEL GENERAL
         ========================================== */
 
         .panel {
@@ -738,7 +837,7 @@
 
 
         /* ==========================================
-           TABLA
+           TABLA DE TALLERES
         ========================================== */
 
         .tabla-contenedor {
@@ -753,19 +852,17 @@
 
             border-collapse: collapse;
 
-            min-width: 850px;
+            min-width: 1100px;
         }
 
 
         thead {
-            background:
-                #f8fafc;
+            background: #f8fafc;
         }
 
 
         th {
-            padding:
-                13px 18px;
+            padding: 13px 16px;
 
             text-align: left;
 
@@ -775,7 +872,6 @@
             font-weight: 800;
 
             letter-spacing: .5px;
-
             text-transform: uppercase;
 
             border-bottom:
@@ -784,8 +880,7 @@
 
 
         td {
-            padding:
-                16px 18px;
+            padding: 16px;
 
             color: #334155;
 
@@ -803,8 +898,7 @@
 
 
         tbody tr:hover {
-            background:
-                #f8fbff;
+            background: #f8fbff;
         }
 
 
@@ -815,6 +909,47 @@
         }
 
 
+        /* ==========================================
+           CONTADORES POR TALLER
+        ========================================== */
+
+        .contador-dato {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-width: 43px;
+
+            padding: 6px 10px;
+
+            border:
+                1px solid #dbeafe;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            color: var(--azul-marino);
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .contador-ordenes {
+            border-color: #e2e8f0;
+
+            background: #f8fafc;
+
+            color: #475569;
+        }
+
+
+        /* ==========================================
+           ESTADOS
+        ========================================== */
+
         .estado {
             display: inline-flex;
 
@@ -822,8 +957,7 @@
 
             gap: 6px;
 
-            padding:
-                6px 9px;
+            padding: 6px 9px;
 
             border-radius: 30px;
 
@@ -844,7 +978,6 @@
 
         .estado-activo {
             background: #f0fdf4;
-
             color: #15803d;
         }
 
@@ -856,7 +989,6 @@
 
         .estado-inactivo {
             background: #fff1f2;
-
             color: #be123c;
         }
 
@@ -864,79 +996,82 @@
         .estado-inactivo::before {
             background: #f43f5e;
         }
+
+
         /* ==========================================
-   ACCIONES ADMINISTRADOR
-========================================== */
+           ACCIONES
+        ========================================== */
 
-.acciones-taller {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-.btn-estado {
-    min-width: 105px;
-
-    padding: 8px 12px;
-
-    border: none;
-    border-radius: 8px;
-
-    font-size: 11px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    transition:
-        transform .18s ease,
-        box-shadow .18s ease,
-        opacity .18s ease;
-}
+        .acciones-taller {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
 
-.btn-estado:hover {
-    transform: translateY(-2px);
-}
+        .btn-estado {
+            min-width: 105px;
+
+            padding: 8px 12px;
+
+            border: none;
+            border-radius: 8px;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition:
+                transform .18s ease,
+                box-shadow .18s ease,
+                opacity .18s ease;
+        }
 
 
-.btn-estado:disabled {
-    opacity: .55;
-    cursor: wait;
-    transform: none;
-}
+        .btn-estado:hover {
+            transform: translateY(-2px);
+        }
 
 
-/* HABILITAR */
+        .btn-estado:disabled {
+            opacity: .55;
 
-.btn-habilitar {
-    background: #dcfce7;
-    color: #15803d;
+            cursor: wait;
 
-    border: 1px solid #bbf7d0;
-}
-
-
-.btn-habilitar:hover {
-    box-shadow:
-        0 6px 15px rgba(22,163,74,.15);
-}
+            transform: none;
+        }
 
 
-/* INHABILITAR */
+        .btn-habilitar {
+            border: 1px solid #bbf7d0;
 
-.btn-inhabilitar {
-    background: #fff1f2;
-    color: #be123c;
+            background: #dcfce7;
 
-    border: 1px solid #fecdd3;
-}
+            color: #15803d;
+        }
 
 
-.btn-inhabilitar:hover {
-    box-shadow:
-        0 6px 15px rgba(225,29,72,.15);
-}
+        .btn-habilitar:hover {
+            box-shadow:
+                0 6px 15px rgba(22,163,74,.15);
+        }
+
+
+        .btn-inhabilitar {
+            border: 1px solid #fecdd3;
+
+            background: #fff1f2;
+
+            color: #be123c;
+        }
+
+
+        .btn-inhabilitar:hover {
+            box-shadow:
+                0 6px 15px rgba(225,29,72,.15);
+        }
+
 
         .sin-registros {
             padding: 40px 20px;
@@ -946,6 +1081,469 @@
             color: var(--texto-secundario);
 
             font-size: 14px;
+        }
+                /* ==========================================
+           VISTA DE ESTADÍSTICAS
+        ========================================== */
+
+        .destacados {
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .destacado {
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 170px;
+
+            padding: 24px;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #f8fafc
+                );
+
+            box-shadow:
+                0 10px 30px rgba(15,23,42,.07);
+        }
+
+
+        .destacado::after {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            right: -70px;
+            bottom: -90px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.15),
+                    transparent 70%
+                );
+        }
+
+
+        .destacado-etiqueta {
+            position: relative;
+            z-index: 2;
+
+            margin-bottom: 14px;
+
+            color: var(--texto-secundario);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: .7px;
+            text-transform: uppercase;
+        }
+
+
+        .destacado-nombre {
+            position: relative;
+            z-index: 2;
+
+            margin-bottom: 8px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+
+        .destacado-valor {
+            position: relative;
+            z-index: 2;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 11px;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            color: var(--azul);
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+
+        /* ==========================================
+           GRID ESTADÍSTICAS
+        ========================================== */
+
+        .grid-analitica {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel-analitica {
+            overflow: hidden;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 17px;
+
+            background:
+                rgba(255,255,255,.96);
+
+            box-shadow:
+                0 10px 30px rgba(15,23,42,.07);
+        }
+
+
+        .analitica-cabecera {
+            padding: 20px 22px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        .analitica-cabecera h3 {
+            margin: 0 0 5px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 17px;
+        }
+
+
+        .analitica-cabecera p {
+            margin: 0;
+
+            color: var(--texto-secundario);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==========================================
+           RANKINGS
+        ========================================== */
+
+        .ranking {
+            padding: 8px 20px 15px;
+        }
+
+
+        .ranking-item {
+            display: grid;
+
+            grid-template-columns:
+                38px 1fr auto;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 13px 2px;
+
+            border-bottom:
+                1px solid #edf2f7;
+        }
+
+
+        .ranking-item:last-child {
+            border-bottom: none;
+        }
+
+
+        .ranking-posicion {
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 8px;
+
+            background: #eff6ff;
+
+            color: var(--azul-marino);
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .ranking-item:first-child
+        .ranking-posicion {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-marino),
+                    var(--azul-claro)
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 5px 12px rgba(11,49,88,.18);
+        }
+
+
+        .ranking-nombre {
+            overflow: hidden;
+
+            color: #334155;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+
+        .ranking-valor {
+            color: var(--azul);
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+
+        .ranking-vacio {
+            padding: 35px 15px;
+
+            text-align: center;
+
+            color: var(--texto-secundario);
+
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           ACTIVIDAD MENSUAL
+        ========================================== */
+
+        .actividad-panel {
+            margin-bottom: 20px;
+        }
+
+
+        .actividad-contenido {
+            padding: 25px;
+        }
+
+
+        .actividad-grafico {
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 12px;
+
+            min-height: 250px;
+
+            padding:
+                15px 5px 5px;
+
+            border-bottom:
+                1px solid #cbd5e1;
+        }
+
+
+        .mes-columna {
+            flex: 1;
+
+            min-width: 55px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            height: 220px;
+        }
+
+
+        .barra-contenedor {
+            position: relative;
+
+            width: 100%;
+            max-width: 58px;
+
+            flex: 1;
+
+            display: flex;
+
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+
+        .barra-actividad {
+            position: relative;
+
+            width: 100%;
+
+            min-height: 4px;
+
+            border-radius:
+                7px 7px 2px 2px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--azul-claro),
+                    var(--azul-marino)
+                );
+
+            box-shadow:
+                0 5px 13px rgba(18,90,156,.18);
+
+            transition:
+                height .4s ease,
+                transform .2s ease;
+        }
+
+
+        .barra-actividad:hover {
+            transform: scaleX(1.06);
+        }
+
+
+        .barra-numero {
+            position: absolute;
+
+            top: -23px;
+            left: 50%;
+
+            transform:
+                translateX(-50%);
+
+            color: var(--azul-oscuro);
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .mes-nombre {
+            color: #64748b;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+
+        .actividad-leyenda {
+            margin-top: 17px;
+
+            color: var(--texto-secundario);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+        }
+
+
+        /* ==========================================
+           RESUMEN DE ACTIVIDAD
+        ========================================== */
+
+        .mini-estadisticas {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .mini-estadistica {
+            padding: 19px;
+
+            border:
+                1px solid #e2e8f0;
+
+            border-radius: 14px;
+
+            background:
+                rgba(255,255,255,.92);
+
+            box-shadow:
+                0 7px 20px rgba(15,23,42,.05);
+        }
+
+
+        .mini-estadistica span {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--texto-secundario);
+
+            font-size: 10px;
+            font-weight: 800;
+
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+
+        .mini-estadistica strong {
+            display: block;
+
+            color: var(--azul-oscuro);
+
+            font-size: 25px;
+            font-weight: 800;
         }
 
 
@@ -959,6 +1557,12 @@
             .estadisticas {
                 grid-template-columns:
                     repeat(2, 1fr);
+            }
+
+
+            .grid-analitica {
+                grid-template-columns:
+                    1fr;
             }
 
         }
@@ -1010,6 +1614,19 @@
             }
 
 
+            .navegacion-admin {
+                width: 100%;
+            }
+
+
+            .tab-admin {
+                flex: 1;
+
+                padding:
+                    9px 12px;
+            }
+
+
             .estadisticas {
                 grid-template-columns:
                     1fr 1fr;
@@ -1042,6 +1659,31 @@
             }
 
 
+            .destacados {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .mini-estadisticas {
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .actividad-contenido {
+                overflow-x: auto;
+
+                padding:
+                    20px 15px;
+            }
+
+
+            .actividad-grafico {
+                min-width: 650px;
+            }
+
+
             .marca-agua {
                 width: 95vw;
             }
@@ -1062,11 +1704,13 @@
     </style>
 
 </head>
+
+
 <body>
 
 
 <!-- ==========================================
-     CABECERA ADMINISTRADOR
+     CABECERA
 ========================================== -->
 
 <header class="cabecera">
@@ -1122,13 +1766,21 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
-                    aria-hidden="true"
                 >
-                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <path
+                        d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+                    ></path>
 
-                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <polyline
+                        points="16 17 21 12 16 7"
+                    ></polyline>
 
-                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                    <line
+                        x1="21"
+                        y1="12"
+                        x2="9"
+                        y2="12"
+                    ></line>
                 </svg>
 
                 <span>
@@ -1146,10 +1798,6 @@
 
 
 
-<!-- ==========================================
-     PÁGINA ADMINISTRADOR
-========================================== -->
-
 <div class="pagina-admin">
 
 
@@ -1166,23 +1814,19 @@
 
 
 
-    <!-- ======================================
-         CARGANDO
-    ======================================= -->
+    <!-- CARGANDO -->
 
     <div id="cargando">
 
         <div class="cargando-icono"></div>
 
-        Verificando acceso de administrador...
+        Verificando acceso y cargando estadísticas...
 
     </div>
 
 
 
-    <!-- ======================================
-         CONTENIDO
-    ======================================= -->
+    <!-- CONTENIDO -->
 
     <main
         id="contenido"
@@ -1208,9 +1852,10 @@
 
             <p>
 
-                Supervisa los talleres registrados en la plataforma,
-                su estado y la actividad general del sistema desde
-                un único panel administrativo.
+                Supervisa los talleres registrados,
+                clientes, órdenes de trabajo y la
+                actividad general de la plataforma
+                desde un único panel administrativo.
 
             </p>
 
@@ -1219,370 +1864,689 @@
 
 
         <!-- ==================================
-             ESTADÍSTICAS
+             NAVEGACIÓN
         =================================== -->
 
-        <section class="estadisticas">
+        <nav class="navegacion-admin">
 
+            <button
+                type="button"
+                class="tab-admin activo"
+                data-vista="resumen"
+            >
 
-            <!-- TALLERES REGISTRADOS -->
-
-            <article class="estadistica">
-
-                <div class="estadistica-superior">
-
-                    <div class="estadistica-icono">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-
-                            <path d="M3 21h18"></path>
-
-                            <path d="M5 21V7l7-4 7 4v14"></path>
-
-                            <path d="M9 21v-6h6v6"></path>
-
-                        </svg>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="totalTalleres"
-                    class="estadistica-numero"
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
                 >
-                    0
-                </div>
+                    <rect
+                        x="3"
+                        y="3"
+                        width="7"
+                        height="7"
+                    ></rect>
+
+                    <rect
+                        x="14"
+                        y="3"
+                        width="7"
+                        height="7"
+                    ></rect>
+
+                    <rect
+                        x="3"
+                        y="14"
+                        width="7"
+                        height="7"
+                    ></rect>
+
+                    <rect
+                        x="14"
+                        y="14"
+                        width="7"
+                        height="7"
+                    ></rect>
+                </svg>
+
+                Resumen
+
+            </button>
 
 
-                <div class="estadistica-titulo">
-                    Talleres registrados
-                </div>
+            <button
+                type="button"
+                class="tab-admin"
+                data-vista="estadisticas"
+            >
 
-            </article>
-
-
-
-            <!-- TALLERES ACTIVOS -->
-
-            <article class="estadistica">
-
-                <div class="estadistica-superior">
-
-                    <div class="estadistica-icono">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-
-                            <path
-                                d="M20 6L9 17l-5-5"
-                            ></path>
-
-                        </svg>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="totalActivos"
-                    class="estadistica-numero"
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 >
-                    0
-                </div>
+                    <line
+                        x1="18"
+                        y1="20"
+                        x2="18"
+                        y2="10"
+                    ></line>
 
+                    <line
+                        x1="12"
+                        y1="20"
+                        x2="12"
+                        y2="4"
+                    ></line>
 
-                <div class="estadistica-titulo">
-                    Talleres activos
-                </div>
+                    <line
+                        x1="6"
+                        y1="20"
+                        x2="6"
+                        y2="14"
+                    ></line>
+                </svg>
 
-            </article>
+                Estadísticas
 
+            </button>
 
-
-            <!-- CLIENTES -->
-
-            <article class="estadistica">
-
-                <div class="estadistica-superior">
-
-                    <div class="estadistica-icono">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-
-                            <path
-                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
-                            ></path>
-
-                            <circle
-                                cx="9"
-                                cy="7"
-                                r="4"
-                            ></circle>
-
-                            <path
-                                d="M22 21v-2a4 4 0 0 0-3-3.87"
-                            ></path>
-
-                            <path
-                                d="M16 3.13a4 4 0 0 1 0 7.75"
-                            ></path>
-
-                        </svg>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="totalClientes"
-                    class="estadistica-numero"
-                >
-                    0
-                </div>
-
-
-                <div class="estadistica-titulo">
-                    Clientes registrados
-                </div>
-
-            </article>
-
-
-
-            <!-- ÓRDENES -->
-
-            <article class="estadistica">
-
-                <div class="estadistica-superior">
-
-                    <div class="estadistica-icono">
-
-                        <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        >
-
-                            <path
-                                d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"
-                            ></path>
-
-                            <rect
-                                x="9"
-                                y="3"
-                                width="6"
-                                height="4"
-                                rx="1"
-                            ></rect>
-
-                            <path d="M9 12h6"></path>
-
-                            <path d="M9 16h6"></path>
-
-                        </svg>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    id="totalOrdenes"
-                    class="estadistica-numero"
-                >
-                    0
-                </div>
-
-
-                <div class="estadistica-titulo">
-                    Órdenes de trabajo
-                </div>
-
-            </article>
-
-
-        </section>
+        </nav>
 
 
 
         <!-- ==================================
-             LISTA DE TALLERES
+             VISTA: RESUMEN
         =================================== -->
 
-        <section class="panel">
+        <div
+            id="vistaResumen"
+            class="vista-admin"
+        >
 
 
-            <div class="panel-cabecera">
+            <!-- TARJETAS GENERALES -->
+
+            <section class="estadisticas">
 
 
-                <div>
+                <article class="estadistica">
 
-                    <h2>
+                    <div class="estadistica-superior">
+
+                        <div class="estadistica-icono">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path d="M3 21h18"></path>
+
+                                <path
+                                    d="M5 21V7l7-4 7 4v14"
+                                ></path>
+
+                                <path
+                                    d="M9 21v-6h6v6"
+                                ></path>
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="totalTalleres"
+                        class="estadistica-numero"
+                    >
+                        0
+                    </div>
+
+
+                    <div class="estadistica-titulo">
                         Talleres registrados
-                    </h2>
+                    </div>
+
+                </article>
+
+
+
+                <article class="estadistica">
+
+                    <div class="estadistica-superior">
+
+                        <div class="estadistica-icono">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M20 6L9 17l-5-5"
+                                ></path>
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="totalActivos"
+                        class="estadistica-numero"
+                    >
+                        0
+                    </div>
+
+
+                    <div class="estadistica-titulo">
+                        Talleres activos
+                    </div>
+
+                </article>
+
+
+
+                <article class="estadistica">
+
+                    <div class="estadistica-superior">
+
+                        <div class="estadistica-icono">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                                ></path>
+
+                                <circle
+                                    cx="9"
+                                    cy="7"
+                                    r="4"
+                                ></circle>
+
+                                <path
+                                    d="M22 21v-2a4 4 0 0 0-3-3.87"
+                                ></path>
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="totalClientes"
+                        class="estadistica-numero"
+                    >
+                        0
+                    </div>
+
+
+                    <div class="estadistica-titulo">
+                        Clientes registrados
+                    </div>
+
+                </article>
+
+
+
+                <article class="estadistica">
+
+                    <div class="estadistica-superior">
+
+                        <div class="estadistica-icono">
+
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                            >
+                                <path
+                                    d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"
+                                ></path>
+
+                                <rect
+                                    x="9"
+                                    y="3"
+                                    width="6"
+                                    height="4"
+                                    rx="1"
+                                ></rect>
+
+                                <path d="M9 12h6"></path>
+
+                                <path d="M9 16h6"></path>
+                            </svg>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="totalOrdenes"
+                        class="estadistica-numero"
+                    >
+                        0
+                    </div>
+
+
+                    <div class="estadistica-titulo">
+                        Órdenes de trabajo
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- ==================================
+                 TABLA DE TALLERES
+            =================================== -->
+
+            <section class="panel">
+
+
+                <div class="panel-cabecera">
+
+
+                    <div>
+
+                        <h2>
+                            Talleres registrados
+                        </h2>
+
+                        <p>
+                            Consulta el uso de SimplexTaller
+                            por cada taller.
+                        </p>
+
+                    </div>
+
+
+                    <div class="buscador">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="8"
+                            ></circle>
+
+                            <line
+                                x1="21"
+                                y1="21"
+                                x2="16.65"
+                                y2="16.65"
+                            ></line>
+                        </svg>
+
+
+                        <input
+                            type="search"
+                            id="buscarTaller"
+                            placeholder="Buscar taller o responsable..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="tabla-contenedor">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Taller
+                                </th>
+
+                                <th>
+                                    Responsable
+                                </th>
+
+                                <th>
+                                    Teléfono
+                                </th>
+
+                                <th>
+                                    Clientes
+                                </th>
+
+                                <th>
+                                    Órdenes
+                                </th>
+
+                                <th>
+                                    Estado
+                                </th>
+
+                                <th>
+                                    Registro
+                                </th>
+
+                                <th>
+                                    Acción
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody id="tablaTalleres">
+                        </tbody>
+
+                    </table>
+
+
+                    <div
+                        id="sinRegistros"
+                        class="sin-registros oculto"
+                    >
+                        No se encontraron talleres.
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+                <!-- ==================================
+             VISTA: ESTADÍSTICAS
+        =================================== -->
+
+        <div
+            id="vistaEstadisticas"
+            class="vista-admin oculto"
+        >
+
+
+            <!-- ==================================
+                 TALLERES DESTACADOS
+            =================================== -->
+
+            <section class="destacados">
+
+
+                <article class="destacado">
+
+                    <div class="destacado-etiqueta">
+                        Taller con más clientes
+                    </div>
+
+                    <div
+                        id="liderClientesNombre"
+                        class="destacado-nombre"
+                    >
+                        —
+                    </div>
+
+                    <div
+                        id="liderClientesValor"
+                        class="destacado-valor"
+                    >
+                        0 clientes
+                    </div>
+
+                </article>
+
+
+
+                <article class="destacado">
+
+                    <div class="destacado-etiqueta">
+                        Taller con más órdenes de trabajo
+                    </div>
+
+                    <div
+                        id="liderOrdenesNombre"
+                        class="destacado-nombre"
+                    >
+                        —
+                    </div>
+
+                    <div
+                        id="liderOrdenesValor"
+                        class="destacado-valor"
+                    >
+                        0 órdenes
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- ==================================
+                 RESUMEN DE ACTIVIDAD
+            =================================== -->
+
+            <section class="mini-estadisticas">
+
+
+                <article class="mini-estadistica">
+
+                    <span>
+                        Órdenes este mes
+                    </span>
+
+                    <strong id="ordenesMesActual">
+                        0
+                    </strong>
+
+                </article>
+
+
+
+                <article class="mini-estadistica">
+
+                    <span>
+                        Clientes este mes
+                    </span>
+
+                    <strong id="clientesMesActual">
+                        0
+                    </strong>
+
+                </article>
+
+
+
+                <article class="mini-estadistica">
+
+                    <span>
+                        Talleres nuevos este mes
+                    </span>
+
+                    <strong id="talleresMesActual">
+                        0
+                    </strong>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- ==================================
+                 RANKINGS
+            =================================== -->
+
+            <section class="grid-analitica">
+
+
+                <!-- RANKING CLIENTES -->
+
+                <article class="panel-analitica">
+
+                    <div class="analitica-cabecera">
+
+                        <h3>
+                            Talleres con más clientes
+                        </h3>
+
+                        <p>
+                            Ranking según la cantidad de
+                            clientes registrados actualmente.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="rankingClientes"
+                        class="ranking"
+                    >
+                    </div>
+
+                </article>
+
+
+
+                <!-- RANKING ÓRDENES -->
+
+                <article class="panel-analitica">
+
+                    <div class="analitica-cabecera">
+
+                        <h3>
+                            Talleres con más órdenes
+                        </h3>
+
+                        <p>
+                            Ranking según las órdenes de
+                            trabajo creadas en la plataforma.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="rankingOrdenes"
+                        class="ranking"
+                    >
+                    </div>
+
+                </article>
+
+
+            </section>
+
+
+
+            <!-- ==================================
+                 ACTIVIDAD MENSUAL
+            =================================== -->
+
+            <section
+                class="panel-analitica actividad-panel"
+            >
+
+                <div class="analitica-cabecera">
+
+                    <h3>
+                        Actividad de órdenes
+                    </h3>
 
                     <p>
-                        Consulta los talleres que utilizan SimplexTaller.
+                        Órdenes de trabajo creadas durante
+                        los últimos 12 meses.
                     </p>
 
                 </div>
 
 
+                <div class="actividad-contenido">
 
-                <!-- BUSCADOR -->
-
-                <div class="buscador">
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        aria-hidden="true"
+                    <div
+                        id="graficoActividad"
+                        class="actividad-grafico"
                     >
-
-                        <circle
-                            cx="11"
-                            cy="11"
-                            r="8"
-                        ></circle>
-
-                        <line
-                            x1="21"
-                            y1="21"
-                            x2="16.65"
-                            y2="16.65"
-                        ></line>
-
-                    </svg>
+                    </div>
 
 
-                    <input
-                        type="search"
-                        id="buscarTaller"
-                        placeholder="Buscar taller o responsable..."
-                        autocomplete="off"
-                    >
+                    <div class="actividad-leyenda">
+
+                        Este gráfico representa la actividad
+                        real registrada mediante nuevas
+                        órdenes de trabajo. No representa
+                        visitas a la página ni sesiones de
+                        usuario.
+
+                    </div>
 
                 </div>
 
-
-            </div>
-
+            </section>
 
 
-            <!-- ==================================
-                 TABLA
-            =================================== -->
-
-            <div class="tabla-contenedor">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>
-                                Taller
-                            </th>
-
-                            <th>
-                                Responsable
-                            </th>
-
-                            <th>
-                                Teléfono
-                            </th>
-
-                            <th>
-                                Estado
-                            </th>
-
-                            <th>
-                                Registro
-                            </th>
-                            <th>
-    Acción
-</th>
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="tablaTalleres">
-
-                        <!--
-                        Los talleres serán insertados
-                        aquí automáticamente.
-                        -->
-
-                    </tbody>
-
-                </table>
-
-
-                <div
-                    id="sinRegistros"
-                    class="sin-registros oculto"
-                >
-                    No se encontraron talleres.
-                </div>
-
-            </div>
-
-
-        </section>
+        </div>
 
 
     </main>
 
 
 </div>
+
+
+
 <!-- ==========================================
      SUPABASE
 ========================================== -->
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
 <script src="js/supabase.js"></script>
 
 
 <script>
+
 
 /* ==========================================
    VARIABLES
 ========================================== */
 
 let talleresAdmin = [];
+
+let clientesAdmin = [];
+
+let ordenesAdmin = [];
 
 
 /* ==========================================
@@ -1592,13 +2556,19 @@ let talleresAdmin = [];
 async function iniciarAdmin() {
 
     const cargando =
-        document.getElementById("cargando");
+        document.getElementById(
+            "cargando"
+        );
+
 
     const contenido =
-        document.getElementById("contenido");
+        document.getElementById(
+            "contenido"
+        );
 
 
     try {
+
 
         /* ======================================
            1. COMPROBAR SESIÓN
@@ -1670,7 +2640,7 @@ async function iniciarAdmin() {
 
 
         /* ======================================
-           3. CARGAR DATOS
+           3. CARGAR INFORMACIÓN
         ====================================== */
 
         await cargarDatosAdmin();
@@ -1699,6 +2669,7 @@ async function iniciarAdmin() {
 
 
         cargando.innerHTML = `
+
             <div
                 style="
                     max-width:550px;
@@ -1711,6 +2682,7 @@ async function iniciarAdmin() {
                     line-height:1.6;
                 "
             >
+
                 <strong>
                     No se pudo cargar el panel administrativo.
                 </strong>
@@ -1718,7 +2690,9 @@ async function iniciarAdmin() {
                 <div style="margin-top:7px;">
                     Actualiza la página e inténtalo nuevamente.
                 </div>
+
             </div>
+
         `;
 
     }
@@ -1732,8 +2706,9 @@ async function iniciarAdmin() {
 
 async function cargarDatosAdmin() {
 
+
     /* ======================================
-       TALLERES
+       CARGAR TALLERES
     ====================================== */
 
     const {
@@ -1743,6 +2718,7 @@ async function cargarDatosAdmin() {
         .from("talleres")
         .select(`
             id,
+            usuario_id,
             nombre_taller,
             nombre_responsable,
             telefono,
@@ -1764,26 +2740,24 @@ async function cargarDatosAdmin() {
     }
 
 
-    talleresAdmin =
-        talleres || [];
-
 
     /* ======================================
-       CONTAR CLIENTES
+       CARGAR CLIENTES
+
+       Solo necesitamos taller_id y fecha
+       para estadísticas y conteos.
     ====================================== */
 
     const {
-        count: totalClientes,
+        data: clientes,
         error: errorClientes
     } = await supabaseClient
         .from("clientes")
-        .select(
-            "id",
-            {
-                count: "exact",
-                head: true
-            }
-        );
+        .select(`
+            id,
+            taller_id,
+            fecha_creacion
+        `);
 
 
     if (errorClientes) {
@@ -1793,22 +2767,23 @@ async function cargarDatosAdmin() {
     }
 
 
+
     /* ======================================
-       CONTAR ÓRDENES
+       CARGAR ÓRDENES
+
+       Solo necesitamos taller_id y fecha.
     ====================================== */
 
     const {
-        count: totalOrdenes,
+        data: ordenes,
         error: errorOrdenes
     } = await supabaseClient
         .from("ordenes_trabajo")
-        .select(
-            "id",
-            {
-                count: "exact",
-                head: true
-            }
-        );
+        .select(`
+            id,
+            taller_id,
+            fecha_creacion
+        `);
 
 
     if (errorOrdenes) {
@@ -1818,8 +2793,119 @@ async function cargarDatosAdmin() {
     }
 
 
+
+    talleresAdmin =
+        talleres || [];
+
+
+    clientesAdmin =
+        clientes || [];
+
+
+    ordenesAdmin =
+        ordenes || [];
+
+
+
     /* ======================================
-       CALCULAR ESTADÍSTICAS
+       CREAR MAPA DE CLIENTES POR TALLER
+    ====================================== */
+
+    const clientesPorTaller = {};
+
+
+    clientesAdmin.forEach(
+        function(cliente) {
+
+            if (!cliente.taller_id) {
+                return;
+            }
+
+
+            if (
+                !clientesPorTaller[
+                    cliente.taller_id
+                ]
+            ) {
+
+                clientesPorTaller[
+                    cliente.taller_id
+                ] = 0;
+
+            }
+
+
+            clientesPorTaller[
+                cliente.taller_id
+            ]++;
+
+        }
+    );
+
+
+
+    /* ======================================
+       CREAR MAPA DE ÓRDENES POR TALLER
+    ====================================== */
+
+    const ordenesPorTaller = {};
+
+
+    ordenesAdmin.forEach(
+        function(orden) {
+
+            if (!orden.taller_id) {
+                return;
+            }
+
+
+            if (
+                !ordenesPorTaller[
+                    orden.taller_id
+                ]
+            ) {
+
+                ordenesPorTaller[
+                    orden.taller_id
+                ] = 0;
+
+            }
+
+
+            ordenesPorTaller[
+                orden.taller_id
+            ]++;
+
+        }
+    );
+
+
+
+    /* ======================================
+       ASIGNAR CONTEOS A CADA TALLER
+    ====================================== */
+
+    talleresAdmin.forEach(
+        function(taller) {
+
+            taller.total_clientes =
+                clientesPorTaller[
+                    taller.id
+                ] || 0;
+
+
+            taller.total_ordenes =
+                ordenesPorTaller[
+                    taller.id
+                ] || 0;
+
+        }
+    );
+
+
+
+    /* ======================================
+       ACTUALIZAR TARJETAS GENERALES
     ====================================== */
 
     const totalTalleres =
@@ -1830,7 +2916,9 @@ async function cargarDatosAdmin() {
         talleresAdmin.filter(
             function(taller) {
 
-                return taller.activo === true;
+                return (
+                    taller.activo === true
+                );
 
             }
         ).length;
@@ -1851,27 +2939,29 @@ async function cargarDatosAdmin() {
     document.getElementById(
         "totalClientes"
     ).textContent =
-        totalClientes || 0;
+        clientesAdmin.length;
 
 
     document.getElementById(
         "totalOrdenes"
     ).textContent =
-        totalOrdenes || 0;
+        ordenesAdmin.length;
+
 
 
     /* ======================================
-       MOSTRAR TABLA
+       MOSTRAR INFORMACIÓN
     ====================================== */
 
     mostrarTalleres(
         talleresAdmin
     );
 
+
+    generarEstadisticas();
+
 }
-
-
-/* ==========================================
+    /* ==========================================
    MOSTRAR TALLERES
 ========================================== */
 
@@ -1889,8 +2979,7 @@ function mostrarTalleres(talleres) {
         );
 
 
-    tabla.innerHTML =
-        "";
+    tabla.innerHTML = "";
 
 
     if (
@@ -1951,6 +3040,7 @@ function mostrarTalleres(talleres) {
             );
 
 
+
             /* ==================================
                RESPONSABLE
             ================================== */
@@ -1966,6 +3056,7 @@ function mostrarTalleres(talleres) {
                 "No especificado";
 
 
+
             /* ==================================
                TELÉFONO
             ================================== */
@@ -1979,6 +3070,67 @@ function mostrarTalleres(talleres) {
             celdaTelefono.textContent =
                 taller.telefono ||
                 "No registrado";
+
+
+
+            /* ==================================
+               CLIENTES
+            ================================== */
+
+            const celdaClientes =
+                document.createElement(
+                    "td"
+                );
+
+
+            const contadorClientes =
+                document.createElement(
+                    "span"
+                );
+
+
+            contadorClientes.className =
+                "contador-dato";
+
+
+            contadorClientes.textContent =
+                taller.total_clientes || 0;
+
+
+            celdaClientes.appendChild(
+                contadorClientes
+            );
+
+
+
+            /* ==================================
+               ÓRDENES
+            ================================== */
+
+            const celdaOrdenes =
+                document.createElement(
+                    "td"
+                );
+
+
+            const contadorOrdenes =
+                document.createElement(
+                    "span"
+                );
+
+
+            contadorOrdenes.className =
+                "contador-dato contador-ordenes";
+
+
+            contadorOrdenes.textContent =
+                taller.total_ordenes || 0;
+
+
+            celdaOrdenes.appendChild(
+                contadorOrdenes
+            );
+
 
 
             /* ==================================
@@ -2014,8 +3166,9 @@ function mostrarTalleres(talleres) {
             );
 
 
+
             /* ==================================
-               FECHA DE REGISTRO
+               FECHA
             ================================== */
 
             const celdaFecha =
@@ -2028,69 +3181,74 @@ function mostrarTalleres(talleres) {
                 formatearFecha(
                     taller.fecha_creacion
                 );
-/* ==================================
-   ACCIÓN HABILITAR / INHABILITAR
-================================== */
-
-const celdaAccion =
-    document.createElement(
-        "td"
-    );
 
 
-const contenedorAcciones =
-    document.createElement(
-        "div"
-    );
+
+            /* ==================================
+               ACCIÓN
+            ================================== */
+
+            const celdaAccion =
+                document.createElement(
+                    "td"
+                );
 
 
-contenedorAcciones.className =
-    "acciones-taller";
+            const contenedorAcciones =
+                document.createElement(
+                    "div"
+                );
 
 
-const botonEstado =
-    document.createElement(
-        "button"
-    );
+            contenedorAcciones.className =
+                "acciones-taller";
 
 
-botonEstado.type =
-    "button";
+            const botonEstado =
+                document.createElement(
+                    "button"
+                );
 
 
-botonEstado.className =
-    taller.activo
-        ? "btn-estado btn-inhabilitar"
-        : "btn-estado btn-habilitar";
+            botonEstado.type =
+                "button";
 
 
-botonEstado.textContent =
-    taller.activo
-        ? "Inhabilitar"
-        : "Habilitar";
+            botonEstado.className =
+                taller.activo
+                    ? "btn-estado btn-inhabilitar"
+                    : "btn-estado btn-habilitar";
 
 
-botonEstado.addEventListener(
-    "click",
-    function() {
-
-        cambiarEstadoTaller(
-            taller,
-            botonEstado
-        );
-
-    }
-);
+            botonEstado.textContent =
+                taller.activo
+                    ? "Inhabilitar"
+                    : "Habilitar";
 
 
-contenedorAcciones.appendChild(
-    botonEstado
-);
+            botonEstado.addEventListener(
+                "click",
+                function() {
+
+                    cambiarEstadoTaller(
+                        taller,
+                        botonEstado
+                    );
+
+                }
+            );
 
 
-celdaAccion.appendChild(
-    contenedorAcciones
-);
+            contenedorAcciones.appendChild(
+                botonEstado
+            );
+
+
+            celdaAccion.appendChild(
+                contenedorAcciones
+            );
+
+
 
             /* ==================================
                ARMAR FILA
@@ -2112,6 +3270,16 @@ celdaAccion.appendChild(
 
 
             fila.appendChild(
+                celdaClientes
+            );
+
+
+            fila.appendChild(
+                celdaOrdenes
+            );
+
+
+            fila.appendChild(
                 celdaEstado
             );
 
@@ -2119,9 +3287,12 @@ celdaAccion.appendChild(
             fila.appendChild(
                 celdaFecha
             );
-fila.appendChild(
-    celdaAccion
-);
+
+
+            fila.appendChild(
+                celdaAccion
+            );
+
 
             tabla.appendChild(
                 fila
@@ -2131,6 +3302,789 @@ fila.appendChild(
     );
 
 }
+
+
+
+/* ==========================================
+   GENERAR ESTADÍSTICAS
+========================================== */
+
+function generarEstadisticas() {
+
+    generarLideres();
+
+    generarRankings();
+
+    generarResumenMesActual();
+
+    generarGraficoActividad();
+
+}
+
+
+
+/* ==========================================
+   TALLERES LÍDERES
+========================================== */
+
+function generarLideres() {
+
+    const liderClientesNombre =
+        document.getElementById(
+            "liderClientesNombre"
+        );
+
+
+    const liderClientesValor =
+        document.getElementById(
+            "liderClientesValor"
+        );
+
+
+    const liderOrdenesNombre =
+        document.getElementById(
+            "liderOrdenesNombre"
+        );
+
+
+    const liderOrdenesValor =
+        document.getElementById(
+            "liderOrdenesValor"
+        );
+
+
+    if (talleresAdmin.length === 0) {
+
+        liderClientesNombre.textContent =
+            "Sin información";
+
+        liderClientesValor.textContent =
+            "0 clientes";
+
+        liderOrdenesNombre.textContent =
+            "Sin información";
+
+        liderOrdenesValor.textContent =
+            "0 órdenes";
+
+        return;
+
+    }
+
+
+
+    const porClientes =
+        [...talleresAdmin].sort(
+            function(a, b) {
+
+                return (
+                    (b.total_clientes || 0) -
+                    (a.total_clientes || 0)
+                );
+
+            }
+        );
+
+
+    const porOrdenes =
+        [...talleresAdmin].sort(
+            function(a, b) {
+
+                return (
+                    (b.total_ordenes || 0) -
+                    (a.total_ordenes || 0)
+                );
+
+            }
+        );
+
+
+    const liderClientes =
+        porClientes[0];
+
+
+    const liderOrdenes =
+        porOrdenes[0];
+
+
+    liderClientesNombre.textContent =
+        liderClientes.nombre_taller ||
+        "Sin nombre";
+
+
+    liderClientesValor.textContent =
+        `${liderClientes.total_clientes || 0} clientes`;
+
+
+    liderOrdenesNombre.textContent =
+        liderOrdenes.nombre_taller ||
+        "Sin nombre";
+
+
+    liderOrdenesValor.textContent =
+        `${liderOrdenes.total_ordenes || 0} órdenes`;
+
+}
+
+
+
+/* ==========================================
+   GENERAR RANKINGS
+========================================== */
+
+function generarRankings() {
+
+    const rankingClientes =
+        document.getElementById(
+            "rankingClientes"
+        );
+
+
+    const rankingOrdenes =
+        document.getElementById(
+            "rankingOrdenes"
+        );
+
+
+    rankingClientes.innerHTML = "";
+
+    rankingOrdenes.innerHTML = "";
+
+
+    const porClientes =
+        [...talleresAdmin]
+            .sort(
+                function(a, b) {
+
+                    return (
+                        (b.total_clientes || 0) -
+                        (a.total_clientes || 0)
+                    );
+
+                }
+            )
+            .slice(0, 5);
+
+
+    const porOrdenes =
+        [...talleresAdmin]
+            .sort(
+                function(a, b) {
+
+                    return (
+                        (b.total_ordenes || 0) -
+                        (a.total_ordenes || 0)
+                    );
+
+                }
+            )
+            .slice(0, 5);
+
+
+    mostrarRanking(
+        rankingClientes,
+        porClientes,
+        "total_clientes",
+        "clientes"
+    );
+
+
+    mostrarRanking(
+        rankingOrdenes,
+        porOrdenes,
+        "total_ordenes",
+        "órdenes"
+    );
+
+}
+
+
+
+/* ==========================================
+   MOSTRAR UN RANKING
+========================================== */
+
+function mostrarRanking(
+    contenedor,
+    talleres,
+    campo,
+    unidad
+) {
+
+    if (
+        !talleres ||
+        talleres.length === 0
+    ) {
+
+        const vacio =
+            document.createElement(
+                "div"
+            );
+
+
+        vacio.className =
+            "ranking-vacio";
+
+
+        vacio.textContent =
+            "Todavía no existen datos suficientes.";
+
+
+        contenedor.appendChild(
+            vacio
+        );
+
+
+        return;
+
+    }
+
+
+    talleres.forEach(
+        function(taller, indice) {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+
+            item.className =
+                "ranking-item";
+
+
+            const posicion =
+                document.createElement(
+                    "div"
+                );
+
+
+            posicion.className =
+                "ranking-posicion";
+
+
+            posicion.textContent =
+                indice + 1;
+
+
+            const nombre =
+                document.createElement(
+                    "div"
+                );
+
+
+            nombre.className =
+                "ranking-nombre";
+
+
+            nombre.textContent =
+                taller.nombre_taller ||
+                "Sin nombre";
+
+
+            const valor =
+                document.createElement(
+                    "div"
+                );
+
+
+            valor.className =
+                "ranking-valor";
+
+
+            const cantidad =
+                taller[campo] || 0;
+
+
+            valor.textContent =
+                `${cantidad} ${unidad}`;
+
+
+            item.appendChild(
+                posicion
+            );
+
+
+            item.appendChild(
+                nombre
+            );
+
+
+            item.appendChild(
+                valor
+            );
+
+
+            contenedor.appendChild(
+                item
+            );
+
+        }
+    );
+
+}
+
+
+
+/* ==========================================
+   RESUMEN DEL MES ACTUAL
+========================================== */
+
+function generarResumenMesActual() {
+
+    const ahora =
+        new Date();
+
+
+    const anioActual =
+        ahora.getFullYear();
+
+
+    const mesActual =
+        ahora.getMonth();
+
+
+    const ordenesMes =
+        ordenesAdmin.filter(
+            function(orden) {
+
+                return perteneceAlMes(
+                    orden.fecha_creacion,
+                    anioActual,
+                    mesActual
+                );
+
+            }
+        ).length;
+
+
+    const clientesMes =
+        clientesAdmin.filter(
+            function(cliente) {
+
+                return perteneceAlMes(
+                    cliente.fecha_creacion,
+                    anioActual,
+                    mesActual
+                );
+
+            }
+        ).length;
+
+
+    const talleresMes =
+        talleresAdmin.filter(
+            function(taller) {
+
+                return perteneceAlMes(
+                    taller.fecha_creacion,
+                    anioActual,
+                    mesActual
+                );
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "ordenesMesActual"
+    ).textContent =
+        ordenesMes;
+
+
+    document.getElementById(
+        "clientesMesActual"
+    ).textContent =
+        clientesMes;
+
+
+    document.getElementById(
+        "talleresMesActual"
+    ).textContent =
+        talleresMes;
+
+}
+
+
+
+/* ==========================================
+   COMPROBAR SI UNA FECHA PERTENECE A UN MES
+========================================== */
+
+function perteneceAlMes(
+    fecha,
+    anio,
+    mes
+) {
+
+    if (!fecha) {
+        return false;
+    }
+
+
+    const valor =
+        new Date(fecha);
+
+
+    if (
+        Number.isNaN(
+            valor.getTime()
+        )
+    ) {
+
+        return false;
+
+    }
+
+
+    return (
+        valor.getFullYear() === anio &&
+        valor.getMonth() === mes
+    );
+
+}
+
+
+
+/* ==========================================
+   GRÁFICO DE ACTIVIDAD
+========================================== */
+
+function generarGraficoActividad() {
+
+    const grafico =
+        document.getElementById(
+            "graficoActividad"
+        );
+
+
+    grafico.innerHTML = "";
+
+
+    const meses = [];
+
+    const ahora =
+        new Date();
+
+
+    /*
+       Generamos exactamente los últimos
+       12 meses incluyendo el mes actual.
+    */
+
+    for (
+        let retroceso = 11;
+        retroceso >= 0;
+        retroceso--
+    ) {
+
+        const fechaMes =
+            new Date(
+                ahora.getFullYear(),
+                ahora.getMonth() - retroceso,
+                1
+            );
+
+
+        meses.push({
+
+            anio:
+                fechaMes.getFullYear(),
+
+            mes:
+                fechaMes.getMonth(),
+
+            etiqueta:
+                fechaMes.toLocaleDateString(
+                    "es-BO",
+                    {
+                        month: "short"
+                    }
+                )
+                .replace(".", ""),
+
+            total: 0
+
+        });
+
+    }
+
+
+
+    /* ======================================
+       CONTAR ÓRDENES EN CADA MES
+    ====================================== */
+
+    ordenesAdmin.forEach(
+        function(orden) {
+
+            if (!orden.fecha_creacion) {
+                return;
+            }
+
+
+            const fecha =
+                new Date(
+                    orden.fecha_creacion
+                );
+
+
+            if (
+                Number.isNaN(
+                    fecha.getTime()
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            const mesEncontrado =
+                meses.find(
+                    function(item) {
+
+                        return (
+                            item.anio ===
+                                fecha.getFullYear() &&
+                            item.mes ===
+                                fecha.getMonth()
+                        );
+
+                    }
+                );
+
+
+            if (mesEncontrado) {
+
+                mesEncontrado.total++;
+
+            }
+
+        }
+    );
+
+
+
+    /* ======================================
+       BUSCAR VALOR MÁXIMO
+    ====================================== */
+
+    const maximo =
+        Math.max(
+            1,
+            ...meses.map(
+                function(item) {
+
+                    return item.total;
+
+                }
+            )
+        );
+
+
+
+    /* ======================================
+       CREAR BARRAS
+    ====================================== */
+
+    meses.forEach(
+        function(item) {
+
+            const columna =
+                document.createElement(
+                    "div"
+                );
+
+
+            columna.className =
+                "mes-columna";
+
+
+            const barraContenedor =
+                document.createElement(
+                    "div"
+                );
+
+
+            barraContenedor.className =
+                "barra-contenedor";
+
+
+            const barra =
+                document.createElement(
+                    "div"
+                );
+
+
+            barra.className =
+                "barra-actividad";
+
+
+            const porcentaje =
+                item.total === 0
+                    ? 2
+                    : Math.max(
+                        8,
+                        (
+                            item.total /
+                            maximo
+                        ) * 100
+                    );
+
+
+            barra.style.height =
+                `${porcentaje}%`;
+
+
+            barra.title =
+                `${item.total} órdenes`;
+
+
+            const numero =
+                document.createElement(
+                    "span"
+                );
+
+
+            numero.className =
+                "barra-numero";
+
+
+            numero.textContent =
+                item.total;
+
+
+            barra.appendChild(
+                numero
+            );
+
+
+            barraContenedor.appendChild(
+                barra
+            );
+
+
+            const nombreMes =
+                document.createElement(
+                    "div"
+                );
+
+
+            nombreMes.className =
+                "mes-nombre";
+
+
+            nombreMes.textContent =
+                `${item.etiqueta} ${String(item.anio).slice(-2)}`;
+
+
+            columna.appendChild(
+                barraContenedor
+            );
+
+
+            columna.appendChild(
+                nombreMes
+            );
+
+
+            grafico.appendChild(
+                columna
+            );
+
+        }
+    );
+
+}
+
+
+
+/* ==========================================
+   CAMBIAR ENTRE PESTAÑAS
+========================================== */
+
+document
+    .querySelectorAll(
+        ".tab-admin"
+    )
+    .forEach(
+        function(boton) {
+
+            boton.addEventListener(
+                "click",
+                function() {
+
+                    const vista =
+                        this.dataset.vista;
+
+
+                    document
+                        .querySelectorAll(
+                            ".tab-admin"
+                        )
+                        .forEach(
+                            function(item) {
+
+                                item.classList.remove(
+                                    "activo"
+                                );
+
+                            }
+                        );
+
+
+                    this.classList.add(
+                        "activo"
+                    );
+
+
+                    const vistaResumen =
+                        document.getElementById(
+                            "vistaResumen"
+                        );
+
+
+                    const vistaEstadisticas =
+                        document.getElementById(
+                            "vistaEstadisticas"
+                        );
+
+
+                    if (
+                        vista ===
+                        "estadisticas"
+                    ) {
+
+                        vistaResumen.classList.add(
+                            "oculto"
+                        );
+
+
+                        vistaEstadisticas.classList.remove(
+                            "oculto"
+                        );
+
+                    } else {
+
+                        vistaEstadisticas.classList.add(
+                            "oculto"
+                        );
+
+
+                        vistaResumen.classList.remove(
+                            "oculto"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
 
 /* ==========================================
    HABILITAR / INHABILITAR TALLER
@@ -2163,9 +4117,7 @@ async function cambiarEstadoTaller(
 
 
     if (!confirmar) {
-
         return;
-
     }
 
 
@@ -2206,23 +4158,17 @@ async function cambiarEstadoTaller(
         }
 
 
-        /* ==================================
-           ACTUALIZAR DATOS LOCALES
-        ================================== */
-
         taller.activo =
             data.activo;
 
-
-        /* ==================================
-           ACTUALIZAR CONTADOR DE ACTIVOS
-        ================================== */
 
         const totalActivos =
             talleresAdmin.filter(
                 function(item) {
 
-                    return item.activo === true;
+                    return (
+                        item.activo === true
+                    );
 
                 }
             ).length;
@@ -2234,13 +4180,12 @@ async function cambiarEstadoTaller(
             totalActivos;
 
 
-        /* ==================================
-           REDIBUJAR TABLA
-        ================================== */
+        /*
+           Conservamos el texto que esté
+           escrito actualmente en el buscador.
+        */
 
-        mostrarTalleres(
-            talleresAdmin
-        );
+        aplicarBusquedaActual();
 
 
     } catch (error) {
@@ -2266,8 +4211,11 @@ async function cambiarEstadoTaller(
     }
 
 }
+
+
+
 /* ==========================================
-   BUSCADOR DE TALLERES
+   BUSCADOR
 ========================================== */
 
 document
@@ -2278,64 +4226,83 @@ document
         "input",
         function() {
 
-            const texto =
-                this.value
-                    .trim()
-                    .toLowerCase();
-
-
-            if (!texto) {
-
-                mostrarTalleres(
-                    talleresAdmin
-                );
-
-                return;
-
-            }
-
-
-            const filtrados =
-                talleresAdmin.filter(
-                    function(taller) {
-
-                        const nombre =
-                            (
-                                taller.nombre_taller ||
-                                ""
-                            ).toLowerCase();
-
-
-                        const responsable =
-                            (
-                                taller.nombre_responsable ||
-                                ""
-                            ).toLowerCase();
-
-
-                        const telefono =
-                            (
-                                taller.telefono ||
-                                ""
-                            ).toLowerCase();
-
-
-                        return (
-                            nombre.includes(texto) ||
-                            responsable.includes(texto) ||
-                            telefono.includes(texto)
-                        );
-
-                    }
-                );
-
-
-            mostrarTalleres(
-                filtrados
-            );
+            aplicarBusquedaActual();
 
         }
     );
+
+
+
+/* ==========================================
+   APLICAR BÚSQUEDA
+========================================== */
+
+function aplicarBusquedaActual() {
+
+    const buscador =
+        document.getElementById(
+            "buscarTaller"
+        );
+
+
+    const texto =
+        buscador.value
+            .trim()
+            .toLowerCase();
+
+
+    if (!texto) {
+
+        mostrarTalleres(
+            talleresAdmin
+        );
+
+        return;
+
+    }
+
+
+    const filtrados =
+        talleresAdmin.filter(
+            function(taller) {
+
+                const nombre =
+                    (
+                        taller.nombre_taller ||
+                        ""
+                    ).toLowerCase();
+
+
+                const responsable =
+                    (
+                        taller.nombre_responsable ||
+                        ""
+                    ).toLowerCase();
+
+
+                const telefono =
+                    (
+                        taller.telefono ||
+                        ""
+                    ).toLowerCase();
+
+
+                return (
+                    nombre.includes(texto) ||
+                    responsable.includes(texto) ||
+                    telefono.includes(texto)
+                );
+
+            }
+        );
+
+
+    mostrarTalleres(
+        filtrados
+    );
+
+}
+
 
 
 /* ==========================================
@@ -2376,6 +4343,7 @@ function formatearFecha(fecha) {
     );
 
 }
+
 
 
 /* ==========================================
@@ -2431,14 +4399,17 @@ document
     );
 
 
+
 /* ==========================================
    INICIAR
 ========================================== */
 
 iniciarAdmin();
 
+
 </script>
 
 
 </body>
+
 </html>

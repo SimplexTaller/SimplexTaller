@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .marca {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        #cerrarSesion {
+            border: 1px solid #374151;
+            background: #1f2937;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        .bienvenida {
+            margin-bottom: 30px;
+        }
+
+        .bienvenida h1 {
+            margin-bottom: 5px;
+        }
+
+        #responsable {
+            color: #6b7280;
+        }
+
+        .tarjetas {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .tarjeta {
+            display: block;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1f2937;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+            transition: .2s;
+        }
+
+        .tarjeta:hover {
+            transform: translateY(-3px);
+        }
+
+        .tarjeta h2 {
+            margin-top: 0;
+            font-size: 19px;
+        }
+
+        .tarjeta p {
+            color: #6b7280;
+            line-height: 1.5;
+        }
+
+        #cargando {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 15px 20px;
+            }
+
+            main {
+                padding-top: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="marca">
+        SimplexTaller
+    </div>
+
+    <button id="cerrarSesion">
+        Cerrar sesión
+    </button>
+
+</header>
+
+<div id="cargando">
+    Cargando tu taller...
+</div>
+
+<main id="contenido" class="oculto">
+
+    <section class="bienvenida">
+
+        <h1 id="nombreTaller">
+            Mi taller
+        </h1>
+
+        <div id="responsable"></div>
+
+    </section>
+
+    <section class="tarjetas">
+
+        <a href="orden.html" class="tarjeta">
+            <h2>+ Nueva orden</h2>
+            <p>
+                Crear una nueva orden de trabajo.
+            </p>
+        </a>
+
+        <a href="ordenes.html" class="tarjeta">
+            <h2>Órdenes de trabajo</h2>
+            <p>
+                Consultar y administrar las órdenes realizadas.
+            </p>
+        </a>
+
+        <a href="clientes.html" class="tarjeta">
+            <h2>Clientes</h2>
+            <p>
+                Consultar y administrar los clientes del taller.
+            </p>
+        </a>
+
+        <a href="configuracion.html" class="tarjeta">
+            <h2>Configuración</h2>
+            <p>
+                Personalizar la información de tu taller.
+            </p>
+        </a>
+
+    </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+async function cargarDashboard() {
+
+    try {
+
+        // Comprobar quién inició sesión
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient.auth.getUser();
+
+        // Si no existe una sesión válida, regresar al login
+        if (errorUsuario || !user) {
+            window.location.href = "login.html";
+            return;
+        }
+
+        // Buscar el taller correspondiente al usuario
+        const {
+            data: taller,
+            error: errorTaller
+        } = await supabaseClient
+            .from("talleres")
+            .select(`
+                id,
+                nombre_taller,
+                nombre_responsable,
+                logo_url,
+                activo
+            `)
+            .eq("usuario_id", user.id)
+            .single();
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+        if (!taller.activo) {
+
+            alert(
+                "Este taller se encuentra desactivado."
+            );
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href = "login.html";
+
+            return;
+        }
+
+        document.getElementById(
+            "nombreTaller"
+        ).textContent = taller.nombre_taller;
+
+        document.getElementById(
+            "responsable"
+        ).textContent =
+            "Responsable: " +
+            taller.nombre_responsable;
+
+        document.getElementById(
+            "cargando"
+        ).classList.add("oculto");
+
+        document.getElementById(
+            "contenido"
+        ).classList.remove("oculto");
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "cargando"
+        ).textContent =
+            "No se pudo cargar la información del taller.";
+    }
+}
+
+
+// Cerrar sesión
+document.getElementById(
+    "cerrarSesion"
+).addEventListener("click", async function() {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = "login.html";
+
+});
+
+
+cargarDashboard();
+
+</script>
+
+</body>
+</html>

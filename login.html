@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Iniciar sesión | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        .contenedor {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .tarjeta {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 35px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .subtitulo {
+            color: #6b7280;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 17px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: 2px solid #bfdbfe;
+            border-color: #2563eb;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 13px;
+            border: 0;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #mensaje {
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .correcto {
+            color: #16a34a;
+        }
+
+        .registro {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="contenedor">
+
+    <div class="tarjeta">
+
+        <h1>Iniciar sesión</h1>
+
+        <p class="subtitulo">
+            Accede a tu taller en SimplexTaller.
+        </p>
+
+        <form id="formLogin">
+
+            <label for="correo">
+                Correo electrónico
+            </label>
+
+            <input
+                type="email"
+                id="correo"
+                autocomplete="email"
+                required
+            >
+
+            <label for="password">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                autocomplete="current-password"
+                required
+            >
+
+            <button id="btnLogin" type="submit">
+                Iniciar sesión
+            </button>
+
+        </form>
+
+        <div id="mensaje"></div>
+
+        <div class="registro">
+            ¿No tienes una cuenta?
+            <a href="registro.html">Crear cuenta</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+const formulario = document.getElementById("formLogin");
+const mensaje = document.getElementById("mensaje");
+const boton = document.getElementById("btnLogin");
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    boton.disabled = true;
+    boton.textContent = "Ingresando...";
+
+    mensaje.textContent = "";
+    mensaje.className = "";
+
+    const correo =
+        document.getElementById("correo").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    try {
+
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
+                email: correo,
+                password: password
+            });
+
+        if (error) {
+            throw error;
+        }
+
+        if (!data.user) {
+            throw new Error("No se pudo iniciar sesión.");
+        }
+
+        mensaje.textContent =
+            "Inicio de sesión correcto. Redirigiendo...";
+
+        mensaje.className = "correcto";
+
+        setTimeout(function() {
+            window.location.href = "dashboard.html";
+        }, 700);
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.className = "error";
+
+        if (error.message === "Invalid login credentials") {
+
+            mensaje.textContent =
+                "Correo electrónico o contraseña incorrectos.";
+
+        } else if (error.message === "Email not confirmed") {
+
+            mensaje.textContent =
+                "Debes confirmar tu correo electrónico antes de iniciar sesión.";
+
+        } else {
+
+            mensaje.textContent =
+                "No se pudo iniciar sesión: " + error.message;
+        }
+
+    } finally {
+
+        boton.disabled = false;
+        boton.textContent = "Iniciar sesión";
+    }
+
+});
+
+</script>
+
+</body>
+</html>

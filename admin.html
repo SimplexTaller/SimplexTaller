@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Administración | SimplexTaller</title>
+
+    <style>
+
+        :root {
+            --azul-profundo: #06192d;
+            --azul-oscuro: #071b32;
+            --azul-marino: #0b3158;
+            --azul: #125a9c;
+            --azul-claro: #2584d8;
+
+            --plomo-oscuro: #475569;
+            --plomo: #94a3b8;
+            --plomo-claro: #e2e8f0;
+
+            --blanco: #ffffff;
+            --fondo: #eef2f6;
+
+            --texto: #162033;
+            --texto-secundario: #64748b;
+
+            --verde: #16a34a;
+            --rojo: #dc2626;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            min-height: 100%;
+        }
+
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef2f6 55%,
+                    #e2e8f0
+                );
+
+            color: var(--texto);
+        }
+
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+
+        /* ==========================================
+           CABECERA
+        ========================================== */
+
+        .cabecera {
+            position: relative;
+            z-index: 20;
+
+            min-height: 84px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #06192d,
+                    #0b3158 58%,
+                    #125a9c
+                );
+
+            border-bottom:
+                1px solid rgba(255,255,255,.12);
+
+            box-shadow:
+                0 8px 30px rgba(7,27,50,.22);
+        }
+
+
+        .cabecera-contenido {
+            width: 100%;
+            max-width: 1350px;
+
+            min-height: 84px;
+
+            margin: auto;
+
+            padding: 10px 28px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 25px;
+        }
+
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+
+        .marca-logo {
+            width: 62px;
+            height: 62px;
+
+            flex-shrink: 0;
+        }
+
+
+        .marca-logo img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 5px 10px rgba(0,0,0,.25)
+                );
+        }
+
+
+        .marca-texto strong {
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+
+        .marca-texto span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #bfdbfe;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            letter-spacing: 1.4px;
+
+            text-transform: uppercase;
+        }
+
+
+        .cabecera-derecha {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .insignia-admin {
+            padding: 8px 12px;
+
+            border:
+                1px solid rgba(255,255,255,.18);
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: #dbeafe;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: .8px;
+
+            text-transform: uppercase;
+        }
+
+
+        #cerrarSesion {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            padding: 10px 15px;
+
+            border:
+                1px solid rgba(255,255,255,.22);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: #ffffff;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background .2s ease,
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        #cerrarSesion:hover {
+            transform: translateY(-2px);
+
+            background:
+                rgba(255,255,255,.16);
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,.15);
+        }
+
+
+        /* ==========================================
+           ÁREA PRINCIPAL
+        ========================================== */
+
+        .pagina-admin {
+            position: relative;
+
+            min-height:
+                calc(100vh - 84px);
+
+            overflow: hidden;
+        }
+
+
+        main {
+            position: relative;
+            z-index: 5;
+
+            width: 100%;
+            max-width: 1350px;
+
+            margin: auto;
+
+            padding: 42px 28px 70px;
+        }
+
+
+        /* ==========================================
+           MARCA DE AGUA
+        ========================================== */
+
+        .marca-agua {
+            position: fixed;
+
+            z-index: 0;
+
+            top: 52%;
+            left: 50%;
+
+            width:
+                min(750px, 65vw);
+
+            transform:
+                translate(-50%, -50%);
+
+            opacity: .025;
+
+            pointer-events: none;
+            user-select: none;
+        }
+
+
+        .marca-agua img {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            filter: grayscale(100%);
+        }
+
+
+        /* ==========================================
+           CARGANDO
+        ========================================== */
+
+        #cargando {
+            position: relative;
+            z-index: 10;
+
+            padding: 80px 20px;
+
+            text-align: center;
+
+            color: var(--plomo-oscuro);
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+
+        .cargando-icono {
+            width: 38px;
+            height: 38px;
+
+            margin:
+                0 auto 15px;
+
+            border:
+                4px solid #cbd5e1;
+
+            border-top-color:
+                var(--azul);
+
+            border-radius: 50%;
+
+            animation:
+                girar .8s linear infinite;
+        }
+
+
+        @keyframes girar {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+
+        .oculto {
+            display: none !important;
+        }
+
+
+        /* ==========================================
+           PRESENTACIÓN
+        ========================================== */
+
+        .presentacion {
+            position: relative;
+
+            overflow: hidden;
+
+            margin-bottom: 28px;
+
+            padding: 27px 30px;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255,255,255,.97),
+                    rgba(248,250,252,.94)
+                );
+
+            box-shadow:
+                0 12px 35px rgba(15,23,42,.07);
+        }
+
+
+        .presentacion::before {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 6px;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--azul-claro),
+                    var(--azul-marino)
+                );
+        }
+
+
+        .presentacion::after {
+            content: "";
+
+            position: absolute;
+
+            width: 260px;
+            height: 260px;
+
+            top: -150px;
+            right: -80px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.13),
+                    transparent 70%
+                );
+        }
+
+
+        .etiqueta {
+            position: relative;
+            z-index: 2;
+
+            display: inline-block;
+
+            margin-bottom: 7px;
+
+            color: var(--azul);
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+        }
+
+
+        .presentacion h1 {
+            position: relative;
+            z-index: 2;
+
+            margin: 0 0 8px;
+
+            color: var(--azul-oscuro);
+
+            font-size:
+                clamp(27px, 3vw, 36px);
+        }
+
+
+        .presentacion p {
+            position: relative;
+            z-index: 2;
+
+            max-width: 750px;
+
+            margin: 0;
+
+            color: var(--texto-secundario);
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ==========================================
+           ESTADÍSTICAS
+        ========================================== */
+
+        .estadisticas {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 30px;
+        }
+
+
+        .estadistica {
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 145px;
+
+            padding: 22px;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 16px;
+
+            background:
+                rgba(255,255,255,.95);
+
+            box-shadow:
+                0 9px 25px rgba(15,23,42,.06);
+
+            transition:
+                transform .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .estadistica:hover {
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 16px 35px rgba(15,23,42,.11);
+        }
+
+
+        .estadistica::after {
+            content: "";
+
+            position: absolute;
+
+            width: 110px;
+            height: 110px;
+
+            right: -55px;
+            bottom: -55px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.12),
+                    transparent 70%
+                );
+        }
+
+
+        .estadistica-superior {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .estadistica-icono {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--azul-marino),
+                    var(--azul)
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 7px 16px rgba(11,49,88,.20);
+        }
+
+
+        .estadistica-icono svg {
+            width: 21px;
+            height: 21px;
+        }
+
+
+        .estadistica-numero {
+            margin-bottom: 4px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+
+        .estadistica-titulo {
+            color: var(--texto-secundario);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .5px;
+        }
+
+
+        /* ==========================================
+           PANEL DE TALLERES
+        ========================================== */
+
+        .panel {
+            position: relative;
+
+            overflow: hidden;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,.96);
+
+            box-shadow:
+                0 12px 35px rgba(15,23,42,.07);
+        }
+
+
+        .panel-cabecera {
+            padding: 23px 25px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        .panel-cabecera h2 {
+            margin: 0 0 4px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 20px;
+        }
+
+
+        .panel-cabecera p {
+            margin: 0;
+
+            color: var(--texto-secundario);
+
+            font-size: 13px;
+        }
+
+
+        /* ==========================================
+           BUSCADOR
+        ========================================== */
+
+        .buscador {
+            position: relative;
+
+            width: 100%;
+            max-width: 310px;
+        }
+
+
+        .buscador svg {
+            position: absolute;
+
+            top: 50%;
+            left: 13px;
+
+            width: 18px;
+            height: 18px;
+
+            transform:
+                translateY(-50%);
+
+            color: #94a3b8;
+
+            pointer-events: none;
+        }
+
+
+        .buscador input {
+            width: 100%;
+
+            min-height: 43px;
+
+            padding:
+                10px 12px 10px 41px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            background: #ffffff;
+
+            color: #0f172a;
+
+            font-size: 13px;
+
+            transition:
+                border-color .2s ease,
+                box-shadow .2s ease;
+        }
+
+
+        .buscador input:focus {
+            border-color:
+                var(--azul-claro);
+
+            box-shadow:
+                0 0 0 4px rgba(37,132,216,.10);
+        }
+
+
+        /* ==========================================
+           TABLA
+        ========================================== */
+
+        .tabla-contenedor {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 850px;
+        }
+
+
+        thead {
+            background:
+                #f8fafc;
+        }
+
+
+        th {
+            padding:
+                13px 18px;
+
+            text-align: left;
+
+            color: #475569;
+
+            font-size: 11px;
+            font-weight: 800;
+
+            letter-spacing: .5px;
+
+            text-transform: uppercase;
+
+            border-bottom:
+                1px solid #e2e8f0;
+        }
+
+
+        td {
+            padding:
+                16px 18px;
+
+            color: #334155;
+
+            font-size: 13px;
+
+            border-bottom:
+                1px solid #edf2f7;
+        }
+
+
+        tbody tr {
+            transition:
+                background .18s ease;
+        }
+
+
+        tbody tr:hover {
+            background:
+                #f8fbff;
+        }
+
+
+        .taller-nombre {
+            color: var(--azul-oscuro);
+
+            font-weight: 800;
+        }
+
+
+        .estado {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            padding:
+                6px 9px;
+
+            border-radius: 30px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .estado::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+        }
+
+
+        .estado-activo {
+            background: #f0fdf4;
+
+            color: #15803d;
+        }
+
+
+        .estado-activo::before {
+            background: #22c55e;
+        }
+
+
+        .estado-inactivo {
+            background: #fff1f2;
+
+            color: #be123c;
+        }
+
+
+        .estado-inactivo::before {
+            background: #f43f5e;
+        }
+
+
+        .sin-registros {
+            padding: 40px 20px;
+
+            text-align: center;
+
+            color: var(--texto-secundario);
+
+            font-size: 14px;
+        }
+
+
+        /* ==========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media
+        (max-width: 1050px) {
+
+            .estadisticas {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        @media
+        (max-width: 700px) {
+
+            .cabecera-contenido {
+                padding:
+                    10px 15px;
+            }
+
+
+            .marca-logo {
+                width: 48px;
+                height: 48px;
+            }
+
+
+            .marca-texto strong {
+                font-size: 17px;
+            }
+
+
+            .marca-texto span,
+            .insignia-admin {
+                display: none;
+            }
+
+
+            #cerrarSesion {
+                padding:
+                    9px 10px;
+
+                font-size: 12px;
+            }
+
+
+            main {
+                padding:
+                    25px 14px 50px;
+            }
+
+
+            .presentacion {
+                padding:
+                    22px 20px;
+            }
+
+
+            .estadisticas {
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 12px;
+            }
+
+
+            .estadistica {
+                min-height: 130px;
+
+                padding: 17px;
+            }
+
+
+            .estadistica-numero {
+                font-size: 26px;
+            }
+
+
+            .panel-cabecera {
+                align-items: stretch;
+
+                flex-direction: column;
+            }
+
+
+            .buscador {
+                max-width: none;
+            }
+
+
+            .marca-agua {
+                width: 95vw;
+            }
+
+        }
+
+
+        @media
+        (max-width: 420px) {
+
+            .estadisticas {
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<!-- ==========================================
+     CABECERA ADMINISTRADOR
+========================================== -->
+
+<header class="cabecera">
+
+    <div class="cabecera-contenido">
+
+
+        <div class="marca">
+
+            <div class="marca-logo">
+
+                <img
+                    src="img/logo-simplextaller.png"
+                    alt="SimplexTaller"
+                >
+
+            </div>
+
+
+            <div class="marca-texto">
+
+                <strong>
+                    SimplexTaller
+                </strong>
+
+                <span>
+                    Administración de plataforma
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="cabecera-derecha">
+
+            <div class="insignia-admin">
+                Administrador
+            </div>
+
+
+            <button
+                type="button"
+                id="cerrarSesion"
+            >
+
+                <svg
+                    width="17"
+                    height="17"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                >
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+
+                    <polyline points="16 17 21 12 16 7"></polyline>
+
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+
+                <span>
+                    Cerrar sesión
+                </span>
+
+            </button>
+
+        </div>
+
+
+    </div>
+
+</header>
+
+
+
+<!-- ==========================================
+     PÁGINA ADMINISTRADOR
+========================================== -->
+
+<div class="pagina-admin">
+
+
+    <!-- MARCA DE AGUA -->
+
+    <div class="marca-agua">
+
+        <img
+            src="img/logo-simplextaller.png"
+            alt=""
+        >
+
+    </div>
+
+
+
+    <!-- ======================================
+         CARGANDO
+    ======================================= -->
+
+    <div id="cargando">
+
+        <div class="cargando-icono"></div>
+
+        Verificando acceso de administrador...
+
+    </div>
+
+
+
+    <!-- ======================================
+         CONTENIDO
+    ======================================= -->
+
+    <main
+        id="contenido"
+        class="oculto"
+    >
+
+
+        <!-- ==================================
+             PRESENTACIÓN
+        =================================== -->
+
+        <section class="presentacion">
+
+            <span class="etiqueta">
+                Panel de administración
+            </span>
+
+
+            <h1>
+                Control de SimplexTaller
+            </h1>
+
+
+            <p>
+
+                Supervisa los talleres registrados en la plataforma,
+                su estado y la actividad general del sistema desde
+                un único panel administrativo.
+
+            </p>
+
+        </section>
+
+
+
+        <!-- ==================================
+             ESTADÍSTICAS
+        =================================== -->
+
+        <section class="estadisticas">
+
+
+            <!-- TALLERES REGISTRADOS -->
+
+            <article class="estadistica">
+
+                <div class="estadistica-superior">
+
+                    <div class="estadistica-icono">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path d="M3 21h18"></path>
+
+                            <path d="M5 21V7l7-4 7 4v14"></path>
+
+                            <path d="M9 21v-6h6v6"></path>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="totalTalleres"
+                    class="estadistica-numero"
+                >
+                    0
+                </div>
+
+
+                <div class="estadistica-titulo">
+                    Talleres registrados
+                </div>
+
+            </article>
+
+
+
+            <!-- TALLERES ACTIVOS -->
+
+            <article class="estadistica">
+
+                <div class="estadistica-superior">
+
+                    <div class="estadistica-icono">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="M20 6L9 17l-5-5"
+                            ></path>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="totalActivos"
+                    class="estadistica-numero"
+                >
+                    0
+                </div>
+
+
+                <div class="estadistica-titulo">
+                    Talleres activos
+                </div>
+
+            </article>
+
+
+
+            <!-- CLIENTES -->
+
+            <article class="estadistica">
+
+                <div class="estadistica-superior">
+
+                    <div class="estadistica-icono">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                            ></path>
+
+                            <circle
+                                cx="9"
+                                cy="7"
+                                r="4"
+                            ></circle>
+
+                            <path
+                                d="M22 21v-2a4 4 0 0 0-3-3.87"
+                            ></path>
+
+                            <path
+                                d="M16 3.13a4 4 0 0 1 0 7.75"
+                            ></path>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="totalClientes"
+                    class="estadistica-numero"
+                >
+                    0
+                </div>
+
+
+                <div class="estadistica-titulo">
+                    Clientes registrados
+                </div>
+
+            </article>
+
+
+
+            <!-- ÓRDENES -->
+
+            <article class="estadistica">
+
+                <div class="estadistica-superior">
+
+                    <div class="estadistica-icono">
+
+                        <svg
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+
+                            <path
+                                d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"
+                            ></path>
+
+                            <rect
+                                x="9"
+                                y="3"
+                                width="6"
+                                height="4"
+                                rx="1"
+                            ></rect>
+
+                            <path d="M9 12h6"></path>
+
+                            <path d="M9 16h6"></path>
+
+                        </svg>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="totalOrdenes"
+                    class="estadistica-numero"
+                >
+                    0
+                </div>
+
+
+                <div class="estadistica-titulo">
+                    Órdenes de trabajo
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             LISTA DE TALLERES
+        =================================== -->
+
+        <section class="panel">
+
+
+            <div class="panel-cabecera">
+
+
+                <div>
+
+                    <h2>
+                        Talleres registrados
+                    </h2>
+
+                    <p>
+                        Consulta los talleres que utilizan SimplexTaller.
+                    </p>
+
+                </div>
+
+
+
+                <!-- BUSCADOR -->
+
+                <div class="buscador">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="8"
+                        ></circle>
+
+                        <line
+                            x1="21"
+                            y1="21"
+                            x2="16.65"
+                            y2="16.65"
+                        ></line>
+
+                    </svg>
+
+
+                    <input
+                        type="search"
+                        id="buscarTaller"
+                        placeholder="Buscar taller o responsable..."
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- ==================================
+                 TABLA
+            =================================== -->
+
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Taller
+                            </th>
+
+                            <th>
+                                Responsable
+                            </th>
+
+                            <th>
+                                Teléfono
+                            </th>
+
+                            <th>
+                                Estado
+                            </th>
+
+                            <th>
+                                Registro
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="tablaTalleres">
+
+                        <!--
+                        Los talleres serán insertados
+                        aquí automáticamente.
+                        -->
+
+                    </tbody>
+
+                </table>
+
+
+                <div
+                    id="sinRegistros"
+                    class="sin-registros oculto"
+                >
+                    No se encontraron talleres.
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+<!-- ==========================================
+     SUPABASE
+========================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+
+<script>
+
+/* ==========================================
+   VARIABLES
+========================================== */
+
+let talleresAdmin = [];
+
+
+/* ==========================================
+   INICIAR PANEL ADMINISTRADOR
+========================================== */
+
+async function iniciarAdmin() {
+
+    const cargando =
+        document.getElementById("cargando");
+
+    const contenido =
+        document.getElementById("contenido");
+
+
+    try {
+
+        /* ======================================
+           1. COMPROBAR SESIÓN
+        ====================================== */
+
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient
+            .auth
+            .getUser();
+
+
+        if (
+            errorUsuario ||
+            !user
+        ) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        /* ======================================
+           2. COMPROBAR ROL ADMIN
+        ====================================== */
+
+        const {
+            data: perfil,
+            error: errorPerfil
+        } = await supabaseClient
+            .from("perfiles")
+            .select("rol")
+            .eq("id", user.id)
+            .single();
+
+
+        if (
+            errorPerfil ||
+            !perfil ||
+            perfil.rol !== "admin"
+        ) {
+
+            console.error(
+                "Acceso administrativo rechazado:",
+                errorPerfil
+            );
+
+
+            await supabaseClient
+                .auth
+                .signOut();
+
+
+            alert(
+                "No tienes permisos para acceder al panel de administración."
+            );
+
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        /* ======================================
+           3. CARGAR DATOS
+        ====================================== */
+
+        await cargarDatosAdmin();
+
+
+        /* ======================================
+           4. MOSTRAR PANEL
+        ====================================== */
+
+        cargando.classList.add(
+            "oculto"
+        );
+
+
+        contenido.classList.remove(
+            "oculto"
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error iniciando panel administrativo:",
+            error
+        );
+
+
+        cargando.innerHTML = `
+            <div
+                style="
+                    max-width:550px;
+                    margin:auto;
+                    padding:22px;
+                    border:1px solid #fecaca;
+                    border-radius:12px;
+                    background:#fff1f2;
+                    color:#991b1b;
+                    line-height:1.6;
+                "
+            >
+                <strong>
+                    No se pudo cargar el panel administrativo.
+                </strong>
+
+                <div style="margin-top:7px;">
+                    Actualiza la página e inténtalo nuevamente.
+                </div>
+            </div>
+        `;
+
+    }
+
+}
+
+
+/* ==========================================
+   CARGAR INFORMACIÓN ADMINISTRATIVA
+========================================== */
+
+async function cargarDatosAdmin() {
+
+    /* ======================================
+       TALLERES
+    ====================================== */
+
+    const {
+        data: talleres,
+        error: errorTalleres
+    } = await supabaseClient
+        .from("talleres")
+        .select(`
+            id,
+            nombre_taller,
+            nombre_responsable,
+            telefono,
+            activo,
+            fecha_creacion
+        `)
+        .order(
+            "fecha_creacion",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (errorTalleres) {
+
+        throw errorTalleres;
+
+    }
+
+
+    talleresAdmin =
+        talleres || [];
+
+
+    /* ======================================
+       CONTAR CLIENTES
+    ====================================== */
+
+    const {
+        count: totalClientes,
+        error: errorClientes
+    } = await supabaseClient
+        .from("clientes")
+        .select(
+            "id",
+            {
+                count: "exact",
+                head: true
+            }
+        );
+
+
+    if (errorClientes) {
+
+        throw errorClientes;
+
+    }
+
+
+    /* ======================================
+       CONTAR ÓRDENES
+    ====================================== */
+
+    const {
+        count: totalOrdenes,
+        error: errorOrdenes
+    } = await supabaseClient
+        .from("ordenes_trabajo")
+        .select(
+            "id",
+            {
+                count: "exact",
+                head: true
+            }
+        );
+
+
+    if (errorOrdenes) {
+
+        throw errorOrdenes;
+
+    }
+
+
+    /* ======================================
+       CALCULAR ESTADÍSTICAS
+    ====================================== */
+
+    const totalTalleres =
+        talleresAdmin.length;
+
+
+    const totalActivos =
+        talleresAdmin.filter(
+            function(taller) {
+
+                return taller.activo === true;
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "totalTalleres"
+    ).textContent =
+        totalTalleres;
+
+
+    document.getElementById(
+        "totalActivos"
+    ).textContent =
+        totalActivos;
+
+
+    document.getElementById(
+        "totalClientes"
+    ).textContent =
+        totalClientes || 0;
+
+
+    document.getElementById(
+        "totalOrdenes"
+    ).textContent =
+        totalOrdenes || 0;
+
+
+    /* ======================================
+       MOSTRAR TABLA
+    ====================================== */
+
+    mostrarTalleres(
+        talleresAdmin
+    );
+
+}
+
+
+/* ==========================================
+   MOSTRAR TALLERES
+========================================== */
+
+function mostrarTalleres(talleres) {
+
+    const tabla =
+        document.getElementById(
+            "tablaTalleres"
+        );
+
+
+    const sinRegistros =
+        document.getElementById(
+            "sinRegistros"
+        );
+
+
+    tabla.innerHTML =
+        "";
+
+
+    if (
+        !talleres ||
+        talleres.length === 0
+    ) {
+
+        sinRegistros.classList.remove(
+            "oculto"
+        );
+
+        return;
+
+    }
+
+
+    sinRegistros.classList.add(
+        "oculto"
+    );
+
+
+    talleres.forEach(
+        function(taller) {
+
+            const fila =
+                document.createElement(
+                    "tr"
+                );
+
+
+            /* ==================================
+               TALLER
+            ================================== */
+
+            const celdaTaller =
+                document.createElement(
+                    "td"
+                );
+
+
+            const nombre =
+                document.createElement(
+                    "div"
+                );
+
+
+            nombre.className =
+                "taller-nombre";
+
+
+            nombre.textContent =
+                taller.nombre_taller ||
+                "Sin nombre";
+
+
+            celdaTaller.appendChild(
+                nombre
+            );
+
+
+            /* ==================================
+               RESPONSABLE
+            ================================== */
+
+            const celdaResponsable =
+                document.createElement(
+                    "td"
+                );
+
+
+            celdaResponsable.textContent =
+                taller.nombre_responsable ||
+                "No especificado";
+
+
+            /* ==================================
+               TELÉFONO
+            ================================== */
+
+            const celdaTelefono =
+                document.createElement(
+                    "td"
+                );
+
+
+            celdaTelefono.textContent =
+                taller.telefono ||
+                "No registrado";
+
+
+            /* ==================================
+               ESTADO
+            ================================== */
+
+            const celdaEstado =
+                document.createElement(
+                    "td"
+                );
+
+
+            const estado =
+                document.createElement(
+                    "span"
+                );
+
+
+            estado.className =
+                taller.activo
+                    ? "estado estado-activo"
+                    : "estado estado-inactivo";
+
+
+            estado.textContent =
+                taller.activo
+                    ? "Activo"
+                    : "Inactivo";
+
+
+            celdaEstado.appendChild(
+                estado
+            );
+
+
+            /* ==================================
+               FECHA DE REGISTRO
+            ================================== */
+
+            const celdaFecha =
+                document.createElement(
+                    "td"
+                );
+
+
+            celdaFecha.textContent =
+                formatearFecha(
+                    taller.fecha_creacion
+                );
+
+
+            /* ==================================
+               ARMAR FILA
+            ================================== */
+
+            fila.appendChild(
+                celdaTaller
+            );
+
+
+            fila.appendChild(
+                celdaResponsable
+            );
+
+
+            fila.appendChild(
+                celdaTelefono
+            );
+
+
+            fila.appendChild(
+                celdaEstado
+            );
+
+
+            fila.appendChild(
+                celdaFecha
+            );
+
+
+            tabla.appendChild(
+                fila
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   BUSCADOR DE TALLERES
+========================================== */
+
+document
+    .getElementById(
+        "buscarTaller"
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            const texto =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!texto) {
+
+                mostrarTalleres(
+                    talleresAdmin
+                );
+
+                return;
+
+            }
+
+
+            const filtrados =
+                talleresAdmin.filter(
+                    function(taller) {
+
+                        const nombre =
+                            (
+                                taller.nombre_taller ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const responsable =
+                            (
+                                taller.nombre_responsable ||
+                                ""
+                            ).toLowerCase();
+
+
+                        const telefono =
+                            (
+                                taller.telefono ||
+                                ""
+                            ).toLowerCase();
+
+
+                        return (
+                            nombre.includes(texto) ||
+                            responsable.includes(texto) ||
+                            telefono.includes(texto)
+                        );
+
+                    }
+                );
+
+
+            mostrarTalleres(
+                filtrados
+            );
+
+        }
+    );
+
+
+/* ==========================================
+   FORMATEAR FECHA
+========================================== */
+
+function formatearFecha(fecha) {
+
+    if (!fecha) {
+
+        return "—";
+
+    }
+
+
+    const valor =
+        new Date(fecha);
+
+
+    if (
+        Number.isNaN(
+            valor.getTime()
+        )
+    ) {
+
+        return "—";
+
+    }
+
+
+    return valor.toLocaleDateString(
+        "es-BO",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CERRAR SESIÓN
+========================================== */
+
+document
+    .getElementById(
+        "cerrarSesion"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            const boton =
+                this;
+
+
+            boton.disabled =
+                true;
+
+
+            try {
+
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+                window.location.href =
+                    "login.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error cerrando sesión:",
+                    error
+                );
+
+
+                boton.disabled =
+                    false;
+
+
+                alert(
+                    "No se pudo cerrar la sesión."
+                );
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   INICIAR
+========================================== */
+
+iniciarAdmin();
+
+</script>
+
+
+</body>
+</html>

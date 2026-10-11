@@ -2336,15 +2336,68 @@ formulario.addEventListener(
             entrar al dashboard.
             */
 
-            setTimeout(
-                function() {
+            /* ==================================
+   COMPROBAR ROL DEL USUARIO
+================================== */
 
-                    window.location.href =
-                        "dashboard.html";
+const {
+    data: perfil,
+    error: errorPerfil
+} = await supabaseClient
+    .from("perfiles")
+    .select("rol")
+    .eq("id", data.user.id)
+    .maybeSingle();
 
-                },
-                650
-            );
+
+if (errorPerfil) {
+
+    console.error(
+        "Error consultando el rol:",
+        errorPerfil
+    );
+
+}
+
+
+/* ==================================
+   REDIRECCIÓN SEGÚN EL ROL
+================================== */
+
+if (
+    perfil &&
+    perfil.rol === "admin"
+) {
+
+    mensaje.textContent =
+        "Acceso de administrador correcto. Abriendo panel...";
+
+    setTimeout(
+        function() {
+
+            window.location.href =
+                "admin.html";
+
+        },
+        650
+    );
+
+} else {
+
+    mensaje.textContent =
+        "Inicio de sesión correcto. Abriendo tu taller...";
+
+    setTimeout(
+        function() {
+
+            window.location.href =
+                "dashboard.html";
+
+        },
+        650
+    );
+
+}
 
 
         } catch (error) {

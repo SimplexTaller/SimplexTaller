@@ -664,59 +664,7 @@ document
         mostrarClientes(resultados);
     });
     async function editarCliente(id) {
-async function eliminarCliente(id) {
 
-    const cliente =
-        clientesGuardados.find(
-            function(c) {
-                return c.id === id;
-            }
-        );
-
-
-    if (!cliente) {
-        return;
-    }
-
-
-    const confirmar =
-        confirm(
-            '¿Seguro que deseas eliminar al cliente "' +
-            cliente.nombre +
-            '"?'
-        );
-
-
-    if (!confirmar) {
-        return;
-    }
-
-
-    const {
-        error
-    } = await supabaseClient
-        .from("clientes")
-        .delete()
-        .eq("id", id)
-        .eq(
-            "taller_id",
-            tallerActual.id
-        );
-
-
-    if (error) {
-
-        alert(
-            "Error al eliminar: " +
-            error.message
-        );
-
-        return;
-    }
-
-
-    await cargarClientes();
-}
     const cliente =
         clientesGuardados.find(
             function(c) {
@@ -810,7 +758,59 @@ async function eliminarCliente(id) {
 
     await cargarClientes();
 }
-    
+async function eliminarCliente(id) {
+
+    const cliente = clientesGuardados.find(
+        function(c) {
+            return c.id === id;
+        }
+    );
+
+    if (!cliente) {
+        alert("No se encontró el cliente.");
+        return;
+    }
+
+    const confirmar = confirm(
+        '¿Seguro que deseas eliminar al cliente "' +
+        cliente.nombre +
+        '"?'
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const { error } = await supabaseClient
+            .from("clientes")
+            .delete()
+            .eq("id", id)
+            .eq(
+                "taller_id",
+                tallerActual.id
+            );
+
+        if (error) {
+            throw error;
+        }
+
+        await cargarClientes();
+
+    } catch (error) {
+
+        console.error(
+            "Error eliminando cliente:",
+            error
+        );
+
+        alert(
+            "Error al eliminar el cliente: " +
+            error.message
+        );
+    }
+}    
 iniciar();
 
 </script>

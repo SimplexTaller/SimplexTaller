@@ -1018,10 +1018,16 @@ async function eliminarOpcion(id, nombre) {
 
 async function cargarPlantillaAutomotriz() {
 
+    if (!tallerActual) {
+        alert("No se pudo identificar el taller.");
+        return;
+    }
+
+
     const confirmar =
         confirm(
             "¿Agregar la plantilla automotriz? " +
-            "Las opciones que ya tienes no se eliminarán."
+            "Solo se agregarán las opciones que todavía no existan."
         );
 
     if (!confirmar) {
@@ -1067,73 +1073,160 @@ async function cargarPlantillaAutomotriz() {
     ];
 
 
-    const registros = [];
+    try {
+
+        // Obtener las opciones que ya tiene el taller
+        const {
+            data: existentes,
+            error: errorExistentes
+        } = await supabaseClient
+            .from("opciones_orden")
+            .select("tipo, nombre")
+            .eq(
+                "taller_id",
+                tallerActual.id
+            );
 
 
-    inspeccion.forEach(
-        function(nombre, indice) {
-
-            registros.push({
-                taller_id:
-                    tallerActual.id,
-
-                tipo:
-                    "inspeccion",
-
-                nombre:
-                    nombre,
-
-                orden:
-                    indice + 1
-            });
+        if (errorExistentes) {
+            throw errorExistentes;
         }
-    );
 
 
-    servicios.forEach(
-        function(nombre, indice) {
+        /*
+        Normalizamos los nombres para comparar
+        sin importar mayúsculas o espacios.
+        */
 
-            registros.push({
-                taller_id:
-                    tallerActual.id,
+        const clavesExistentes =
+            new Set(
+                (existentes || []).map(
+                    function(opcion) {
 
-                tipo:
-                    "servicio",
+                        return (
+                            opcion.tipo +
+                            "|" +
+                            opcion.nombre
+                                .trim()
+                                .toLowerCase()
+                        );
+                    }
+                )
+            );
 
-                nombre:
-                    nombre,
 
-                orden:
-                    indice + 1
-            });
+        const registros = [];
+
+
+        inspeccion.forEach(
+            function(nombre, indice) {
+
+                const clave =
+                    "inspeccion|" +
+                    nombre
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!clavesExistentes.has(clave)) {
+
+                    registros.push({
+
+                        taller_id:
+                            tallerActual.id,
+
+                        tipo:
+                            "inspeccion",
+
+                        nombre:
+                            nombre,
+
+                        orden:
+                            indice + 1
+                    });
+                }
+            }
+        );
+
+
+        servicios.forEach(
+            function(nombre, indice) {
+
+                const clave =
+                    "servicio|" +
+                    nombre
+                        .trim()
+                        .toLowerCase();
+
+
+                if (!clavesExistentes.has(clave)) {
+
+                    registros.push({
+
+                        taller_id:
+                            tallerActual.id,
+
+                        tipo:
+                            "servicio",
+
+                        nombre:
+                            nombre,
+
+                        orden:
+                            indice + 1
+                    });
+                }
+            }
+        );
+
+
+        const mensajeOpciones =
+            document.getElementById(
+                "mensajeOpciones"
+            );
+
+
+        // Ya estaban todas cargadas
+        if (registros.length === 0) {
+
+            mensajeOpciones.textContent =
+                "La plantilla automotriz ya está cargada. " +
+                "No se agregaron opciones duplicadas.";
+
+            return;
         }
-    );
 
 
-    const { error } =
-        await supabaseClient
+        const {
+            error: errorInsertar
+        } = await supabaseClient
             .from("opciones_orden")
             .insert(registros);
 
 
-    if (error) {
+        if (errorInsertar) {
+            throw errorInsertar;
+        }
+
+
+        mensajeOpciones.textContent =
+            "Plantilla actualizada. Se agregaron " +
+            registros.length +
+            " opciones nuevas.";
+
+
+        await cargarOpciones();
+
+
+    } catch (error) {
+
+        console.error(error);
 
         alert(
-            "Error: " +
+            "Error al cargar la plantilla: " +
             error.message
         );
-
-        return;
     }
-
-
-    document.getElementById(
-        "mensajeOpciones"
-    ).textContent =
-        "Plantilla automotriz cargada correctamente.";
-
-
-    await cargarOpciones();
 }
 cargarConfiguracion();
 

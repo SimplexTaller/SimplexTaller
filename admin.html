@@ -864,7 +864,79 @@
         .estado-inactivo::before {
             background: #f43f5e;
         }
+        /* ==========================================
+   ACCIONES ADMINISTRADOR
+========================================== */
 
+.acciones-taller {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.btn-estado {
+    min-width: 105px;
+
+    padding: 8px 12px;
+
+    border: none;
+    border-radius: 8px;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease,
+        opacity .18s ease;
+}
+
+
+.btn-estado:hover {
+    transform: translateY(-2px);
+}
+
+
+.btn-estado:disabled {
+    opacity: .55;
+    cursor: wait;
+    transform: none;
+}
+
+
+/* HABILITAR */
+
+.btn-habilitar {
+    background: #dcfce7;
+    color: #15803d;
+
+    border: 1px solid #bbf7d0;
+}
+
+
+.btn-habilitar:hover {
+    box-shadow:
+        0 6px 15px rgba(22,163,74,.15);
+}
+
+
+/* INHABILITAR */
+
+.btn-inhabilitar {
+    background: #fff1f2;
+    color: #be123c;
+
+    border: 1px solid #fecdd3;
+}
+
+
+.btn-inhabilitar:hover {
+    box-shadow:
+        0 6px 15px rgba(225,29,72,.15);
+}
 
         .sin-registros {
             padding: 40px 20px;
@@ -1459,7 +1531,9 @@
                             <th>
                                 Registro
                             </th>
-
+                            <th>
+    Acción
+</th>
                         </tr>
 
                     </thead>
@@ -1954,7 +2028,69 @@ function mostrarTalleres(talleres) {
                 formatearFecha(
                     taller.fecha_creacion
                 );
+/* ==================================
+   ACCIÓN HABILITAR / INHABILITAR
+================================== */
 
+const celdaAccion =
+    document.createElement(
+        "td"
+    );
+
+
+const contenedorAcciones =
+    document.createElement(
+        "div"
+    );
+
+
+contenedorAcciones.className =
+    "acciones-taller";
+
+
+const botonEstado =
+    document.createElement(
+        "button"
+    );
+
+
+botonEstado.type =
+    "button";
+
+
+botonEstado.className =
+    taller.activo
+        ? "btn-estado btn-inhabilitar"
+        : "btn-estado btn-habilitar";
+
+
+botonEstado.textContent =
+    taller.activo
+        ? "Inhabilitar"
+        : "Habilitar";
+
+
+botonEstado.addEventListener(
+    "click",
+    function() {
+
+        cambiarEstadoTaller(
+            taller,
+            botonEstado
+        );
+
+    }
+);
+
+
+contenedorAcciones.appendChild(
+    botonEstado
+);
+
+
+celdaAccion.appendChild(
+    contenedorAcciones
+);
 
             /* ==================================
                ARMAR FILA
@@ -1983,7 +2119,9 @@ function mostrarTalleres(talleres) {
             fila.appendChild(
                 celdaFecha
             );
-
+fila.appendChild(
+    celdaAccion
+);
 
             tabla.appendChild(
                 fila
@@ -1994,7 +2132,140 @@ function mostrarTalleres(talleres) {
 
 }
 
+/* ==========================================
+   HABILITAR / INHABILITAR TALLER
+========================================== */
 
+async function cambiarEstadoTaller(
+    taller,
+    boton
+) {
+
+    const nuevoEstado =
+        !taller.activo;
+
+
+    const accion =
+        nuevoEstado
+            ? "habilitar"
+            : "inhabilitar";
+
+
+    const nombreTaller =
+        taller.nombre_taller ||
+        "este taller";
+
+
+    const confirmar =
+        window.confirm(
+            `¿Estás seguro de ${accion} "${nombreTaller}"?`
+        );
+
+
+    if (!confirmar) {
+
+        return;
+
+    }
+
+
+    const textoOriginal =
+        boton.textContent;
+
+
+    boton.disabled =
+        true;
+
+
+    boton.textContent =
+        "Procesando...";
+
+
+    try {
+
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("talleres")
+            .update({
+                activo: nuevoEstado
+            })
+            .eq(
+                "id",
+                taller.id
+            )
+            .select("id, activo")
+            .single();
+
+
+        if (error) {
+
+            throw error;
+
+        }
+
+
+        /* ==================================
+           ACTUALIZAR DATOS LOCALES
+        ================================== */
+
+        taller.activo =
+            data.activo;
+
+
+        /* ==================================
+           ACTUALIZAR CONTADOR DE ACTIVOS
+        ================================== */
+
+        const totalActivos =
+            talleresAdmin.filter(
+                function(item) {
+
+                    return item.activo === true;
+
+                }
+            ).length;
+
+
+        document.getElementById(
+            "totalActivos"
+        ).textContent =
+            totalActivos;
+
+
+        /* ==================================
+           REDIBUJAR TABLA
+        ================================== */
+
+        mostrarTalleres(
+            talleresAdmin
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Error cambiando estado del taller:",
+            error
+        );
+
+
+        alert(
+            "No se pudo cambiar el estado del taller."
+        );
+
+
+        boton.disabled =
+            false;
+
+
+        boton.textContent =
+            textoOriginal;
+
+    }
+
+}
 /* ==========================================
    BUSCADOR DE TALLERES
 ========================================== */

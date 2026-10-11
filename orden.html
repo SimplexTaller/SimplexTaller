@@ -929,22 +929,257 @@ combustible.addEventListener(
 
 
 // ==========================================
-// POR AHORA SOLO PROBAMOS LA INTERFAZ
+// GUARDAR ORDEN
 // ==========================================
 
 document
     .getElementById("formOrden")
     .addEventListener(
         "submit",
-        function(event) {
+        async function(event) {
 
             event.preventDefault();
 
-            alert(
-                "La interfaz funciona. " +
-                "En el siguiente paso conectaremos " +
-                "el guardado de la orden con Supabase."
-            );
+            const boton =
+                document.getElementById(
+                    "btnGuardar"
+                );
+
+            const mensaje =
+                document.getElementById(
+                    "mensaje"
+                );
+
+            boton.disabled = true;
+            boton.textContent =
+                "Guardando orden...";
+
+            mensaje.textContent = "";
+            mensaje.className = "";
+
+
+            try {
+
+                if (!tallerActual) {
+
+                    throw new Error(
+                        "No se pudo identificar el taller."
+                    );
+                }
+
+
+                // ==============================
+                // CLIENTE
+                // ==============================
+
+                const clienteId =
+                    document.getElementById(
+                        "cliente"
+                    ).value;
+
+
+                if (!clienteId) {
+
+                    throw new Error(
+                        "Debes seleccionar un cliente."
+                    );
+                }
+
+
+                // ==============================
+                // CASILLAS MARCADAS
+                // ==============================
+
+                const inspeccion =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".inspeccion:checked"
+                        )
+                    ).map(
+                        checkbox =>
+                            checkbox.value
+                    );
+
+
+                const servicios =
+                    Array.from(
+                        document.querySelectorAll(
+                            ".servicio:checked"
+                        )
+                    ).map(
+                        checkbox =>
+                            checkbox.value
+                    );
+
+
+                // ==============================
+                // DATOS DE LA ORDEN
+                // ==============================
+
+                const datosOrden = {
+
+                    taller_id:
+                        tallerActual.id,
+
+                    cliente_id:
+                        clienteId,
+
+                    tipo_equipo:
+                        "Vehículo",
+
+                    marca:
+                        document.getElementById(
+                            "marca"
+                        ).value.trim() || null,
+
+                    modelo:
+                        document.getElementById(
+                            "modelo"
+                        ).value.trim() || null,
+
+                    anio:
+                        document.getElementById(
+                            "anio"
+                        ).value.trim() || null,
+
+                    color:
+                        document.getElementById(
+                            "color"
+                        ).value.trim() || null,
+
+                    motor:
+                        document.getElementById(
+                            "motor"
+                        ).value.trim() || null,
+
+                    placa:
+                        document.getElementById(
+                            "placa"
+                        ).value.trim() || null,
+
+                    chasis:
+                        document.getElementById(
+                            "chasis"
+                        ).value.trim() || null,
+
+                    kilometraje:
+                        document.getElementById(
+                            "kilometraje"
+                        ).value.trim() || null,
+
+                    identificacion:
+                        document.getElementById(
+                            "placa"
+                        ).value.trim() || null,
+
+                    falla_reportada:
+                        document.getElementById(
+                            "fallaReportada"
+                        ).value.trim(),
+
+                    inspeccion:
+                        inspeccion,
+
+                    servicios:
+                        servicios,
+
+                    nivel_combustible:
+                        Number(
+                            document.getElementById(
+                                "combustible"
+                            ).value
+                        ),
+
+                    estado:
+                        "recibido"
+                };
+
+
+                if (!datosOrden.falla_reportada) {
+
+                    throw new Error(
+                        "Debes escribir las operaciones solicitadas."
+                    );
+                }
+
+
+                // ==============================
+                // INSERTAR EN SUPABASE
+                // ==============================
+
+                const {
+                    data: ordenCreada,
+                    error
+                } = await supabaseClient
+                    .from("ordenes_trabajo")
+                    .insert(datosOrden)
+                    .select(`
+                        id,
+                        numero_orden
+                    `)
+                    .single();
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                console.log(
+                    "Orden creada:",
+                    ordenCreada
+                );
+
+
+                mensaje.style.color =
+                    "#15803d";
+
+                mensaje.textContent =
+                    "Orden #" +
+                    ordenCreada.numero_orden +
+                    " creada correctamente.";
+
+
+                boton.textContent =
+                    "Orden guardada";
+
+
+                /*
+                Esperamos un momento y luego iremos
+                al listado de órdenes.
+                */
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "ordenes.html";
+
+                    },
+                    1200
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error guardando orden:",
+                    error
+                );
+
+                mensaje.className =
+                    "error";
+
+                mensaje.textContent =
+                    "Error: " +
+                    error.message;
+
+
+                boton.disabled = false;
+
+                boton.textContent =
+                    "Guardar orden";
+            }
         }
     );
 

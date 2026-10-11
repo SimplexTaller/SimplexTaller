@@ -211,11 +211,17 @@ formulario.addEventListener("submit", async function(event) {
         // 1. Crear usuario en Supabase Auth
 
         const { data, error } =
-            await supabaseClient.auth.signUp({
-                email: correo,
-                password: password
-            });
+    await supabaseClient.auth.signUp({
+        email: correo,
+        password: password,
 
+        options: {
+            data: {
+                nombre_taller: nombreTaller,
+                nombre_responsable: responsable
+            }
+        }
+    });
         if (error) {
             throw error;
         }
@@ -245,18 +251,7 @@ formulario.addEventListener("submit", async function(event) {
 
         // 2. Crear perfil del taller
 
-        const { error: errorTaller } =
-            await supabaseClient
-                .from("talleres")
-                .insert({
-                    usuario_id: data.user.id,
-                    nombre_taller: nombreTaller,
-                    nombre_responsable: responsable
-                });
-
-        if (errorTaller) {
-            throw errorTaller;
-        }
+        
 
         mensaje.textContent =
             "Cuenta creada correctamente.";

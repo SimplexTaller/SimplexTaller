@@ -258,26 +258,29 @@
 
 
         .responsable {
-            font-size: 14px;
-            color: #111827;
-        }
+    font-size: 15px;
+    font-weight: 600;
+    color: #111827;
+}
 
 
         .datos-orden {
-            text-align: right;
+    text-align: right;
 
-            font-size: 14px;
+    font-size: 16px;
 
-            line-height: 1.8;
+    font-weight: 500;
 
-            color: #111827;
-        }
+    line-height: 1.7;
+
+    color: #111827;
+}
 
 
         .numero {
-            font-size: 20px;
-            font-weight: bold;
-        }
+    font-size: 22px;
+    font-weight: 800;
+}
 
 
         .estado {
@@ -362,25 +365,31 @@
 
 
         .dato strong {
-            display: block;
+    display: block;
 
-            margin-bottom: 4px;
+    margin-bottom: 5px;
 
-            font-size: 12px;
+    font-size: 14px;
 
-            color: #4b5563 !important;
+    font-weight: 800;
 
-            text-transform: uppercase;
-        }
+    color: #111827 !important;
+
+    text-transform: uppercase;
+}
 
 
-        .dato span {
-            display: block;
+.dato span {
+    display: block;
 
-            min-height: 20px;
+    min-height: 22px;
 
-            color: #111827 !important;
-        }
+    font-size: 16px;
+
+    font-weight: 500;
+
+    color: #111827 !important;
+}
 
 
         /* ==========================================
@@ -399,14 +408,18 @@
 
 
         .check {
-            display: flex;
+    display: flex;
 
-            align-items: center;
+    align-items: center;
 
-            gap: 8px;
+    gap: 8px;
 
-            color: #111827;
-        }
+    font-size: 14px;
+
+    font-weight: 500;
+
+    color: #111827;
+}
 
 
         .casilla {
@@ -489,14 +502,18 @@
         ========================================== */
 
         .texto-operaciones {
-            white-space: pre-wrap;
+    white-space: pre-wrap;
 
-            min-height: 80px;
+    min-height: 80px;
 
-            line-height: 1.5;
+    line-height: 1.6;
 
-            color: #111827;
-        }
+    font-size: 16px;
+
+    font-weight: 500;
+
+    color: #111827;
+}
 
 
         /* ==========================================
@@ -873,45 +890,61 @@
 
 
             .contenido-orden {
-                position: relative !important;
+    position: relative !important;
 
-                z-index: 2 !important;
-            }
+    z-index: 2 !important;
 
+    background: transparent !important;
+}
 
             /*
             Marca de agua también en PDF.
             */
 
             .marca-agua {
-                display: block !important;
+    display: flex !important;
 
-                position: fixed !important;
+    position: absolute !important;
 
-                top: 50% !important;
+    top: 0 !important;
+    left: 0 !important;
 
-                left: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
 
-                transform:
-                    translate(-50%, -50%) !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-                width: 60% !important;
+    transform: none !important;
 
-                max-width: 500px !important;
+    opacity: 1 !important;
 
-                opacity: .06 !important;
+    z-index: 0 !important;
 
-                z-index: 0 !important;
+    pointer-events: none !important;
 
-                pointer-events: none !important;
-            }
+    overflow: hidden !important;
+}
 
 
-            .marca-agua img {
-                width: 100% !important;
+.marca-agua img {
+    display: block !important;
 
-                height: auto !important;
-            }
+    width: 65% !important;
+    max-width: 520px !important;
+
+    height: auto !important;
+    max-height: 65% !important;
+
+    object-fit: contain !important;
+
+    opacity: 0.10 !important;
+
+    filter: grayscale(100%) !important;
+
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
 
 
             .encabezado {
@@ -926,7 +959,7 @@
                     9px 12px !important;
 
                 background:
-                    rgba(255,255,255,.88) !important;
+    rgba(255,255,255,.72) !important;
 
                 border-bottom:
                     2px solid #000000 !important;
@@ -972,13 +1005,14 @@
 
 
             .seccion {
-                background:
-                    rgba(255,255,255,.80) !important;
+    position: relative !important;
 
-                break-inside: avoid;
+    background: rgba(255,255,255,.72) !important;
 
-                page-break-inside: avoid;
-            }
+    break-inside: avoid;
+
+    page-break-inside: avoid;
+}
 
 
             .seccion-titulo {
@@ -1019,24 +1053,25 @@
 
 
             .dato strong {
-                font-size:
-                    8px !important;
+    font-size: 10px !important;
 
-                color:
-                    #333333 !important;
-            }
+    font-weight: 800 !important;
+
+    color: #000000 !important;
+
+    margin-bottom: 2px !important;
+}
 
 
-            .dato span {
-                font-size:
-                    10px !important;
+.dato span {
+    font-size: 12px !important;
 
-                min-height:
-                    13px !important;
+    font-weight: 500 !important;
 
-                color:
-                    #000000 !important;
-            }
+    min-height: 15px !important;
+
+    color: #000000 !important;
+}
 
 
             .checks {
@@ -1049,12 +1084,12 @@
 
 
             .check {
-                font-size:
-                    9px !important;
+    font-size: 10px !important;
 
-                color:
-                    #000000 !important;
-            }
+    font-weight: 500 !important;
+
+    color: #000000 !important;
+}
 
 
             .casilla {
@@ -1106,16 +1141,16 @@
 
 
             .texto-operaciones {
-                min-height:
-                    40px !important;
+    min-height: 45px !important;
 
-                font-size:
-                    10px !important;
+    font-size: 12px !important;
 
-                line-height:
-                    1.25 !important;
-            }
+    font-weight: 500 !important;
 
+    line-height: 1.35 !important;
+
+    color: #000000 !important;
+}
 
             label {
                 font-size:

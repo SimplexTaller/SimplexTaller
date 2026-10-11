@@ -230,11 +230,17 @@
         <section class="tarjeta">
 
             <h2>Mis clientes</h2>
+<input
+    type="search"
+    id="buscarCliente"
+    placeholder="Buscar por nombre, correo o teléfono..."
+    style="margin-bottom: 15px;"
+>
 
-            <div
-                id="contador"
-                class="contador"
-            ></div>
+<div
+    id="contador"
+    class="contador"
+></div>
 
             <div id="listaClientes">
                 Cargando clientes...
@@ -270,7 +276,7 @@ const contador =
 
 let usuarioActual = null;
 let tallerActual = null;
-
+let clientesGuardados = [];
 
 // ==========================================
 // INICIAR PÁGINA
@@ -372,20 +378,24 @@ async function cargarClientes() {
     if (error) {
         throw error;
     }
-
+clientesGuardados = clientes;
+mostrarClientes(clientes);
+    
+}
+function mostrarClientes(clientes) {
 
     contador.textContent =
         clientes.length +
         (clientes.length === 1
-            ? " cliente registrado"
-            : " clientes registrados");
+            ? " cliente encontrado"
+            : " clientes encontrados");
 
 
     if (clientes.length === 0) {
 
         lista.innerHTML =
             '<div class="sin-clientes">' +
-            'Todavía no tienes clientes registrados.' +
+            'No se encontraron clientes.' +
             '</div>';
 
         return;
@@ -400,8 +410,7 @@ async function cargarClientes() {
         const elemento =
             document.createElement("div");
 
-        elemento.className =
-            "cliente";
+        elemento.className = "cliente";
 
 
         elemento.innerHTML = `
@@ -433,7 +442,6 @@ async function cargarClientes() {
         lista.appendChild(elemento);
     });
 }
-
 
 // ==========================================
 // GUARDAR CLIENTE
@@ -563,7 +571,59 @@ function escaparHTML(texto) {
     return elemento.innerHTML;
 }
 
+document
+    .getElementById("buscarCliente")
+    .addEventListener("input", function() {
 
+        const texto =
+            this.value
+                .trim()
+                .toLowerCase();
+
+
+        if (!texto) {
+
+            mostrarClientes(
+                clientesGuardados
+            );
+
+            return;
+        }
+
+
+        const resultados =
+            clientesGuardados.filter(
+                function(cliente) {
+
+                    const nombre =
+                        cliente.nombre || "";
+
+                    const correo =
+                        cliente.correo || "";
+
+                    const telefono =
+                        cliente.telefono || "";
+
+
+                    return (
+                        nombre
+                            .toLowerCase()
+                            .includes(texto) ||
+
+                        correo
+                            .toLowerCase()
+                            .includes(texto) ||
+
+                        telefono
+                            .toLowerCase()
+                            .includes(texto)
+                    );
+                }
+            );
+
+
+        mostrarClientes(resultados);
+    });
 iniciar();
 
 </script>

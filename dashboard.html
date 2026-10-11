@@ -1,254 +1,1961 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Panel | SimplexTaller</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Panel | SimplexTaller
+    </title>
+
 
     <style>
-        .perfil-taller {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
 
-.logo-taller {
-    width: 100px;
-    height: 100px;
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+        /* ==========================================
+           VARIABLES DE DISEÑO
+        ========================================== */
 
-#logoTaller {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    padding: 8px;
-}
+        :root {
 
-@media (max-width: 600px) {
+            --azul-oscuro: #071b32;
+            --azul-marino: #0b3158;
+            --azul: #125a9c;
+            --azul-claro: #2584d8;
 
-    .perfil-taller {
-        align-items: flex-start;
-    }
+            --plomo-oscuro: #475569;
+            --plomo: #94a3b8;
+            --plomo-claro: #e2e8f0;
 
-    .logo-taller {
-        width: 75px;
-        height: 75px;
-        flex-shrink: 0;
-    }
-}
+            --fondo: #eef2f6;
+            --blanco: #ffffff;
+
+            --texto: #162033;
+            --texto-secundario: #64748b;
+
+            --borde: rgba(148, 163, 184, .30);
+
+        }
+
+
+        /* ==========================================
+           CONFIGURACIÓN GENERAL
+        ========================================== */
+
         * {
             box-sizing: border-box;
         }
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #1f2937;
+
+        html {
+            min-height: 100%;
         }
 
-        header {
-            background: #111827;
-            color: white;
-            padding: 18px 6%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        body {
+
+            min-height: 100vh;
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc 0%,
+                    #eef2f6 45%,
+                    #e2e8f0 100%
+                );
+
+            color: var(--texto);
+
         }
+
+
+        /* ==========================================
+           CABECERA PRINCIPAL
+        ========================================== */
+
+        .cabecera {
+
+            position: relative;
+
+            z-index: 20;
+
+            width: 100%;
+
+            min-height: 84px;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #071b32 0%,
+                    #0b3158 58%,
+                    #125a9c 100%
+                );
+
+            border-bottom:
+                1px solid rgba(255,255,255,.14);
+
+            box-shadow:
+                0 8px 30px rgba(7,27,50,.22);
+
+        }
+
+
+        .cabecera-contenido {
+
+            width: 100%;
+
+            max-width: 1280px;
+
+            min-height: 84px;
+
+            margin: 0 auto;
+
+            padding:
+                10px 28px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 30px;
+
+        }
+
+
+        /* ==========================================
+           MARCA SIMPLEXTALLER
+        ========================================== */
 
         .marca {
-            font-size: 22px;
-            font-weight: bold;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            min-width: 0;
+
         }
+
+
+        .marca-logo {
+
+            width: 62px;
+            height: 62px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            flex-shrink: 0;
+
+        }
+
+
+        .marca-logo img {
+
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+            filter:
+                drop-shadow(
+                    0 4px 8px rgba(0,0,0,.25)
+                );
+
+        }
+
+
+        .marca-texto {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 2px;
+
+        }
+
+
+        .marca-nombre {
+
+            color: #ffffff;
+
+            font-size: 24px;
+
+            font-weight: 800;
+
+            letter-spacing: .2px;
+
+        }
+
+
+        .marca-subtitulo {
+
+            color: #bfdbfe;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            letter-spacing: 1.4px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        /* ==========================================
+           BOTÓN CERRAR SESIÓN
+        ========================================== */
 
         #cerrarSesion {
-            border: 1px solid #374151;
-            background: #1f2937;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 7px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
+            border:
+                1px solid rgba(255,255,255,.25);
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: #ffffff;
+
+            padding:
+                11px 17px;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
             cursor: pointer;
+
+            transition:
+                transform .20s ease,
+                background .20s ease,
+                border-color .20s ease,
+                box-shadow .20s ease;
+
         }
+
+
+        #cerrarSesion:hover {
+
+            transform:
+                translateY(-2px);
+
+            background:
+                rgba(255,255,255,.16);
+
+            border-color:
+                rgba(255,255,255,.45);
+
+            box-shadow:
+                0 8px 18px rgba(0,0,0,.15);
+
+        }
+
+
+        /* ==========================================
+           CONTENEDOR PRINCIPAL
+        ========================================== */
+
+        .dashboard {
+
+            position: relative;
+
+            min-height:
+                calc(100vh - 84px);
+
+            overflow: hidden;
+
+        }
+
 
         main {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
+
+            position: relative;
+
+            z-index: 5;
+
+            width: 100%;
+
+            max-width: 1280px;
+
+            margin: 0 auto;
+
+            padding:
+                45px 28px 70px;
+
         }
 
-        .bienvenida {
-            margin-bottom: 30px;
+
+        /* ==========================================
+           DECORACIÓN DEL FONDO
+        ========================================== */
+
+        .fondo-decorativo {
+
+            position: absolute;
+
+            inset: 0;
+
+            overflow: hidden;
+
+            pointer-events: none;
+
+            z-index: 0;
+
         }
 
-        .bienvenida h1 {
-            margin-bottom: 5px;
+
+        .circulo-fondo-1 {
+
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            top: -180px;
+            right: -120px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.12),
+                    rgba(37,132,216,0) 70%
+                );
+
         }
 
-        #responsable {
-            color: #6b7280;
+
+        .circulo-fondo-2 {
+
+            position: absolute;
+
+            width: 500px;
+            height: 500px;
+
+            left: -220px;
+            bottom: -230px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(11,49,88,.10),
+                    rgba(11,49,88,0) 70%
+                );
+
         }
 
-        .tarjetas {
-            display: grid;
-            grid-template-columns:
-                repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+
+        /* ==========================================
+           MARCA DE AGUA SIMPLEXTALLER
+        ========================================== */
+
+        .marca-agua-dashboard {
+
+            position: absolute;
+
+            z-index: 1;
+
+            top: 50%;
+            left: 50%;
+
+            transform:
+                translate(-50%, -45%);
+
+            width: min(720px, 65vw);
+
+            opacity: .035;
+
+            pointer-events: none;
+
+            user-select: none;
+
         }
 
-        .tarjeta {
+
+        .marca-agua-dashboard img {
+
             display: block;
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-decoration: none;
-            color: #1f2937;
-            box-shadow: 0 5px 20px rgba(0,0,0,.06);
-            transition: .2s;
+
+            width: 100%;
+            height: auto;
+
+            object-fit: contain;
+
+            filter:
+                grayscale(100%);
+
         }
 
-        .tarjeta:hover {
-            transform: translateY(-3px);
-        }
 
-        .tarjeta h2 {
-            margin-top: 0;
-            font-size: 19px;
-        }
-
-        .tarjeta p {
-            color: #6b7280;
-            line-height: 1.5;
-        }
+        /* ==========================================
+           CARGANDO
+        ========================================== */
 
         #cargando {
-            padding: 40px;
+
+            position: relative;
+
+            z-index: 10;
+
+            max-width: 500px;
+
+            margin: 80px auto;
+
+            padding: 30px;
+
             text-align: center;
+
+            color: var(--plomo-oscuro);
+
+            font-size: 15px;
+
+            font-weight: 600;
+
         }
+
+
+        .cargando-icono {
+
+            width: 36px;
+            height: 36px;
+
+            margin:
+                0 auto 15px;
+
+            border:
+                4px solid #cbd5e1;
+
+            border-top-color:
+                var(--azul);
+
+            border-radius: 50%;
+
+            animation:
+                girar .8s linear infinite;
+
+        }
+
+
+        @keyframes girar {
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+
+        }
+
 
         .oculto {
-            display: none;
+            display: none !important;
         }
 
-        @media (max-width: 600px) {
-            header {
-                padding: 15px 20px;
+
+        /* ==========================================
+           BIENVENIDA
+        ========================================== */
+
+        .bienvenida {
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-bottom: 32px;
+
+            padding: 28px 30px;
+
+            border:
+                1px solid rgba(148,163,184,.30);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255,255,255,.97),
+                    rgba(248,250,252,.93)
+                );
+
+            box-shadow:
+                0 14px 40px rgba(15,23,42,.08);
+
+        }
+
+
+        .bienvenida::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 6px;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    var(--azul-claro),
+                    var(--azul-marino)
+                );
+
+        }
+
+
+        .bienvenida::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            right: -90px;
+            top: -120px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.12),
+                    transparent 70%
+                );
+
+        }
+
+
+        .perfil-taller {
+
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 22px;
+
+        }
+
+
+        /* ==========================================
+           LOGO DEL TALLER DEL CLIENTE
+        ========================================== */
+
+        .logo-taller {
+
+            width: 105px;
+            height: 105px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            padding: 8px;
+
+            border:
+                1px solid #dbe3ec;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f1f5f9
+                );
+
+            box-shadow:
+                0 8px 20px rgba(15,23,42,.08);
+
+        }
+
+
+        #logoTaller {
+
+            display: block;
+
+            width: 100%;
+            height: 100%;
+
+            object-fit: contain;
+
+        }
+
+
+        /* ==========================================
+           TEXTO DE BIENVENIDA
+        ========================================== */
+
+        .etiqueta-panel {
+
+            display: inline-block;
+
+            margin-bottom: 6px;
+
+            color: var(--azul);
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.2px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .bienvenida h1 {
+
+            margin:
+                0 0 7px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                clamp(25px, 3vw, 34px);
+
+            line-height: 1.15;
+
+        }
+
+
+        #responsable {
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 15px;
+
+            font-weight: 500;
+
+        }
+
+
+        /* ==========================================
+           ENCABEZADO DE ACCESOS
+        ========================================== */
+
+        .encabezado-accesos {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .encabezado-accesos h2 {
+
+            margin: 0 0 5px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size: 21px;
+
+        }
+
+
+        .encabezado-accesos p {
+
+            margin: 0;
+
+            color:
+                var(--texto-secundario);
+
+            font-size: 14px;
+
+        }
+
+
+        /* ==========================================
+           GRID DE TARJETAS
+        ========================================== */
+
+        .tarjetas {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 20px;
+
+        }
+
+
+        /* ==========================================
+           TARJETA BASE
+        ========================================== */
+
+        .tarjeta {
+
+            position: relative;
+
+            min-height: 230px;
+
+            overflow: hidden;
+
+            display: flex;
+
+            flex-direction: column;
+
+            padding: 24px;
+
+            border:
+                1px solid rgba(148,163,184,.28);
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.98),
+                    rgba(248,250,252,.94)
+                );
+
+            text-decoration: none;
+
+            color:
+                var(--texto);
+
+            box-shadow:
+                0 10px 28px rgba(15,23,42,.07);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease,
+                border-color .25s ease;
+
+        }
+
+
+        .tarjeta::before {
+
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 5px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--azul-marino),
+                    var(--azul-claro)
+                );
+
+            opacity: .85;
+
+        }
+
+.tarjeta > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+.tarjeta:hover {
+    background-image:
+        radial-gradient(
+            circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(37,132,216,.08),
+            transparent 180px
+        ),
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.99),
+            rgba(248,250,252,.96)
+        );
+}
+        .tarjeta-principal:hover {
+    background-image:
+        radial-gradient(
+            circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+            rgba(255,255,255,.15),
+            transparent 190px
+        ),
+        linear-gradient(
+            145deg,
+            #0b3158,
+            #125a9c
+        );
+}
+        .tarjeta::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 150px;
+            height: 150px;
+
+            right: -80px;
+            bottom: -90px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,132,216,.12),
+                    transparent 70%
+                );
+
+            transition:
+                transform .35s ease,
+                opacity .35s ease;
+
+        }
+
+
+        .tarjeta:hover {
+
+            transform:
+                translateY(-7px);
+
+            border-color:
+                rgba(37,132,216,.38);
+
+            box-shadow:
+                0 20px 45px rgba(7,27,50,.15);
+
+        }
+
+
+        .tarjeta:hover::after {
+
+            transform:
+                scale(1.35);
+
+            opacity: 1;
+
+        }
+
+
+        /* ==========================================
+           ICONOS DE TARJETAS
+        ========================================== */
+
+        .tarjeta-icono {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 54px;
+            height: 54px;
+
+            margin-bottom: 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    var(--azul-marino),
+                    var(--azul)
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 8px 18px rgba(11,49,88,.22);
+
+            transition:
+                transform .25s ease,
+                box-shadow .25s ease;
+
+        }
+
+
+        .tarjeta:hover
+        .tarjeta-icono {
+
+            transform:
+                translateY(-2px)
+                scale(1.05);
+
+            box-shadow:
+                0 12px 25px rgba(11,49,88,.30);
+
+        }
+
+
+        .tarjeta-icono svg {
+
+            width: 27px;
+            height: 27px;
+
+            stroke: currentColor;
+
+        }
+
+
+        /* ==========================================
+           TEXTO DE LAS TARJETAS
+        ========================================== */
+
+        .tarjeta h3 {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin:
+                0 0 10px;
+
+            color:
+                var(--azul-oscuro);
+
+            font-size:
+                19px;
+
+            font-weight:
+                800;
+
+        }
+
+
+        .tarjeta p {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin:
+                0 0 22px;
+
+            color:
+                var(--texto-secundario);
+
+            font-size:
+                14px;
+
+            line-height:
+                1.55;
+
+        }
+
+
+        .tarjeta-accion {
+
+            position: relative;
+
+            z-index: 2;
+
+            margin-top: auto;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            color:
+                var(--azul);
+
+            font-size:
+                13px;
+
+            font-weight:
+                800;
+
+        }
+
+
+        .tarjeta-flecha {
+
+            width: 30px;
+            height: 30px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background:
+                #eaf3fb;
+
+            color:
+                var(--azul);
+
+            transition:
+                transform .25s ease,
+                background .25s ease,
+                color .25s ease;
+
+        }
+
+
+        .tarjeta:hover
+        .tarjeta-flecha {
+
+            transform:
+                translateX(4px);
+
+            background:
+                var(--azul);
+
+            color:
+                #ffffff;
+
+        }
+
+
+        /* ==========================================
+           NUEVA ORDEN DESTACADA
+        ========================================== */
+
+        .tarjeta-principal {
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #0b3158,
+                    #125a9c
+                );
+
+            border-color:
+                rgba(37,132,216,.35);
+
+            box-shadow:
+                0 12px 30px rgba(11,49,88,.20);
+
+        }
+
+
+        .tarjeta-principal::before {
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #60a5fa,
+                    #dbeafe
+                );
+
+        }
+
+
+        .tarjeta-principal::after {
+
+            width: 200px;
+            height: 200px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(255,255,255,.16),
+                    transparent 70%
+                );
+
+        }
+
+
+        .tarjeta-principal
+        .tarjeta-icono {
+
+            background:
+                rgba(255,255,255,.13);
+
+            border:
+                1px solid rgba(255,255,255,.20);
+
+            box-shadow: none;
+
+        }
+
+
+        .tarjeta-principal h3 {
+
+            color: #ffffff;
+
+        }
+
+
+        .tarjeta-principal p {
+
+            color: #dbeafe;
+
+        }
+
+
+        .tarjeta-principal
+        .tarjeta-accion {
+
+            color: #ffffff;
+
+        }
+
+
+        .tarjeta-principal
+        .tarjeta-flecha {
+
+            background:
+                rgba(255,255,255,.15);
+
+            color:
+                #ffffff;
+
+        }
+
+
+        .tarjeta-principal:hover
+        .tarjeta-flecha {
+
+            background:
+                #ffffff;
+
+            color:
+                var(--azul-marino);
+
+        }
+
+
+        /* ==========================================
+           TABLET
+        ========================================== */
+
+        @media
+        (max-width: 1050px) {
+
+            .tarjetas {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
             }
+
+        }
+
+
+        /* ==========================================
+           CELULAR
+        ========================================== */
+
+        @media
+        (max-width: 650px) {
+
+            .cabecera {
+
+                min-height: auto;
+
+            }
+
+
+            .cabecera-contenido {
+
+                min-height: auto;
+
+                padding:
+                    12px 16px;
+
+                gap: 12px;
+
+            }
+
+
+            .marca {
+
+                gap: 9px;
+
+            }
+
+
+            .marca-logo {
+
+                width: 46px;
+                height: 46px;
+
+            }
+
+
+            .marca-nombre {
+
+                font-size: 18px;
+
+            }
+
+
+            .marca-subtitulo {
+
+                display: none;
+
+            }
+
+
+            #cerrarSesion {
+
+                padding:
+                    9px 11px;
+
+                font-size:
+                    12px;
+
+            }
+
 
             main {
-                padding-top: 25px;
-            }
-        }
-    </style>
-    
-</head>
 
+                padding:
+                    24px 14px 50px;
+
+            }
+
+
+            .bienvenida {
+
+                padding:
+                    22px 18px;
+
+                border-radius:
+                    15px;
+
+            }
+
+
+            .perfil-taller {
+
+                align-items:
+                    center;
+
+                gap:
+                    14px;
+
+            }
+
+
+            .logo-taller {
+
+                width: 76px;
+                height: 76px;
+
+                border-radius:
+                    13px;
+
+            }
+
+
+            .bienvenida h1 {
+
+                font-size:
+                    23px;
+
+            }
+
+
+            #responsable {
+
+                font-size:
+                    13px;
+
+            }
+
+
+            .encabezado-accesos {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .tarjetas {
+
+                grid-template-columns:
+                    1fr;
+
+                gap:
+                    15px;
+
+            }
+
+
+            .tarjeta {
+
+                min-height:
+                    205px;
+
+                padding:
+                    21px;
+
+            }
+
+
+            .marca-agua-dashboard {
+
+                width:
+                    95vw;
+
+                opacity:
+                    .025;
+
+            }
+
+        }
+
+
+        /* ==========================================
+           CELULARES MUY PEQUEÑOS
+        ========================================== */
+
+        @media
+        (max-width: 390px) {
+
+            .marca-nombre {
+
+                font-size:
+                    16px;
+
+            }
+
+
+            #cerrarSesion {
+
+                padding:
+                    8px 9px;
+
+            }
+
+
+            .perfil-taller {
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .logo-taller {
+
+                width:
+                    65px;
+
+                height:
+                    65px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
 <body>
 
-<header>
 
-    <div class="marca">
-        SimplexTaller
+<!-- ==========================================
+     CABECERA PRINCIPAL
+========================================== -->
+
+<header class="cabecera">
+
+    <div class="cabecera-contenido">
+
+
+        <!-- MARCA SIMPLEXTALLER -->
+
+        <div class="marca">
+
+            <div class="marca-logo">
+
+                <img
+                    src="img/logo-simplextaller.png"
+                    alt="SimplexTaller"
+                >
+
+            </div>
+
+
+            <div class="marca-texto">
+
+                <div class="marca-nombre">
+                    SimplexTaller
+                </div>
+
+                <div class="marca-subtitulo">
+                    Gestión profesional de talleres
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CERRAR SESIÓN -->
+
+        <button
+            type="button"
+            id="cerrarSesion"
+        >
+
+            <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+            >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+
+            <span>
+                Cerrar sesión
+            </span>
+
+        </button>
+
+
     </div>
-
-    <button id="cerrarSesion">
-        Cerrar sesión
-    </button>
 
 </header>
 
-<div id="cargando">
-    Cargando tu taller...
-</div>
 
-<main id="contenido" class="oculto">
 
-    <section class="bienvenida">
+<!-- ==========================================
+     DASHBOARD
+========================================== -->
 
-    <div class="perfil-taller">
+<div class="dashboard">
 
-        <div class="logo-taller">
-            <img
-                id="logoTaller"
-                alt="Logo del taller"
-            >
-        </div>
 
-        <div>
-            <h1 id="nombreTaller">
-                Mi taller
-            </h1>
+    <!-- ======================================
+         FONDO DECORATIVO
+    ======================================= -->
 
-            <div id="responsable"></div>
-        </div>
+    <div class="fondo-decorativo">
+
+        <div class="circulo-fondo-1"></div>
+
+        <div class="circulo-fondo-2"></div>
 
     </div>
 
-</section>
 
-    <section class="tarjetas">
 
-        <a href="orden.html" class="tarjeta">
-            <h2>+ Nueva orden</h2>
-            <p>
-                Crear una nueva orden de trabajo.
-            </p>
-        </a>
+    <!-- ======================================
+         MARCA DE AGUA SIMPLEXTALLER
+    ======================================= -->
 
-        <a href="ordenes.html" class="tarjeta">
-            <h2>Órdenes de trabajo</h2>
-            <p>
-                Consultar y administrar las órdenes realizadas.
-            </p>
-        </a>
+    <div class="marca-agua-dashboard">
 
-        <a href="clientes.html" class="tarjeta">
-            <h2>Clientes</h2>
-            <p>
-                Consultar y administrar los clientes del taller.
-            </p>
-        </a>
+        <img
+            src="img/logo-simplextaller.png"
+            alt=""
+        >
 
-        <a href="configuracion.html" class="tarjeta">
-            <h2>Configuración</h2>
-            <p>
-                Personalizar la información de tu taller.
-            </p>
-        </a>
+    </div>
 
-    </section>
 
-</main>
+
+    <!-- ======================================
+         CARGANDO
+    ======================================= -->
+
+    <div id="cargando">
+
+        <div class="cargando-icono"></div>
+
+        Cargando tu taller...
+
+    </div>
+
+
+
+    <!-- ======================================
+         CONTENIDO PRINCIPAL
+    ======================================= -->
+
+    <main
+        id="contenido"
+        class="oculto"
+    >
+
+
+        <!-- ==================================
+             BIENVENIDA / TALLER
+        =================================== -->
+
+        <section class="bienvenida">
+
+
+            <div class="perfil-taller">
+
+
+                <!-- LOGO PROPIO DEL TALLER -->
+
+                <div class="logo-taller">
+
+                    <img
+                        id="logoTaller"
+                        alt="Logo del taller"
+                    >
+
+                </div>
+
+
+
+                <!-- DATOS DEL TALLER -->
+
+                <div>
+
+                    <span class="etiqueta-panel">
+                        Panel principal
+                    </span>
+
+
+                    <h1 id="nombreTaller">
+                        Mi taller
+                    </h1>
+
+
+                    <div id="responsable"></div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             TÍTULO DE ACCESOS
+        =================================== -->
+
+        <div class="encabezado-accesos">
+
+            <div>
+
+                <h2>
+                    Gestión del taller
+                </h2>
+
+                <p>
+                    Accede rápidamente a las principales herramientas de tu taller.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==================================
+             TARJETAS
+        =================================== -->
+
+        <section class="tarjetas">
+
+
+            <!-- ==================================
+                 NUEVA ORDEN
+            =================================== -->
+
+            <a
+                href="orden.html"
+                class="tarjeta tarjeta-principal"
+            >
+
+
+                <div class="tarjeta-icono">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+
+                        <path d="M12 5v14"></path>
+
+                        <path d="M5 12h14"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3>
+                    Nueva orden
+                </h3>
+
+
+                <p>
+                    Registra un vehículo y crea una nueva orden de trabajo para comenzar el servicio.
+                </p>
+
+
+                <div class="tarjeta-accion">
+
+                    <span>
+                        Crear orden
+                    </span>
+
+
+                    <span class="tarjeta-flecha">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- ==================================
+                 ÓRDENES DE TRABAJO
+            =================================== -->
+
+            <a
+                href="ordenes.html"
+                class="tarjeta"
+            >
+
+
+                <div class="tarjeta-icono">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"
+                        ></path>
+
+                        <rect
+                            x="9"
+                            y="3"
+                            width="6"
+                            height="4"
+                            rx="1"
+                        ></rect>
+
+                        <path d="M9 12h6"></path>
+
+                        <path d="M9 16h6"></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3>
+                    Órdenes de trabajo
+                </h3>
+
+
+                <p>
+                    Consulta, revisa y administra todas las órdenes registradas en el taller.
+                </p>
+
+
+                <div class="tarjeta-accion">
+
+                    <span>
+                        Ver órdenes
+                    </span>
+
+
+                    <span class="tarjeta-flecha">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- ==================================
+                 CLIENTES
+            =================================== -->
+
+            <a
+                href="clientes.html"
+                class="tarjeta"
+            >
+
+
+                <div class="tarjeta-icono">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+
+                        <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"
+                        ></path>
+
+                        <circle
+                            cx="9"
+                            cy="7"
+                            r="4"
+                        ></circle>
+
+                        <path
+                            d="M22 21v-2a4 4 0 0 0-3-3.87"
+                        ></path>
+
+                        <path
+                            d="M16 3.13a4 4 0 0 1 0 7.75"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3>
+                    Clientes
+                </h3>
+
+
+                <p>
+                    Gestiona los datos de tus clientes y mantén organizada su información.
+                </p>
+
+
+                <div class="tarjeta-accion">
+
+                    <span>
+                        Administrar clientes
+                    </span>
+
+
+                    <span class="tarjeta-flecha">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+
+            <!-- ==================================
+                 CONFIGURACIÓN
+            =================================== -->
+
+            <a
+                href="configuracion.html"
+                class="tarjeta"
+            >
+
+
+                <div class="tarjeta-icono">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+
+                        <circle
+                            cx="12"
+                            cy="12"
+                            r="3"
+                        ></circle>
+
+                        <path
+                            d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 .6 1.7 1.7 0 0 0-.4 1.1V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.5 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-.6-1 1.7 1.7 0 0 0-1.1-.4H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 8.5a1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-.6 1.7 1.7 0 0 0 .4-1.1V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15.5 4.6a1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.14.36.35.68.6 1 .3.3.7.5 1.1.5H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15z"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3>
+                    Configuración
+                </h3>
+
+
+                <p>
+                    Personaliza la información, logo y opciones de trabajo de tu taller.
+                </p>
+
+
+                <div class="tarjeta-accion">
+
+                    <span>
+                        Configurar taller
+                    </span>
+
+
+                    <span class="tarjeta-flecha">
+                        →
+                    </span>
+
+                </div>
+
+
+            </a>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+<!-- ==========================================
+     SUPABASE
+========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="js/supabase.js"></script>
+
 
 <script>
 
+/* ==========================================
+   CARGAR DASHBOARD
+========================================== */
+
 async function cargarDashboard() {
+
+    const cargando =
+        document.getElementById(
+            "cargando"
+        );
+
+    const contenido =
+        document.getElementById(
+            "contenido"
+        );
+
 
     try {
 
-        // Comprobar quién inició sesión
+        /* ======================================
+           COMPROBAR USUARIO
+        ====================================== */
+
         const {
             data: { user },
             error: errorUsuario
         } = await supabaseClient.auth.getUser();
 
-        // Si no existe una sesión válida, regresar al login
-        if (errorUsuario || !user) {
-            window.location.href = "login.html";
+
+        if (
+            errorUsuario ||
+            !user
+        ) {
+
+            window.location.href =
+                "login.html";
+
             return;
+
         }
 
-        // Buscar el taller correspondiente al usuario
+
+        /* ======================================
+           OBTENER TALLER
+        ====================================== */
+
         const {
             data: taller,
             error: errorTaller
@@ -261,12 +1968,23 @@ async function cargarDashboard() {
                 logo_url,
                 activo
             `)
-            .eq("usuario_id", user.id)
+            .eq(
+                "usuario_id",
+                user.id
+            )
             .single();
 
+
         if (errorTaller) {
+
             throw errorTaller;
+
         }
+
+
+        /* ======================================
+           COMPROBAR SI EL TALLER ESTÁ ACTIVO
+        ====================================== */
 
         if (!taller.activo) {
 
@@ -274,75 +1992,270 @@ async function cargarDashboard() {
                 "Este taller se encuentra desactivado."
             );
 
+
             await supabaseClient.auth.signOut();
 
-            window.location.href = "login.html";
+
+            window.location.href =
+                "login.html";
+
 
             return;
+
         }
 
-        document.getElementById(
-            "nombreTaller"
-        ).textContent = taller.nombre_taller;
 
-        document.getElementById(
-            "responsable"
-        ).textContent =
-            "Responsable: " +
-            taller.nombre_responsable;
-// Mostrar logo del taller
+        /* ======================================
+           MOSTRAR NOMBRE DEL TALLER
+        ====================================== */
 
-const logo =
-    document.getElementById("logoTaller");
+        const nombreTaller =
+            document.getElementById(
+                "nombreTaller"
+            );
 
-if (taller.logo_url) {
 
-    logo.src =
-        taller.logo_url +
-        "?v=" +
-        Date.now();
+        nombreTaller.textContent =
+            taller.nombre_taller ||
+            "Mi taller";
 
-    logo.style.display = "block";
 
-} else {
+        /* ======================================
+           MOSTRAR RESPONSABLE
+        ====================================== */
 
-    logo.style.display = "none";
-}
-        document.getElementById(
-            "cargando"
-        ).classList.add("oculto");
+        const responsable =
+            document.getElementById(
+                "responsable"
+            );
 
-        document.getElementById(
-            "contenido"
-        ).classList.remove("oculto");
+
+        responsable.textContent =
+            taller.nombre_responsable
+                ? "Responsable: " +
+                  taller.nombre_responsable
+                : "Responsable no especificado";
+
+
+        /* ======================================
+           MOSTRAR LOGO DEL TALLER
+        ====================================== */
+
+        const logoTaller =
+            document.getElementById(
+                "logoTaller"
+            );
+
+
+        const contenedorLogo =
+            document.querySelector(
+                ".logo-taller"
+            );
+
+
+        if (taller.logo_url) {
+
+            logoTaller.src =
+                taller.logo_url;
+
+
+            logoTaller.style.display =
+                "block";
+
+
+            contenedorLogo.style.display =
+                "flex";
+
+
+        } else {
+
+            /*
+            Si el taller todavía no tiene logo,
+            ocultamos el cuadro para que no aparezca
+            una imagen rota.
+            */
+
+            contenedorLogo.style.display =
+                "none";
+
+        }
+
+
+        /* ======================================
+           MOSTRAR DASHBOARD
+        ====================================== */
+
+        cargando.classList.add(
+            "oculto"
+        );
+
+
+        contenido.classList.remove(
+            "oculto"
+        );
+
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando dashboard:",
+            error
+        );
 
-        document.getElementById(
-            "cargando"
-        ).textContent =
-            "No se pudo cargar la información del taller.";
+
+        cargando.innerHTML = `
+            <div
+                style="
+                    max-width:520px;
+                    margin:auto;
+                    padding:22px;
+                    border:1px solid #fecaca;
+                    border-radius:12px;
+                    background:#fff1f2;
+                    color:#991b1b;
+                    line-height:1.5;
+                "
+            >
+                <strong>
+                    No se pudo cargar el taller
+                </strong>
+
+                <div style="margin-top:7px;">
+                    Intenta actualizar la página.
+                </div>
+            </div>
+        `;
+
     }
+
 }
 
 
-// Cerrar sesión
-document.getElementById(
-    "cerrarSesion"
-).addEventListener("click", async function() {
+/* ==========================================
+   CERRAR SESIÓN
+========================================== */
 
-    await supabaseClient.auth.signOut();
+document
+    .getElementById(
+        "cerrarSesion"
+    )
+    .addEventListener(
+        "click",
+        async function() {
 
-    window.location.href = "login.html";
+            const boton =
+                this;
 
-});
 
+            const textoOriginal =
+                boton.innerHTML;
+
+
+            boton.disabled =
+                true;
+
+
+            boton.innerHTML =
+                "Cerrando...";
+
+
+            try {
+
+                await supabaseClient
+                    .auth
+                    .signOut();
+
+
+                window.location.href =
+                    "login.html";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error cerrando sesión:",
+                    error
+                );
+
+
+                boton.disabled =
+                    false;
+
+
+                boton.innerHTML =
+                    textoOriginal;
+
+
+                alert(
+                    "No se pudo cerrar la sesión."
+                );
+
+            }
+
+        }
+    );
+
+
+/* ==========================================
+   EFECTO SUAVE EN LAS TARJETAS
+========================================== */
+
+const tarjetas =
+    document.querySelectorAll(
+        ".tarjeta"
+    );
+
+
+tarjetas.forEach(
+    function(tarjeta) {
+
+        tarjeta.addEventListener(
+            "mousemove",
+            function(evento) {
+
+                /*
+                Efecto de iluminación muy ligero
+                siguiendo el movimiento del mouse.
+                */
+
+                const rectangulo =
+                    tarjeta.getBoundingClientRect();
+
+
+                const x =
+                    evento.clientX -
+                    rectangulo.left;
+
+
+                const y =
+                    evento.clientY -
+                    rectangulo.top;
+
+
+                tarjeta.style.setProperty(
+                    "--mouse-x",
+                    x + "px"
+                );
+
+
+                tarjeta.style.setProperty(
+                    "--mouse-y",
+                    y + "px"
+                );
+
+            }
+        );
+
+    }
+);
+
+
+/* ==========================================
+   INICIAR
+========================================== */
 
 cargarDashboard();
 
 </script>
-
 </body>
 </html>

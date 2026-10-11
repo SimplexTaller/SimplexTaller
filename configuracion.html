@@ -222,6 +222,89 @@
 
     </div>
 
+<div class="tarjeta" style="margin-top: 25px;">
+
+    <h2>Personalizar orden de trabajo</h2>
+
+    <p>
+        Configura las casillas que aparecerán
+        en tus órdenes de trabajo.
+    </p>
+
+    <hr>
+
+    <h3>Inspección de recepción</h3>
+
+    <p>
+        Elementos que deseas revisar cuando
+        recibes un vehículo o equipo.
+    </p>
+
+    <div id="listaInspeccion"></div>
+
+    <div style="display:flex; gap:10px;">
+        <input
+            type="text"
+            id="nuevaInspeccion"
+            placeholder="Ej: Luces"
+        >
+
+        <button
+            type="button"
+            onclick="agregarOpcion('inspeccion')"
+            style="width:auto; margin-top:0;"
+        >
+            Agregar
+        </button>
+    </div>
+
+
+    <hr style="margin:30px 0;">
+
+
+    <h3>Servicios / trabajos</h3>
+
+    <p>
+        Servicios que podrás marcar al crear
+        una orden.
+    </p>
+
+    <div id="listaServicios"></div>
+
+    <div style="display:flex; gap:10px;">
+        <input
+            type="text"
+            id="nuevoServicio"
+            placeholder="Ej: Escaneo computarizado"
+        >
+
+        <button
+            type="button"
+            onclick="agregarOpcion('servicio')"
+            style="width:auto; margin-top:0;"
+        >
+            Agregar
+        </button>
+    </div>
+
+
+    <button
+        type="button"
+        onclick="cargarPlantillaAutomotriz()"
+        style="
+            margin-top:30px;
+            background:#374151;
+        "
+    >
+        Cargar plantilla automotriz
+    </button>
+
+    <div
+        id="mensajeOpciones"
+        style="margin-top:15px;"
+    ></div>
+
+</div>    
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Clientes | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .marca {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .descripcion {
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .tarjeta {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        .tarjeta h2 {
+            margin-top: 0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            border: 0;
+            border-radius: 7px;
+            padding: 12px;
+            margin-top: 20px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #mensaje {
+            margin-top: 15px;
+        }
+
+        .correcto {
+            color: #15803d;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        .cliente {
+            padding: 16px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .cliente:first-child {
+            padding-top: 0;
+        }
+
+        .cliente:last-child {
+            border-bottom: 0;
+        }
+
+        .cliente-nombre {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .cliente-dato {
+            color: #6b7280;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+
+        .sin-clientes {
+            color: #6b7280;
+        }
+
+        .contador {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 750px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="marca">SimplexTaller</div>
+    <a href="dashboard.html">← Volver al panel</a>
+</header>
+
+<main>
+
+    <h1>Clientes</h1>
+
+    <div class="descripcion">
+        Registra y consulta los clientes de tu taller.
+    </div>
+
+    <div class="grid">
+
+        <!-- REGISTRAR CLIENTE -->
+
+        <section class="tarjeta">
+
+            <h2>Nuevo cliente</h2>
+
+            <form id="formCliente">
+
+                <label for="nombre">
+                    Nombre *
+                </label>
+
+                <input
+                    type="text"
+                    id="nombre"
+                    required
+                >
+
+                <label for="correo">
+                    Correo electrónico
+                </label>
+
+                <input
+                    type="email"
+                    id="correo"
+                >
+
+                <label for="telefono">
+                    Teléfono
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefono"
+                >
+
+                <button
+                    type="submit"
+                    id="btnGuardar"
+                >
+                    Guardar cliente
+                </button>
+
+            </form>
+
+            <div id="mensaje"></div>
+
+        </section>
+
+
+        <!-- LISTA DE CLIENTES -->
+
+        <section class="tarjeta">
+
+            <h2>Mis clientes</h2>
+
+            <div
+                id="contador"
+                class="contador"
+            ></div>
+
+            <div id="listaClientes">
+                Cargando clientes...
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+const formulario =
+    document.getElementById("formCliente");
+
+const mensaje =
+    document.getElementById("mensaje");
+
+const boton =
+    document.getElementById("btnGuardar");
+
+const lista =
+    document.getElementById("listaClientes");
+
+const contador =
+    document.getElementById("contador");
+
+
+let usuarioActual = null;
+let tallerActual = null;
+
+
+// ==========================================
+// INICIAR PÁGINA
+// ==========================================
+
+async function iniciar() {
+
+    try {
+
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient.auth.getUser();
+
+
+        if (errorUsuario || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        usuarioActual = user;
+
+
+        const {
+            data: taller,
+            error: errorTaller
+        } = await supabaseClient
+            .from("talleres")
+            .select("id, activo")
+            .eq("usuario_id", user.id)
+            .single();
+
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+
+        if (!taller.activo) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        tallerActual = taller;
+
+        await cargarClientes();
+
+    } catch (error) {
+
+        console.error(error);
+
+        lista.innerHTML =
+            '<div class="error">' +
+            'Error: ' +
+            escaparHTML(error.message) +
+            '</div>';
+    }
+}
+
+
+// ==========================================
+// CARGAR CLIENTES
+// ==========================================
+
+async function cargarClientes() {
+
+    const {
+        data: clientes,
+        error
+    } = await supabaseClient
+        .from("clientes")
+        .select(`
+            id,
+            nombre,
+            correo,
+            telefono,
+            fecha_creacion
+        `)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        )
+        .order(
+            "fecha_creacion",
+            { ascending: false }
+        );
+
+
+    if (error) {
+        throw error;
+    }
+
+
+    contador.textContent =
+        clientes.length +
+        (clientes.length === 1
+            ? " cliente registrado"
+            : " clientes registrados");
+
+
+    if (clientes.length === 0) {
+
+        lista.innerHTML =
+            '<div class="sin-clientes">' +
+            'Todavía no tienes clientes registrados.' +
+            '</div>';
+
+        return;
+    }
+
+
+    lista.innerHTML = "";
+
+
+    clientes.forEach(function(cliente) {
+
+        const elemento =
+            document.createElement("div");
+
+        elemento.className =
+            "cliente";
+
+
+        elemento.innerHTML = `
+
+            <div class="cliente-nombre">
+                ${escaparHTML(cliente.nombre)}
+            </div>
+
+            <div class="cliente-dato">
+                Correo:
+                ${
+                    cliente.correo
+                    ? escaparHTML(cliente.correo)
+                    : "No registrado"
+                }
+            </div>
+
+            <div class="cliente-dato">
+                Teléfono:
+                ${
+                    cliente.telefono
+                    ? escaparHTML(cliente.telefono)
+                    : "No registrado"
+                }
+            </div>
+        `;
+
+
+        lista.appendChild(elemento);
+    });
+}
+
+
+// ==========================================
+// GUARDAR CLIENTE
+// ==========================================
+
+formulario.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        mensaje.textContent = "";
+        mensaje.className = "";
+
+        boton.disabled = true;
+        boton.textContent =
+            "Guardando...";
+
+
+        try {
+
+            if (!tallerActual) {
+
+                throw new Error(
+                    "No se pudo identificar el taller."
+                );
+            }
+
+
+            const nombre =
+                document.getElementById(
+                    "nombre"
+                ).value.trim();
+
+            const correo =
+                document.getElementById(
+                    "correo"
+                ).value.trim();
+
+            const telefono =
+                document.getElementById(
+                    "telefono"
+                ).value.trim();
+
+
+            if (!nombre) {
+
+                throw new Error(
+                    "Debes escribir el nombre del cliente."
+                );
+            }
+
+
+            const {
+                error
+            } = await supabaseClient
+                .from("clientes")
+                .insert({
+
+                    taller_id:
+                        tallerActual.id,
+
+                    nombre:
+                        nombre,
+
+                    correo:
+                        correo || null,
+
+                    telefono:
+                        telefono || null
+
+                });
+
+
+            if (error) {
+                throw error;
+            }
+
+
+            formulario.reset();
+
+
+            mensaje.className =
+                "correcto";
+
+            mensaje.textContent =
+                "Cliente guardado correctamente.";
+
+
+            await cargarClientes();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+            mensaje.className =
+                "error";
+
+            mensaje.textContent =
+                "Error: " +
+                error.message;
+
+        } finally {
+
+            boton.disabled = false;
+
+            boton.textContent =
+                "Guardar cliente";
+        }
+    }
+);
+
+
+// ==========================================
+// SEGURIDAD AL MOSTRAR TEXTO
+// ==========================================
+
+function escaparHTML(texto) {
+
+    const elemento =
+        document.createElement("div");
+
+    elemento.textContent =
+        texto ?? "";
+
+    return elemento.innerHTML;
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+</html>

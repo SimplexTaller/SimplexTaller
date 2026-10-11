@@ -7,6 +7,66 @@
     <title>Orden de trabajo | SimplexTaller</title>
 
     <style>
+        label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #9ca3af;
+    border-radius: 5px;
+    background: white;
+    font-size: 15px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.total-orden {
+    margin-top: 25px;
+    margin-left: auto;
+    max-width: 350px;
+    padding: 16px 20px;
+    background: #111827;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 20px;
+}
+
+.acciones-edicion {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.btn-guardar {
+    border: 0;
+    border-radius: 7px;
+    padding: 12px 20px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-guardar:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+#mensajeGuardar {
+    margin-top: 15px;
+    text-align: right;
+}
         * {
             box-sizing: border-box;
         }
@@ -496,7 +556,123 @@
             </div>
 
         </section>
+<!-- CIERRE DE LA ORDEN -->
 
+<section class="seccion">
+
+    <div class="seccion-titulo">
+        ESTADO Y COSTOS
+    </div>
+
+    <div class="contenido">
+
+        <div class="grid">
+
+            <div>
+                <label for="editarEstado">
+                    Estado de la orden
+                </label>
+
+                <select id="editarEstado">
+                    <option value="recibido">Recibido</option>
+                    <option value="diagnostico">Diagnóstico</option>
+                    <option value="reparacion">En reparación</option>
+                    <option value="terminado">Terminado</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="formaPago">
+                    Forma de pago
+                </label>
+
+                <select id="formaPago">
+                    <option value="">Sin especificar</option>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="tarjeta">Tarjeta</option>
+                    <option value="transferencia">Transferencia</option>
+                    <option value="cheque">Cheque</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="manoObra">
+                    Mano de obra (Bs.)
+                </label>
+
+                <input
+                    type="number"
+                    id="manoObra"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                >
+            </div>
+
+            <div>
+                <label for="repuestos">
+                    Repuestos (Bs.)
+                </label>
+
+                <input
+                    type="number"
+                    id="repuestos"
+                    min="0"
+                    step="0.01"
+                    value="0"
+                >
+            </div>
+
+        </div>
+
+
+        <div class="total-orden">
+
+            <span>TOTAL</span>
+
+            <strong id="totalOrden">
+                Bs. 0.00
+            </strong>
+
+        </div>
+
+
+        <div style="margin-top:20px;">
+
+            <label for="comentario">
+                Comentarios / observaciones
+            </label>
+
+            <textarea
+                id="comentario"
+                rows="4"
+                placeholder="Observaciones finales de la orden..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="acciones-edicion">
+
+            <button
+                type="button"
+                id="btnGuardarCambios"
+                class="btn-guardar"
+            >
+                Guardar cambios
+            </button>
+
+        </div>
+
+
+        <div id="mensajeGuardar"></div>
+
+    </div>
+
+</section>
     </article>
 
 </main>
@@ -508,7 +684,7 @@
 <script>
 
 let tallerActual = null;
-
+let ordenActual = null;
 
 // ==========================================
 // INICIAR
@@ -658,14 +834,58 @@ function mostrarOrden(
     taller,
     orden
 ) {
-
+ordenActual = orden;
     // Taller
 
     ponerTexto(
         "nombreTaller",
         taller.nombre_taller
     );
+// Estado editable
 
+document.getElementById(
+    "editarEstado"
+).value =
+    orden.estado || "recibido";
+
+
+// Costos
+
+document.getElementById(
+    "manoObra"
+).value =
+    Number(
+        orden.costo_mano_obra || 0
+    ).toFixed(2);
+
+
+document.getElementById(
+    "repuestos"
+).value =
+    Number(
+        orden.costo_repuestos || 0
+    ).toFixed(2);
+
+
+// Forma de pago
+
+document.getElementById(
+    "formaPago"
+).value =
+    orden.forma_pago || "";
+
+
+// Comentario
+
+document.getElementById(
+    "comentario"
+).value =
+    orden.comentario || "";
+
+
+// Calcular total visual
+
+calcularTotal();
 
     ponerTexto(
         "responsable",
@@ -963,8 +1183,227 @@ function formatearFechaHora(
         }
     );
 }
+// ==========================================
+// TOTAL
+// ==========================================
+
+function calcularTotal() {
+
+    const manoObra =
+        Number(
+            document.getElementById(
+                "manoObra"
+            ).value
+        ) || 0;
 
 
+    const repuestos =
+        Number(
+            document.getElementById(
+                "repuestos"
+            ).value
+        ) || 0;
+
+
+    const total =
+        manoObra +
+        repuestos;
+
+
+    document.getElementById(
+        "totalOrden"
+    ).textContent =
+        "Bs. " +
+        total.toFixed(2);
+}
+
+
+document
+    .getElementById("manoObra")
+    .addEventListener(
+        "input",
+        calcularTotal
+    );
+
+
+document
+    .getElementById("repuestos")
+    .addEventListener(
+        "input",
+        calcularTotal
+    );
+// ==========================================
+// GUARDAR CAMBIOS
+// ==========================================
+
+document
+    .getElementById(
+        "btnGuardarCambios"
+    )
+    .addEventListener(
+        "click",
+        async function() {
+
+            if (!ordenActual) {
+                return;
+            }
+
+
+            const boton = this;
+
+            const mensaje =
+                document.getElementById(
+                    "mensajeGuardar"
+                );
+
+
+            boton.disabled = true;
+
+            boton.textContent =
+                "Guardando...";
+
+            mensaje.textContent = "";
+
+
+            try {
+
+                const estado =
+                    document.getElementById(
+                        "editarEstado"
+                    ).value;
+
+
+                const manoObra =
+                    Number(
+                        document.getElementById(
+                            "manoObra"
+                        ).value
+                    ) || 0;
+
+
+                const repuestos =
+                    Number(
+                        document.getElementById(
+                            "repuestos"
+                        ).value
+                    ) || 0;
+
+
+                if (
+                    manoObra < 0 ||
+                    repuestos < 0
+                ) {
+
+                    throw new Error(
+                        "Los costos no pueden ser negativos."
+                    );
+                }
+
+
+                const cambios = {
+
+                    estado:
+                        estado,
+
+                    costo_mano_obra:
+                        manoObra,
+
+                    costo_repuestos:
+                        repuestos,
+
+                    forma_pago:
+                        document.getElementById(
+                            "formaPago"
+                        ).value || null,
+
+                    comentario:
+                        document.getElementById(
+                            "comentario"
+                        ).value.trim() || null,
+
+                    fecha_actualizacion:
+                        new Date().toISOString()
+
+                };
+
+
+                // Si se entrega, guardamos la fecha.
+
+                if (
+                    estado === "entregado" &&
+                    ordenActual.estado !== "entregado"
+                ) {
+
+                    cambios.fecha_entrega =
+                        new Date().toISOString();
+                }
+
+
+                const {
+                    data,
+                    error
+                } = await supabaseClient
+                    .from("ordenes_trabajo")
+                    .update(cambios)
+                    .eq(
+                        "id",
+                        ordenActual.id
+                    )
+                    .eq(
+                        "taller_id",
+                        tallerActual.id
+                    )
+                    .select()
+                    .single();
+
+
+                if (error) {
+                    throw error;
+                }
+
+
+                ordenActual = data;
+
+
+                // Actualizar estado superior
+
+                ponerTexto(
+                    "estadoOrden",
+                    data.estado
+                );
+
+
+                calcularTotal();
+
+
+                mensaje.style.color =
+                    "#15803d";
+
+                mensaje.textContent =
+                    "Cambios guardados correctamente.";
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                mensaje.style.color =
+                    "#dc2626";
+
+                mensaje.textContent =
+                    "Error: " +
+                    error.message;
+
+
+            } finally {
+
+                boton.disabled = false;
+
+                boton.textContent =
+                    "Guardar cambios";
+            }
+        }
+    );
 iniciar();
 
 </script>

@@ -7,6 +7,26 @@
     <title>Clientes | SimplexTaller</title>
 
     <style>
+        .acciones-cliente {
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.acciones-cliente button {
+    width: auto;
+    margin: 0;
+    padding: 8px 12px;
+    font-size: 14px;
+}
+
+.btn-editar {
+    background: #2563eb;
+}
+
+.btn-eliminar {
+    background: #dc2626;
+}
         * {
             box-sizing: border-box;
         }
@@ -436,6 +456,25 @@ function mostrarClientes(clientes) {
                     : "No registrado"
                 }
             </div>
+            <div class="acciones-cliente">
+
+    <button
+        type="button"
+        class="btn-editar"
+        onclick="editarCliente('${cliente.id}')"
+    >
+        Editar
+    </button>
+
+    <button
+        type="button"
+        class="btn-eliminar"
+        onclick="eliminarCliente('${cliente.id}')"
+    >
+        Eliminar
+    </button>
+
+</div>
         `;
 
 
@@ -624,6 +663,154 @@ document
 
         mostrarClientes(resultados);
     });
+    async function editarCliente(id) {
+async function eliminarCliente(id) {
+
+    const cliente =
+        clientesGuardados.find(
+            function(c) {
+                return c.id === id;
+            }
+        );
+
+
+    if (!cliente) {
+        return;
+    }
+
+
+    const confirmar =
+        confirm(
+            '¿Seguro que deseas eliminar al cliente "' +
+            cliente.nombre +
+            '"?'
+        );
+
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("clientes")
+        .delete()
+        .eq("id", id)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Error al eliminar: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    await cargarClientes();
+}
+    const cliente =
+        clientesGuardados.find(
+            function(c) {
+                return c.id === id;
+            }
+        );
+
+    if (!cliente) {
+        return;
+    }
+
+
+    const nuevoNombre =
+        prompt(
+            "Nombre del cliente:",
+            cliente.nombre || ""
+        );
+
+    if (nuevoNombre === null) {
+        return;
+    }
+
+
+    const nombreLimpio =
+        nuevoNombre.trim();
+
+    if (!nombreLimpio) {
+
+        alert(
+            "El nombre del cliente no puede estar vacío."
+        );
+
+        return;
+    }
+
+
+    const nuevoCorreo =
+        prompt(
+            "Correo electrónico:",
+            cliente.correo || ""
+        );
+
+    if (nuevoCorreo === null) {
+        return;
+    }
+
+
+    const nuevoTelefono =
+        prompt(
+            "Teléfono:",
+            cliente.telefono || ""
+        );
+
+    if (nuevoTelefono === null) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("clientes")
+        .update({
+
+            nombre: nombreLimpio,
+
+            correo:
+                nuevoCorreo.trim() || null,
+
+            telefono:
+                nuevoTelefono.trim() || null
+
+        })
+        .eq("id", id)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        );
+
+
+    if (error) {
+
+        alert(
+            "Error al actualizar: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    await cargarClientes();
+}
+    
 iniciar();
 
 </script>

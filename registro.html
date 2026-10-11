@@ -216,11 +216,19 @@ formulario.addEventListener("submit", async function(event) {
         password: password,
 
         options: {
-            data: {
-                nombre_taller: nombreTaller,
-                nombre_responsable: responsable
-            }
-        }
+
+    emailRedirectTo:
+        window.location.origin +
+        window.location.pathname.replace(
+            "registro.html",
+            "login.html"
+        ),
+
+    data: {
+        nombre_taller: nombreTaller,
+        nombre_responsable: responsable
+    }
+}
     });
         if (error) {
             throw error;

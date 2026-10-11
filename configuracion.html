@@ -7,6 +7,36 @@
     <title>Configuración | SimplexTaller</title>
 
     <style>
+        .opcion-config {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.opcion-config span {
+    flex: 1;
+}
+
+.opcion-config button {
+    width: auto;
+    margin: 0;
+    padding: 7px 10px;
+}
+
+.btn-editar-opcion {
+    background: #2563eb;
+}
+
+.btn-eliminar-opcion {
+    background: #dc2626;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #e5e7eb;
+}
         * { box-sizing: border-box; }
 
         body {
@@ -423,7 +453,7 @@ async function cargarConfiguracion() {
         ).value = taller.direccion || "";
 
         mostrarLogo(taller.logo_url);
-
+        await cargarOpciones();
     } catch (error) {
 
         console.error(error);
@@ -732,7 +762,379 @@ formulario.addEventListener(
     }
 );
 
+async function cargarOpciones() {
 
+    if (!tallerActual) {
+        return;
+    }
+
+    const { data, error } =
+        await supabaseClient
+            .from("opciones_orden")
+            .select("*")
+            .eq("taller_id", tallerActual.id)
+            .eq("activo", true)
+            .order("orden", {
+                ascending: true
+            });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    mostrarOpciones(
+        data.filter(
+            opcion =>
+                opcion.tipo === "inspeccion"
+        ),
+        "listaInspeccion"
+    );
+
+    mostrarOpciones(
+        data.filter(
+            opcion =>
+                opcion.tipo === "servicio"
+        ),
+        "listaServicios"
+    );
+}
+
+
+function mostrarOpciones(opciones, contenedorId) {
+
+    const contenedor =
+        document.getElementById(contenedorId);
+
+    contenedor.innerHTML = "";
+
+    if (opciones.length === 0) {
+
+        contenedor.innerHTML =
+            '<p style="color:#6b7280;">' +
+            'No hay opciones configuradas.' +
+            '</p>';
+
+        return;
+    }
+
+    opciones.forEach(function(opcion) {
+
+        const fila =
+            document.createElement("div");
+
+        fila.className =
+            "opcion-config";
+
+        const nombre =
+            document.createElement("span");
+
+        nombre.textContent =
+            "☐ " + opcion.nombre;
+
+
+        const editar =
+            document.createElement("button");
+
+        editar.type = "button";
+        editar.className =
+            "btn-editar-opcion";
+
+        editar.textContent =
+            "Editar";
+
+        editar.addEventListener(
+            "click",
+            function() {
+                editarOpcion(
+                    opcion.id,
+                    opcion.nombre
+                );
+            }
+        );
+
+
+        const eliminar =
+            document.createElement("button");
+
+        eliminar.type = "button";
+        eliminar.className =
+            "btn-eliminar-opcion";
+
+        eliminar.textContent =
+            "Eliminar";
+
+        eliminar.addEventListener(
+            "click",
+            function() {
+                eliminarOpcion(
+                    opcion.id,
+                    opcion.nombre
+                );
+            }
+        );
+
+
+        fila.appendChild(nombre);
+        fila.appendChild(editar);
+        fila.appendChild(eliminar);
+
+        contenedor.appendChild(fila);
+    });
+}
+
+
+async function agregarOpcion(tipo) {
+
+    const input =
+        tipo === "inspeccion"
+            ? document.getElementById(
+                "nuevaInspeccion"
+            )
+            : document.getElementById(
+                "nuevoServicio"
+            );
+
+    const nombre =
+        input.value.trim();
+
+    if (!nombre) {
+        alert("Escribe el nombre de la opción.");
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("opciones_orden")
+            .insert({
+                taller_id:
+                    tallerActual.id,
+
+                tipo:
+                    tipo,
+
+                nombre:
+                    nombre
+            });
+
+    if (error) {
+        alert(
+            "Error: " +
+            error.message
+        );
+        return;
+    }
+
+    input.value = "";
+
+    await cargarOpciones();
+}
+
+
+async function editarOpcion(id, nombreActual) {
+
+    const nuevoNombre =
+        prompt(
+            "Nuevo nombre:",
+            nombreActual
+        );
+
+    if (nuevoNombre === null) {
+        return;
+    }
+
+    const nombre =
+        nuevoNombre.trim();
+
+    if (!nombre) {
+        alert(
+            "El nombre no puede estar vacío."
+        );
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("opciones_orden")
+            .update({
+                nombre: nombre
+            })
+            .eq("id", id)
+            .eq(
+                "taller_id",
+                tallerActual.id
+            );
+
+    if (error) {
+        alert(
+            "Error: " +
+            error.message
+        );
+        return;
+    }
+
+    await cargarOpciones();
+}
+
+
+async function eliminarOpcion(id, nombre) {
+
+    const confirmar =
+        confirm(
+            '¿Eliminar "' +
+            nombre +
+            '"?'
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+    const { error } =
+        await supabaseClient
+            .from("opciones_orden")
+            .delete()
+            .eq("id", id)
+            .eq(
+                "taller_id",
+                tallerActual.id
+            );
+
+    if (error) {
+        alert(
+            "Error: " +
+            error.message
+        );
+        return;
+    }
+
+    await cargarOpciones();
+}
+
+
+// ==========================================
+// PLANTILLA AUTOMOTRIZ
+// ==========================================
+
+async function cargarPlantillaAutomotriz() {
+
+    const confirmar =
+        confirm(
+            "¿Agregar la plantilla automotriz? " +
+            "Las opciones que ya tienes no se eliminarán."
+        );
+
+    if (!confirmar) {
+        return;
+    }
+
+
+    const inspeccion = [
+        "Limpiaparabrisas",
+        "Espejos",
+        "Luces",
+        "Placas",
+        "Emblemas",
+        "Radio",
+        "Control de alarma",
+        "Tapetes",
+        "A/C",
+        "Matrícula",
+        "Herramientas",
+        "Tuerca de seguridad",
+        "Gata",
+        "Llave de ruedas",
+        "Extintor",
+        "Encendedor",
+        "Antena",
+        "Llanta de emergencia"
+    ];
+
+
+    const servicios = [
+        "Limpieza de inyectores",
+        "Cambio de aceite y filtro",
+        "Cambio de aceite de caja",
+        "Limpieza cuerpo de aceleración",
+        "Limpieza válvula IAC",
+        "Cambio de kit de distribución",
+        "Servicio de frenos completo",
+        "Servicio de bomba de gasolina",
+        "Cambio de filtro y pre filtro de gas",
+        "Escaneo computarizado",
+        "Medición de compresión",
+        "Cambio de bujías"
+    ];
+
+
+    const registros = [];
+
+
+    inspeccion.forEach(
+        function(nombre, indice) {
+
+            registros.push({
+                taller_id:
+                    tallerActual.id,
+
+                tipo:
+                    "inspeccion",
+
+                nombre:
+                    nombre,
+
+                orden:
+                    indice + 1
+            });
+        }
+    );
+
+
+    servicios.forEach(
+        function(nombre, indice) {
+
+            registros.push({
+                taller_id:
+                    tallerActual.id,
+
+                tipo:
+                    "servicio",
+
+                nombre:
+                    nombre,
+
+                orden:
+                    indice + 1
+            });
+        }
+    );
+
+
+    const { error } =
+        await supabaseClient
+            .from("opciones_orden")
+            .insert(registros);
+
+
+    if (error) {
+
+        alert(
+            "Error: " +
+            error.message
+        );
+
+        return;
+    }
+
+
+    document.getElementById(
+        "mensajeOpciones"
+    ).textContent =
+        "Plantilla automotriz cargada correctamente.";
+
+
+    await cargarOpciones();
+}
 cargarConfiguracion();
 
 </script>

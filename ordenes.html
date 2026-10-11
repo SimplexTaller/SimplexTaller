@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Órdenes de trabajo | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f4f6;
+            color: #1f2937;
+        }
+
+        .barra-superior {
+            background: #111827;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .barra-superior a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .contenedor {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 0 15px;
+        }
+
+        .encabezado {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .btn-nueva {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 11px 16px;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        .busqueda {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        }
+
+        .busqueda input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th,
+        td {
+            padding: 13px 14px;
+            border-bottom: 1px solid #e5e7eb;
+            text-align: left;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: #e5e7eb;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .btn-ver {
+            border: 0;
+            background: #2563eb;
+            color: white;
+            padding: 7px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .vacio {
+            padding: 35px;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        .error {
+            padding: 15px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 600px) {
+
+            .encabezado {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .btn-nueva {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="barra-superior">
+
+    <strong>SimplexTaller</strong>
+
+    <a href="dashboard.html">
+        ← Volver al panel
+    </a>
+
+</div>
+
+
+<main class="contenedor">
+
+    <div class="encabezado">
+
+        <div>
+            <h1>Órdenes de trabajo</h1>
+            <div id="nombreTaller"></div>
+        </div>
+
+        <a
+            href="orden.html"
+            class="btn-nueva"
+        >
+            + Nueva orden
+        </a>
+
+    </div>
+
+
+    <div class="busqueda">
+
+        <input
+            type="search"
+            id="buscarOrden"
+            placeholder="Buscar por orden, cliente, placa, marca o modelo..."
+        >
+
+    </div>
+
+
+    <div id="mensaje"></div>
+
+
+    <div class="tabla-contenedor">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Orden</th>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Vehículo / Equipo</th>
+                    <th>Placa</th>
+                    <th>Estado</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="listaOrdenes">
+            </tbody>
+
+        </table>
+
+        <div
+            id="sinOrdenes"
+            class="vacio"
+            style="display:none;"
+        >
+            No hay órdenes de trabajo.
+        </div>
+
+    </div>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+let tallerActual = null;
+let ordenesGuardadas = [];
+
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+async function iniciar() {
+
+    try {
+
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient.auth.getUser();
+
+
+        if (errorUsuario || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        const {
+            data: taller,
+            error: errorTaller
+        } = await supabaseClient
+            .from("talleres")
+            .select(`
+                id,
+                nombre_taller,
+                activo
+            `)
+            .eq(
+                "usuario_id",
+                user.id
+            )
+            .single();
+
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+
+        if (!taller.activo) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        tallerActual = taller;
+
+
+        document.getElementById(
+            "nombreTaller"
+        ).textContent =
+            taller.nombre_taller;
+
+
+        await cargarOrdenes();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        mostrarError(
+            error.message
+        );
+    }
+}
+
+
+// ==========================================
+// CARGAR ÓRDENES
+// ==========================================
+
+async function cargarOrdenes() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("ordenes_trabajo")
+        .select(`
+            id,
+            numero_orden,
+            marca,
+            modelo,
+            placa,
+            estado,
+            fecha_creacion,
+            clientes (
+                nombre
+            )
+        `)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        )
+        .order(
+            "fecha_creacion",
+            {
+                ascending: false
+            }
+        );
+
+
+    if (error) {
+        throw error;
+    }
+
+
+    ordenesGuardadas =
+        data || [];
+
+
+    mostrarOrdenes(
+        ordenesGuardadas
+    );
+}
+
+
+// ==========================================
+// MOSTRAR ÓRDENES
+// ==========================================
+
+function mostrarOrdenes(ordenes) {
+
+    const tbody =
+        document.getElementById(
+            "listaOrdenes"
+        );
+
+    const sinOrdenes =
+        document.getElementById(
+            "sinOrdenes"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    if (ordenes.length === 0) {
+
+        sinOrdenes.style.display =
+            "block";
+
+        return;
+    }
+
+
+    sinOrdenes.style.display =
+        "none";
+
+
+    ordenes.forEach(
+        function(orden) {
+
+            const fila =
+                document.createElement(
+                    "tr"
+                );
+
+
+            // ORDEN
+
+            const tdOrden =
+                document.createElement(
+                    "td"
+                );
+
+            tdOrden.textContent =
+                "#" +
+                orden.numero_orden;
+
+
+            // FECHA
+
+            const tdFecha =
+                document.createElement(
+                    "td"
+                );
+
+            tdFecha.textContent =
+                formatearFecha(
+                    orden.fecha_creacion
+                );
+
+
+            // CLIENTE
+
+            const tdCliente =
+                document.createElement(
+                    "td"
+                );
+
+            tdCliente.textContent =
+                orden.clientes?.nombre ||
+                "Sin cliente";
+
+
+            // VEHÍCULO
+
+            const tdVehiculo =
+                document.createElement(
+                    "td"
+                );
+
+            const vehiculo =
+                [
+                    orden.marca,
+                    orden.modelo
+                ]
+                .filter(Boolean)
+                .join(" ");
+
+
+            tdVehiculo.textContent =
+                vehiculo ||
+                "Sin especificar";
+
+
+            // PLACA
+
+            const tdPlaca =
+                document.createElement(
+                    "td"
+                );
+
+            tdPlaca.textContent =
+                orden.placa || "-";
+
+
+            // ESTADO
+
+            const tdEstado =
+                document.createElement(
+                    "td"
+                );
+
+            const estado =
+                document.createElement(
+                    "span"
+                );
+
+            estado.className =
+                "estado";
+
+            estado.textContent =
+                orden.estado;
+
+            tdEstado.appendChild(
+                estado
+            );
+
+
+            // BOTÓN
+
+            const tdAccion =
+                document.createElement(
+                    "td"
+                );
+
+            const boton =
+                document.createElement(
+                    "button"
+                );
+
+            boton.type =
+                "button";
+
+            boton.className =
+                "btn-ver";
+
+            boton.textContent =
+                "Ver";
+
+            boton.addEventListener(
+                "click",
+                function() {
+
+                    window.location.href =
+                        "ver-orden.html?id=" +
+                        encodeURIComponent(
+                            orden.id
+                        );
+                }
+            );
+
+            tdAccion.appendChild(
+                boton
+            );
+
+
+            fila.appendChild(tdOrden);
+            fila.appendChild(tdFecha);
+            fila.appendChild(tdCliente);
+            fila.appendChild(tdVehiculo);
+            fila.appendChild(tdPlaca);
+            fila.appendChild(tdEstado);
+            fila.appendChild(tdAccion);
+
+            tbody.appendChild(fila);
+        }
+    );
+}
+
+
+// ==========================================
+// BUSCADOR
+// ==========================================
+
+document
+    .getElementById(
+        "buscarOrden"
+    )
+    .addEventListener(
+        "input",
+        function() {
+
+            const texto =
+                this.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!texto) {
+
+                mostrarOrdenes(
+                    ordenesGuardadas
+                );
+
+                return;
+            }
+
+
+            const filtradas =
+                ordenesGuardadas.filter(
+                    function(orden) {
+
+                        const datos = [
+
+                            orden.numero_orden,
+
+                            orden.clientes
+                                ?.nombre,
+
+                            orden.marca,
+
+                            orden.modelo,
+
+                            orden.placa,
+
+                            orden.estado
+
+                        ]
+                        .filter(
+                            dato =>
+                                dato !== null &&
+                                dato !== undefined
+                        )
+                        .join(" ")
+                        .toLowerCase();
+
+
+                        return datos.includes(
+                            texto
+                        );
+                    }
+                );
+
+
+            mostrarOrdenes(
+                filtradas
+            );
+        }
+    );
+
+
+// ==========================================
+// FECHA
+// ==========================================
+
+function formatearFecha(fecha) {
+
+    if (!fecha) {
+        return "-";
+    }
+
+
+    return new Date(
+        fecha
+    ).toLocaleDateString(
+        "es-BO",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric"
+        }
+    );
+}
+
+
+// ==========================================
+// ERROR
+// ==========================================
+
+function mostrarError(texto) {
+
+    const mensaje =
+        document.getElementById(
+            "mensaje"
+        );
+
+    mensaje.className =
+        "error";
+
+    mensaje.textContent =
+        "Error: " +
+        texto;
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+</html>

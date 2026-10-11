@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Orden de trabajo | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .barra-superior {
+            background: #111827;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .barra-superior a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .pagina {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 0 15px 50px;
+        }
+
+        .orden {
+            background: white;
+            border: 1px solid #9ca3af;
+            box-shadow: 0 5px 20px rgba(0,0,0,.08);
+        }
+
+        /* ENCABEZADO */
+
+        .encabezado {
+            display: grid;
+            grid-template-columns: 160px 1fr 180px;
+            gap: 20px;
+            align-items: center;
+            padding: 22px;
+            border-bottom: 2px solid #111827;
+        }
+
+        .logo {
+            width: 140px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .titulo {
+            text-align: center;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-size: 27px;
+        }
+
+        .titulo h2 {
+            margin: 7px 0;
+            font-size: 19px;
+        }
+
+        .responsable {
+            font-size: 14px;
+        }
+
+        .datos-orden {
+            text-align: right;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .numero {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        /* SECCIONES */
+
+        .seccion {
+            border-bottom: 1px solid #9ca3af;
+        }
+
+        .seccion-titulo {
+            background: #f3f4f6;
+            border-bottom: 1px solid #d1d5db;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+
+        .contenido {
+            padding: 18px 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px 25px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 13px 20px;
+        }
+
+        .dato strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #4b5563;
+            text-transform: uppercase;
+        }
+
+        .dato span {
+            min-height: 20px;
+            display: block;
+        }
+
+        /* CHECKS */
+
+        .checks {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px 20px;
+        }
+
+        .check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .casilla {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #111827;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .casilla.marcada::after {
+            content: "✓";
+        }
+
+        .combustible {
+            margin-top: 22px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .barra-combustible {
+            height: 15px;
+            flex: 1;
+            max-width: 400px;
+            border: 1px solid #111827;
+            background: #f3f4f6;
+        }
+
+        .nivel {
+            height: 100%;
+            background: #374151;
+        }
+
+        /* OPERACIONES */
+
+        .texto-operaciones {
+            white-space: pre-wrap;
+            min-height: 80px;
+            line-height: 1.5;
+        }
+
+        .estado {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #e5e7eb;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .vacio {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .cargando {
+            padding: 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 750px) {
+
+            .encabezado {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .logo {
+                margin: auto;
+            }
+
+            .datos-orden {
+                text-align: center;
+            }
+
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .checks {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .grid,
+            .grid-4,
+            .checks {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="barra-superior">
+
+    <strong>SimplexTaller</strong>
+
+    <a href="ordenes.html">
+        ← Volver a órdenes
+    </a>
+
+</div>
+
+
+<main class="pagina">
+
+    <div id="mensaje" class="cargando">
+        Cargando orden...
+    </div>
+
+
+    <article
+        id="orden"
+        class="orden"
+        style="display:none;"
+    >
+
+        <!-- ENCABEZADO -->
+
+        <header class="encabezado">
+
+            <div>
+                <img
+                    id="logoTaller"
+                    class="logo"
+                    alt="Logo del taller"
+                >
+            </div>
+
+            <div class="titulo">
+
+                <h1>
+                    ORDEN DE TRABAJO
+                </h1>
+
+                <h2 id="nombreTaller">
+                    Taller
+                </h2>
+
+                <div
+                    id="responsable"
+                    class="responsable"
+                ></div>
+
+            </div>
+
+            <div class="datos-orden">
+
+                <div
+                    id="numeroOrden"
+                    class="numero"
+                ></div>
+
+                <div id="fechaOrden"></div>
+
+                <div>
+                    Estado:
+                    <span
+                        id="estadoOrden"
+                        class="estado"
+                    ></span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- CLIENTE -->
+
+        <section class="seccion">
+
+            <div class="seccion-titulo">
+                DATOS DEL CLIENTE
+            </div>
+
+            <div class="contenido grid">
+
+                <div class="dato">
+                    <strong>Nombre</strong>
+                    <span id="clienteNombre"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Correo electrónico</strong>
+                    <span id="clienteCorreo"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Teléfono</strong>
+                    <span id="clienteTelefono"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- VEHÍCULO -->
+
+        <section class="seccion">
+
+            <div class="seccion-titulo">
+                DATOS DEL VEHÍCULO / EQUIPO
+            </div>
+
+            <div class="contenido grid-4">
+
+                <div class="dato">
+                    <strong>Marca</strong>
+                    <span id="marca"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Modelo</strong>
+                    <span id="modelo"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Año</strong>
+                    <span id="anio"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Color</strong>
+                    <span id="color"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Motor</strong>
+                    <span id="motor"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Placa</strong>
+                    <span id="placa"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Chasis / Serie</strong>
+                    <span id="chasis"></span>
+                </div>
+
+                <div class="dato">
+                    <strong>Kilometraje</strong>
+                    <span id="kilometraje"></span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- INSPECCIÓN -->
+
+        <section class="seccion">
+
+            <div class="seccion-titulo">
+                INSPECCIÓN DE RECEPCIÓN
+            </div>
+
+            <div class="contenido">
+
+                <div
+                    id="inspeccion"
+                    class="checks"
+                ></div>
+
+
+                <div class="combustible">
+
+                    <strong>
+                        Combustible:
+                    </strong>
+
+                    <div class="barra-combustible">
+
+                        <div
+                            id="nivelCombustible"
+                            class="nivel"
+                        ></div>
+
+                    </div>
+
+                    <strong
+                        id="textoCombustible"
+                    ></strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SERVICIOS -->
+
+        <section class="seccion">
+
+            <div class="seccion-titulo">
+                SERVICIOS / TRABAJOS
+            </div>
+
+            <div class="contenido">
+
+                <div
+                    id="servicios"
+                    class="checks"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- OPERACIONES -->
+
+        <section class="seccion">
+
+            <div class="seccion-titulo">
+                OPERACIONES SOLICITADAS
+            </div>
+
+            <div class="contenido">
+
+                <div
+                    id="fallaReportada"
+                    class="texto-operaciones"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </article>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+let tallerActual = null;
+
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+async function iniciar() {
+
+    try {
+
+        const parametros =
+            new URLSearchParams(
+                window.location.search
+            );
+
+        const ordenId =
+            parametros.get("id");
+
+
+        if (!ordenId) {
+
+            throw new Error(
+                "No se indicó qué orden deseas ver."
+            );
+        }
+
+
+        // Usuario conectado
+
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient.auth.getUser();
+
+
+        if (errorUsuario || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        // Taller
+
+        const {
+            data: taller,
+            error: errorTaller
+        } = await supabaseClient
+            .from("talleres")
+            .select(`
+                id,
+                nombre_taller,
+                nombre_responsable,
+                logo_url,
+                activo
+            `)
+            .eq(
+                "usuario_id",
+                user.id
+            )
+            .single();
+
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+
+        if (!taller.activo) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        tallerActual = taller;
+
+
+        // Buscar orden.
+        // taller_id añade una segunda comprobación
+        // además de las políticas RLS.
+
+        const {
+            data: orden,
+            error: errorOrden
+        } = await supabaseClient
+            .from("ordenes_trabajo")
+            .select(`
+                *,
+                clientes (
+                    nombre,
+                    correo,
+                    telefono
+                )
+            `)
+            .eq(
+                "id",
+                ordenId
+            )
+            .eq(
+                "taller_id",
+                taller.id
+            )
+            .single();
+
+
+        if (errorOrden) {
+            throw errorOrden;
+        }
+
+
+        mostrarOrden(
+            taller,
+            orden
+        );
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        const mensaje =
+            document.getElementById(
+                "mensaje"
+            );
+
+        mensaje.className =
+            "error";
+
+        mensaje.textContent =
+            "Error: " +
+            error.message;
+    }
+}
+
+
+// ==========================================
+// MOSTRAR ORDEN
+// ==========================================
+
+function mostrarOrden(
+    taller,
+    orden
+) {
+
+    // Taller
+
+    ponerTexto(
+        "nombreTaller",
+        taller.nombre_taller
+    );
+
+
+    ponerTexto(
+        "responsable",
+        "Responsable: " +
+        taller.nombre_responsable
+    );
+
+
+    const logo =
+        document.getElementById(
+            "logoTaller"
+        );
+
+
+    if (taller.logo_url) {
+
+        logo.src =
+            taller.logo_url +
+            "?v=" +
+            Date.now();
+
+    } else {
+
+        logo.style.display =
+            "none";
+    }
+
+
+    // Datos generales
+
+    ponerTexto(
+        "numeroOrden",
+        "OT #" +
+        orden.numero_orden
+    );
+
+
+    ponerTexto(
+        "fechaOrden",
+        formatearFechaHora(
+            orden.fecha_creacion
+        )
+    );
+
+
+    ponerTexto(
+        "estadoOrden",
+        orden.estado
+    );
+
+
+    // Cliente
+
+    ponerTexto(
+        "clienteNombre",
+        orden.clientes?.nombre
+    );
+
+
+    ponerTexto(
+        "clienteCorreo",
+        orden.clientes?.correo
+    );
+
+
+    ponerTexto(
+        "clienteTelefono",
+        orden.clientes?.telefono
+    );
+
+
+    // Vehículo
+
+    ponerTexto(
+        "marca",
+        orden.marca
+    );
+
+    ponerTexto(
+        "modelo",
+        orden.modelo
+    );
+
+    ponerTexto(
+        "anio",
+        orden.anio
+    );
+
+    ponerTexto(
+        "color",
+        orden.color
+    );
+
+    ponerTexto(
+        "motor",
+        orden.motor
+    );
+
+    ponerTexto(
+        "placa",
+        orden.placa
+    );
+
+    ponerTexto(
+        "chasis",
+        orden.chasis
+    );
+
+    ponerTexto(
+        "kilometraje",
+        orden.kilometraje
+    );
+
+
+    // Checklists guardados
+
+    mostrarChecks(
+        "inspeccion",
+        orden.inspeccion
+    );
+
+
+    mostrarChecks(
+        "servicios",
+        orden.servicios
+    );
+
+
+    // Combustible
+
+    const combustible =
+        Number(
+            orden.nivel_combustible ?? 0
+        );
+
+
+    document.getElementById(
+        "nivelCombustible"
+    ).style.width =
+        combustible + "%";
+
+
+    ponerTexto(
+        "textoCombustible",
+        combustible + "%"
+    );
+
+
+    // Operaciones
+
+    ponerTexto(
+        "fallaReportada",
+        orden.falla_reportada
+    );
+
+
+    // Mostrar documento
+
+    document.getElementById(
+        "mensaje"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "orden"
+    ).style.display =
+        "block";
+}
+
+
+// ==========================================
+// CHECKS
+// ==========================================
+
+function mostrarChecks(
+    contenedorId,
+    opciones
+) {
+
+    const contenedor =
+        document.getElementById(
+            contenedorId
+        );
+
+
+    contenedor.innerHTML = "";
+
+
+    if (
+        !Array.isArray(opciones) ||
+        opciones.length === 0
+    ) {
+
+        const vacio =
+            document.createElement(
+                "div"
+            );
+
+        vacio.className =
+            "vacio";
+
+        vacio.textContent =
+            "Ninguna opción marcada.";
+
+        contenedor.appendChild(
+            vacio
+        );
+
+        return;
+    }
+
+
+    opciones.forEach(
+        function(nombre) {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "check";
+
+
+            const casilla =
+                document.createElement(
+                    "span"
+                );
+
+            casilla.className =
+                "casilla marcada";
+
+
+            const texto =
+                document.createElement(
+                    "span"
+                );
+
+            texto.textContent =
+                nombre;
+
+
+            item.appendChild(
+                casilla
+            );
+
+            item.appendChild(
+                texto
+            );
+
+            contenedor.appendChild(
+                item
+            );
+        }
+    );
+}
+
+
+// ==========================================
+// UTILIDADES
+// ==========================================
+
+function ponerTexto(
+    id,
+    valor
+) {
+
+    document.getElementById(
+        id
+    ).textContent =
+        valor || "-";
+}
+
+
+function formatearFechaHora(
+    fecha
+) {
+
+    if (!fecha) {
+        return "-";
+    }
+
+
+    return new Date(
+        fecha
+    ).toLocaleString(
+        "es-BO",
+        {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        }
+    );
+}
+
+
+iniciar();
+
+</script>
+
+</body>
+</html>

@@ -7,6 +7,43 @@
     <title>Panel | SimplexTaller</title>
 
     <style>
+        .perfil-taller {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-taller {
+    width: 100px;
+    height: 100px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#logoTaller {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+}
+
+@media (max-width: 600px) {
+
+    .perfil-taller {
+        align-items: flex-start;
+    }
+
+    .logo-taller {
+        width: 75px;
+        height: 75px;
+        flex-shrink: 0;
+    }
+}
         * {
             box-sizing: border-box;
         }
@@ -110,6 +147,7 @@
             }
         }
     </style>
+    
 </head>
 
 <body>
@@ -134,13 +172,26 @@
 
     <section class="bienvenida">
 
-        <h1 id="nombreTaller">
-            Mi taller
-        </h1>
+    <div class="perfil-taller">
 
-        <div id="responsable"></div>
+        <div class="logo-taller">
+            <img
+                id="logoTaller"
+                alt="Logo del taller"
+            >
+        </div>
 
-    </section>
+        <div>
+            <h1 id="nombreTaller">
+                Mi taller
+            </h1>
+
+            <div id="responsable"></div>
+        </div>
+
+    </div>
+
+</section>
 
     <section class="tarjetas">
 
@@ -239,7 +290,24 @@ async function cargarDashboard() {
         ).textContent =
             "Responsable: " +
             taller.nombre_responsable;
+// Mostrar logo del taller
 
+const logo =
+    document.getElementById("logoTaller");
+
+if (taller.logo_url) {
+
+    logo.src =
+        taller.logo_url +
+        "?v=" +
+        Date.now();
+
+    logo.style.display = "block";
+
+} else {
+
+    logo.style.display = "none";
+}
         document.getElementById(
             "cargando"
         ).classList.add("oculto");

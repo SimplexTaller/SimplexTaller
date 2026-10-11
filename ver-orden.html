@@ -7,6 +7,37 @@
     <title>Orden de trabajo | SimplexTaller</title>
 
     <style>
+        .grid-firmas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
+    text-align: center;
+    padding-top: 45px;
+}
+
+.firma {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    font-size: 12px;
+}
+
+.linea-firma {
+    border-top: 1px solid #111827;
+}
+
+.firma span {
+    font-size: 11px;
+}
+        .btn-imprimir {
+    border: 0;
+    background: #2563eb;
+    color: white;
+    padding: 9px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
         label {
     display: block;
     margin-bottom: 6px;
@@ -278,7 +309,112 @@ textarea {
             padding: 40px;
             text-align: center;
         }
+        @media print {
 
+    @page {
+        size: A4;
+        margin: 8mm;
+    }
+
+    body {
+        background: white;
+        font-size: 11px;
+    }
+
+    .barra-superior {
+        display: none !important;
+    }
+
+    .pagina {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .orden {
+        border: 1px solid #111827;
+        box-shadow: none;
+    }
+
+    .encabezado {
+        padding: 10px 14px;
+        grid-template-columns: 120px 1fr 150px;
+    }
+
+    .logo {
+        width: 110px;
+        height: 70px;
+    }
+
+    .titulo h1 {
+        font-size: 21px;
+    }
+
+    .titulo h2 {
+        font-size: 16px;
+    }
+
+    .contenido {
+        padding: 10px 14px;
+    }
+
+    .seccion-titulo {
+        padding: 5px 14px;
+        background: #f3f4f6 !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .grid,
+    .grid-4 {
+        gap: 7px 15px;
+    }
+
+    .checks {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px 10px;
+    }
+
+    .combustible {
+        margin-top: 10px;
+    }
+
+    .total-orden {
+        background: #111827 !important;
+        color: white !important;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        padding: 8px 12px;
+    }
+
+    .acciones-edicion,
+    #mensajeGuardar {
+        display: none !important;
+    }
+
+    input,
+    select,
+    textarea {
+        border: 0;
+        padding: 2px;
+        appearance: none;
+        -webkit-appearance: none;
+        background: transparent;
+        color: #111827;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .grid-firmas {
+        padding-top: 35px;
+    }
+
+    .seccion {
+        break-inside: avoid;
+    }
+}
         @media (max-width: 750px) {
 
             .encabezado {
@@ -318,7 +454,15 @@ textarea {
 
 <div class="barra-superior">
 
-    <strong>SimplexTaller</strong>
+    <div style="display:flex; gap:15px; align-items:center;">
+
+    <button
+        type="button"
+        class="btn-imprimir"
+        onclick="window.print()"
+    >
+        Imprimir / PDF
+    </button>
 
     <a href="ordenes.html">
         ← Volver a órdenes
@@ -668,6 +812,39 @@ textarea {
 
 
         <div id="mensajeGuardar"></div>
+
+    </div>
+
+</section>
+        <section class="seccion firmas">
+
+    <div class="seccion-titulo">
+        CONFORMIDAD
+    </div>
+
+    <div class="contenido">
+
+        <div class="grid-firmas">
+
+            <div class="firma">
+                <div class="linea-firma"></div>
+                <strong>RECIBIDO POR</strong>
+                <span id="firmaResponsable"></span>
+            </div>
+
+            <div class="firma">
+                <div class="linea-firma"></div>
+                <strong>TRABAJADO POR</strong>
+                <span>________________</span>
+            </div>
+
+            <div class="firma">
+                <div class="linea-firma"></div>
+                <strong>FIRMA DEL CLIENTE</strong>
+                <span id="firmaCliente"></span>
+            </div>
+
+        </div>
 
     </div>
 
@@ -1039,7 +1216,15 @@ calcularTotal();
         "fallaReportada",
         orden.falla_reportada
     );
+    ponerTexto(
+    "firmaResponsable",
+    taller.nombre_responsable
+);
 
+ponerTexto(
+    "firmaCliente",
+    orden.clientes?.nombre
+);
 
     // Mostrar documento
 

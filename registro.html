@@ -219,30 +219,68 @@ formulario.addEventListener("submit", async function(event) {
     const password =
         document.getElementById("password").value;
 
+    const archivoLogo =
+        document.getElementById("logo").files[0];
+
     try {
 
-        // 1. Crear usuario en Supabase Auth
+        // ==========================================
+        // VALIDAR LOGO
+        // ==========================================
+
+        if (!archivoLogo) {
+            throw new Error(
+                "Debes seleccionar el logo del taller."
+            );
+        }
+
+        const tiposPermitidos = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if (!tiposPermitidos.includes(archivoLogo.type)) {
+            throw new Error(
+                "El logo debe ser JPG, PNG o WEBP."
+            );
+        }
+
+        const maximo = 2 * 1024 * 1024;
+
+        if (archivoLogo.size > maximo) {
+            throw new Error(
+                "El logo no puede superar los 2 MB."
+            );
+        }
+
+
+        // ==========================================
+        // CREAR USUARIO
+        // ==========================================
 
         const { data, error } =
-    await supabaseClient.auth.signUp({
-        email: correo,
-        password: password,
+            await supabaseClient.auth.signUp({
 
-        options: {
+                email: correo,
+                password: password,
 
-    emailRedirectTo:
-        window.location.origin +
-        window.location.pathname.replace(
-            "registro.html",
-            "login.html"
-        ),
+                options: {
 
-    data: {
-        nombre_taller: nombreTaller,
-        nombre_responsable: responsable
-    }
-}
-    });
+                    emailRedirectTo:
+                        window.location.origin +
+                        window.location.pathname.replace(
+                            "registro.html",
+                            "login.html"
+                        ),
+
+                    data: {
+                        nombre_taller: nombreTaller,
+                        nombre_responsable: responsable
+                    }
+                }
+            });
+
         if (error) {
             throw error;
         }
@@ -253,34 +291,104 @@ formulario.addEventListener("submit", async function(event) {
             );
         }
 
-        /*
-        Si Supabase exige confirmar el correo,
-        todavía no tendremos una sesión autenticada.
-        En ese caso guardaremos el perfil después
-        de que el usuario confirme e inicie sesión.
-        */
+
+        // ==========================================
+        // SI REQUIERE CONFIRMACIÓN DE CORREO
+        // ==========================================
 
         if (!data.session) {
 
             mensaje.innerHTML =
-                "Cuenta creada. Revisa tu correo electrónico " +
-                "y confirma tu cuenta antes de iniciar sesión.";
+                "Cuenta creada. Confirma tu correo electrónico. " +
+                "Después podrás iniciar sesión y configurar tu logo.";
 
             formulario.reset();
+
             return;
         }
 
-        // 2. Crear perfil del taller
 
-        
+        // ==========================================
+        // SUBIR LOGO
+        // ==========================================
+
+        boton.textContent = "Subiendo logo...";
+
+        const extension =
+            archivoLogo.name
+                .split(".")
+                .pop()
+                .toLowerCase();
+
+        const rutaLogo =
+            data.user.id +
+            "/logo." +
+            extension;
+
+        const {
+            error: errorLogo
+        } = await supabaseClient
+            .storage
+            .from("logos-talleres")
+            .upload(
+                rutaLogo,
+                archivoLogo,
+                {
+                    cacheControl: "3600",
+                    upsert: true
+                }
+            );
+
+        if (errorLogo) {
+            throw errorLogo;
+        }
+
+
+        // ==========================================
+        // OBTENER URL PÚBLICA
+        // ==========================================
+
+        const {
+            data: datosLogo
+        } = supabaseClient
+            .storage
+            .from("logos-talleres")
+            .getPublicUrl(rutaLogo);
+
+        const logoUrl =
+            datosLogo.publicUrl;
+
+
+        // ==========================================
+        // GUARDAR URL EN EL TALLER
+        // ==========================================
+
+        const {
+            error: errorActualizar
+        } = await supabaseClient
+            .from("talleres")
+            .update({
+                logo_url: logoUrl
+            })
+            .eq(
+                "usuario_id",
+                data.user.id
+            );
+
+        if (errorActualizar) {
+            throw errorActualizar;
+        }
+
 
         mensaje.textContent =
             "Cuenta creada correctamente.";
 
-        // Próximamente crearemos esta página
         setTimeout(function() {
-            window.location.href = "dashboard.html";
-        }, 1000);
+
+            window.location.href =
+                "dashboard.html";
+
+        }, 800);
 
     }
 
@@ -296,13 +404,11 @@ formulario.addEventListener("submit", async function(event) {
     finally {
 
         boton.disabled = false;
-        boton.textContent = "Crear cuenta";
 
+        boton.textContent =
+            "Crear cuenta";
     }
 
 });
 
 </script>
-
-</body>
-</html>

@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Nueva orden | SimplexTaller</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #eef1f5;
+            color: #1f2937;
+        }
+
+        .barra-superior {
+            background: #111827;
+            color: white;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .barra-superior a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .pagina {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px 50px;
+        }
+
+        .orden {
+            background: white;
+            border: 1px solid #d1d5db;
+            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+        }
+
+        /* ENCABEZADO */
+
+        .encabezado-orden {
+            padding: 22px;
+            display: grid;
+            grid-template-columns: 160px 1fr 180px;
+            gap: 20px;
+            align-items: center;
+            border-bottom: 2px solid #111827;
+        }
+
+        .logo {
+            width: 140px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .titulo {
+            text-align: center;
+        }
+
+        .titulo h1 {
+            margin: 0;
+            font-size: 27px;
+        }
+
+        .titulo h2 {
+            margin: 7px 0 0;
+            font-size: 18px;
+        }
+
+        .datos-fecha {
+            text-align: right;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* SECCIONES */
+
+        .seccion {
+            padding: 20px 22px;
+            border-bottom: 1px solid #9ca3af;
+        }
+
+        .seccion-titulo {
+            margin: -20px -22px 20px;
+            padding: 9px 22px;
+            background: #f3f4f6;
+            border-bottom: 1px solid #d1d5db;
+            font-weight: bold;
+            letter-spacing: .5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #9ca3af;
+            border-radius: 5px;
+            background: white;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        /* CHECKLIST */
+
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 11px 20px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            cursor: pointer;
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .check-item input {
+            width: 19px;
+            height: 19px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .vacio {
+            color: #6b7280;
+        }
+
+        /* COMBUSTIBLE */
+
+        .combustible {
+            margin-top: 25px;
+            display: grid;
+            grid-template-columns: 150px 1fr 70px;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .combustible input {
+            padding: 0;
+        }
+
+        #porcentajeCombustible {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* BOTONES */
+
+        .acciones {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: 0;
+            border-radius: 7px;
+            padding: 12px 20px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-guardar {
+            background: #2563eb;
+            color: white;
+        }
+
+        #mensaje {
+            margin-top: 15px;
+        }
+
+        .error {
+            color: #dc2626;
+        }
+
+        @media (max-width: 800px) {
+
+            .encabezado-orden {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .logo {
+                margin: auto;
+            }
+
+            .datos-fecha {
+                text-align: center;
+            }
+
+            .grid,
+            .grid-4 {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .checklist {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 520px) {
+
+            .grid,
+            .grid-4,
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+
+            .combustible {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="barra-superior">
+
+    <strong>SimplexTaller</strong>
+
+    <a href="dashboard.html">
+        ← Volver al panel
+    </a>
+
+</div>
+
+
+<div class="pagina">
+
+<form id="formOrden">
+
+<div class="orden">
+
+    <!-- ENCABEZADO -->
+
+    <header class="encabezado-orden">
+
+        <div>
+            <img
+                id="logoTaller"
+                class="logo"
+                alt="Logo del taller"
+            >
+        </div>
+
+        <div class="titulo">
+
+            <h1>ORDEN DE TRABAJO</h1>
+
+            <h2 id="nombreTaller">
+                Taller
+            </h2>
+
+            <div id="responsable"></div>
+
+        </div>
+
+        <div class="datos-fecha">
+
+            <div>
+                <strong>Orden:</strong>
+                Nueva
+            </div>
+
+            <div>
+                <strong>Fecha:</strong>
+                <span id="fecha"></span>
+            </div>
+
+            <div>
+                <strong>Hora:</strong>
+                <span id="hora"></span>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CLIENTE -->
+
+    <section class="seccion">
+
+        <div class="seccion-titulo">
+            DATOS DEL CLIENTE
+        </div>
+
+        <div class="grid">
+
+            <div>
+                <label for="cliente">
+                    Cliente *
+                </label>
+
+                <select id="cliente" required>
+                    <option value="">
+                        Seleccionar cliente...
+                    </option>
+                </select>
+            </div>
+
+            <div>
+                <label>
+                    Correo electrónico
+                </label>
+
+                <input
+                    id="clienteCorreo"
+                    readonly
+                >
+            </div>
+
+            <div>
+                <label>
+                    Teléfono
+                </label>
+
+                <input
+                    id="clienteTelefono"
+                    readonly
+                >
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- VEHÍCULO / EQUIPO -->
+
+    <section class="seccion">
+
+        <div class="seccion-titulo">
+            DATOS DEL VEHÍCULO / EQUIPO
+        </div>
+
+        <div class="grid-4">
+
+            <div>
+                <label>Marca</label>
+                <input id="marca">
+            </div>
+
+            <div>
+                <label>Modelo</label>
+                <input id="modelo">
+            </div>
+
+            <div>
+                <label>Año</label>
+                <input id="anio">
+            </div>
+
+            <div>
+                <label>Color</label>
+                <input id="color">
+            </div>
+
+            <div>
+                <label>Motor</label>
+                <input id="motor">
+            </div>
+
+            <div>
+                <label>Placa</label>
+                <input id="placa">
+            </div>
+
+            <div>
+                <label>Chasis / Serie</label>
+                <input id="chasis">
+            </div>
+
+            <div>
+                <label>Kilometraje</label>
+                <input id="kilometraje">
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- INSPECCIÓN -->
+
+    <section class="seccion">
+
+        <div class="seccion-titulo">
+            INSPECCIÓN DE RECEPCIÓN
+        </div>
+
+        <div
+            id="checkInspeccion"
+            class="checklist"
+        >
+            Cargando...
+        </div>
+
+
+        <div class="combustible">
+
+            <strong>
+                Nivel de combustible
+            </strong>
+
+            <input
+                type="range"
+                id="combustible"
+                min="0"
+                max="100"
+                step="25"
+                value="50"
+            >
+
+            <span id="porcentajeCombustible">
+                50%
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- SERVICIOS -->
+
+    <section class="seccion">
+
+        <div class="seccion-titulo">
+            SERVICIOS / TRABAJOS
+        </div>
+
+        <div
+            id="checkServicios"
+            class="checklist"
+        >
+            Cargando...
+        </div>
+
+    </section>
+
+
+    <!-- FALLA -->
+
+    <section class="seccion">
+
+        <div class="seccion-titulo">
+            OPERACIONES SOLICITADAS
+        </div>
+
+        <textarea
+            id="fallaReportada"
+            rows="5"
+            required
+            placeholder="Describe la falla, solicitud del cliente o trabajo requerido..."
+        ></textarea>
+
+    </section>
+
+</div>
+
+
+<div id="mensaje"></div>
+
+
+<div class="acciones">
+
+    <button
+        type="submit"
+        class="btn-guardar"
+        id="btnGuardar"
+    >
+        Guardar orden
+    </button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase.js"></script>
+
+<script>
+
+let usuarioActual = null;
+let tallerActual = null;
+let clientes = [];
+
+
+// ==========================================
+// FECHA Y HORA
+// ==========================================
+
+function mostrarFechaHora() {
+
+    const ahora = new Date();
+
+    document.getElementById(
+        "fecha"
+    ).textContent =
+        ahora.toLocaleDateString("es-BO");
+
+    document.getElementById(
+        "hora"
+    ).textContent =
+        ahora.toLocaleTimeString(
+            "es-BO",
+            {
+                hour: "2-digit",
+                minute: "2-digit"
+            }
+        );
+}
+
+
+// ==========================================
+// INICIAR
+// ==========================================
+
+async function iniciar() {
+
+    try {
+
+        const {
+            data: { user },
+            error: errorUsuario
+        } = await supabaseClient.auth.getUser();
+
+
+        if (errorUsuario || !user) {
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        usuarioActual = user;
+
+
+        const {
+            data: taller,
+            error: errorTaller
+        } = await supabaseClient
+            .from("talleres")
+            .select(`
+                id,
+                nombre_taller,
+                nombre_responsable,
+                logo_url,
+                activo
+            `)
+            .eq(
+                "usuario_id",
+                user.id
+            )
+            .single();
+
+
+        if (errorTaller) {
+            throw errorTaller;
+        }
+
+
+        if (!taller.activo) {
+
+            await supabaseClient.auth.signOut();
+
+            window.location.href =
+                "login.html";
+
+            return;
+        }
+
+
+        tallerActual = taller;
+
+
+        // Nombre del taller
+
+        document.getElementById(
+            "nombreTaller"
+        ).textContent =
+            taller.nombre_taller;
+
+
+        document.getElementById(
+            "responsable"
+        ).textContent =
+            "Responsable: " +
+            taller.nombre_responsable;
+
+
+        // Logo
+
+        const logo =
+            document.getElementById(
+                "logoTaller"
+            );
+
+
+        if (taller.logo_url) {
+
+            logo.src =
+                taller.logo_url +
+                "?v=" +
+                Date.now();
+
+        } else {
+
+            logo.style.display =
+                "none";
+        }
+
+
+        await cargarClientes();
+        await cargarOpciones();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        const mensaje =
+            document.getElementById(
+                "mensaje"
+            );
+
+        mensaje.className =
+            "error";
+
+        mensaje.textContent =
+            "Error: " +
+            error.message;
+    }
+}
+
+
+// ==========================================
+// CLIENTES
+// ==========================================
+
+async function cargarClientes() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("clientes")
+        .select(`
+            id,
+            nombre,
+            correo,
+            telefono
+        `)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        )
+        .order(
+            "nombre",
+            { ascending: true }
+        );
+
+
+    if (error) {
+        throw error;
+    }
+
+
+    clientes = data || [];
+
+
+    const select =
+        document.getElementById(
+            "cliente"
+        );
+
+
+    clientes.forEach(function(cliente) {
+
+        const opcion =
+            document.createElement(
+                "option"
+            );
+
+        opcion.value =
+            cliente.id;
+
+        opcion.textContent =
+            cliente.nombre;
+
+        select.appendChild(opcion);
+    });
+}
+
+
+document
+    .getElementById("cliente")
+    .addEventListener(
+        "change",
+        function() {
+
+            const cliente =
+                clientes.find(
+                    c =>
+                        c.id ===
+                        this.value
+                );
+
+
+            document.getElementById(
+                "clienteCorreo"
+            ).value =
+                cliente?.correo || "";
+
+
+            document.getElementById(
+                "clienteTelefono"
+            ).value =
+                cliente?.telefono || "";
+        }
+    );
+
+
+// ==========================================
+// OPCIONES PERSONALIZADAS
+// ==========================================
+
+async function cargarOpciones() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("opciones_orden")
+        .select(`
+            id,
+            tipo,
+            nombre,
+            orden
+        `)
+        .eq(
+            "taller_id",
+            tallerActual.id
+        )
+        .eq(
+            "activo",
+            true
+        )
+        .order(
+            "orden",
+            { ascending: true }
+        );
+
+
+    if (error) {
+        throw error;
+    }
+
+
+    const inspeccion =
+        data.filter(
+            opcion =>
+                opcion.tipo ===
+                "inspeccion"
+        );
+
+
+    const servicios =
+        data.filter(
+            opcion =>
+                opcion.tipo ===
+                "servicio"
+        );
+
+
+    crearChecks(
+        inspeccion,
+        "checkInspeccion",
+        "inspeccion"
+    );
+
+
+    crearChecks(
+        servicios,
+        "checkServicios",
+        "servicio"
+    );
+}
+
+
+function crearChecks(
+    opciones,
+    contenedorId,
+    clase
+) {
+
+    const contenedor =
+        document.getElementById(
+            contenedorId
+        );
+
+
+    contenedor.innerHTML = "";
+
+
+    if (opciones.length === 0) {
+
+        contenedor.innerHTML =
+            '<div class="vacio">' +
+            'No hay opciones configuradas.' +
+            '</div>';
+
+        return;
+    }
+
+
+    opciones.forEach(function(opcion) {
+
+        const label =
+            document.createElement(
+                "label"
+            );
+
+        label.className =
+            "check-item";
+
+
+        const checkbox =
+            document.createElement(
+                "input"
+            );
+
+        checkbox.type =
+            "checkbox";
+
+        checkbox.className =
+            clase;
+
+        checkbox.value =
+            opcion.nombre;
+
+
+        const texto =
+            document.createElement(
+                "span"
+            );
+
+        texto.textContent =
+            opcion.nombre;
+
+
+        label.appendChild(
+            checkbox
+        );
+
+        label.appendChild(
+            texto
+        );
+
+        contenedor.appendChild(
+            label
+        );
+    });
+}
+
+
+// ==========================================
+// COMBUSTIBLE
+// ==========================================
+
+const combustible =
+    document.getElementById(
+        "combustible"
+    );
+
+
+combustible.addEventListener(
+    "input",
+    function() {
+
+        document.getElementById(
+            "porcentajeCombustible"
+        ).textContent =
+            this.value + "%";
+    }
+);
+
+
+// ==========================================
+// POR AHORA SOLO PROBAMOS LA INTERFAZ
+// ==========================================
+
+document
+    .getElementById("formOrden")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+            alert(
+                "La interfaz funciona. " +
+                "En el siguiente paso conectaremos " +
+                "el guardado de la orden con Supabase."
+            );
+        }
+    );
+
+
+mostrarFechaHora();
+iniciar();
+
+</script>
+
+</body>
+</html>

@@ -1,346 +1,1353 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Configuración | SimplexTaller</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Configuración | SimplexTaller
+    </title>
+
 
     <style>
-        .opcion-config {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid #e5e7eb;
-}
 
-.opcion-config span {
-    flex: 1;
-}
+        /* ==========================================
+           COLORES GENERALES
+        ========================================== */
 
-.opcion-config button {
-    width: auto;
-    margin: 0;
-    padding: 7px 10px;
-}
+        :root {
 
-.btn-editar-opcion {
-    background: #2563eb;
-}
+            --azul-profundo: #06192d;
 
-.btn-eliminar-opcion {
-    background: #dc2626;
-}
+            --azul-oscuro: #071b32;
 
-hr {
-    border: 0;
-    border-top: 1px solid #e5e7eb;
-}
-        * { box-sizing: border-box; }
+            --azul-marino: #0b3158;
+
+            --azul: #125a9c;
+
+            --azul-claro: #2584d8;
+
+            --plomo-oscuro: #475569;
+
+            --plomo: #94a3b8;
+
+            --plomo-claro: #e2e8f0;
+
+            --blanco: #ffffff;
+
+            --fondo: #eef2f6;
+
+            --texto: #162033;
+
+            --texto-secundario: #64748b;
+
+            --verde: #16a34a;
+
+            --rojo: #dc2626;
+
+        }
+
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
 
         body {
+
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-            color: #1f2937;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: var(--fondo);
+
+            color: var(--texto);
+
+            min-height: 100vh;
+
         }
+
+
+        /* ==========================================
+           CABECERA
+        ========================================== */
 
         header {
-            background: #111827;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-profundo),
+                    var(--azul-marino)
+                );
+
             color: white;
-            padding: 18px 6%;
+
+            padding: 15px 6%;
+
             display: flex;
+
             justify-content: space-between;
+
             align-items: center;
+
+            gap: 20px;
+
+            box-shadow:
+                0 5px 20px rgba(6,25,45,.15);
+
         }
 
-        header a {
-            color: white;
-            text-decoration: none;
-        }
 
         .marca {
-            font-size: 22px;
-            font-weight: bold;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
         }
+
+
+        .marca-logo {
+
+            width: 60px;
+
+            height: 60px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            border-radius: 12px;
+
+            background: #06192d;
+
+            border:
+                1px solid rgba(255,255,255,.18);
+
+        }
+
+
+        .marca-logo img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: contain;
+
+        }
+
+
+        .marca-texto strong {
+
+            display: block;
+
+            font-size: 21px;
+
+            letter-spacing: .3px;
+
+        }
+
+
+        .marca-texto span {
+
+            display: block;
+
+            margin-top: 4px;
+
+            font-size: 12px;
+
+            color: #cbd5e1;
+
+        }
+
+
+        .volver-panel {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 10px 15px;
+
+            border:
+                1px solid rgba(255,255,255,.25);
+
+            border-radius: 9px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .2s;
+
+        }
+
+
+        .volver-panel:hover {
+
+            background:
+                rgba(255,255,255,.12);
+
+        }
+
+
+        /* ==========================================
+           CONTENIDO PRINCIPAL
+        ========================================== */
 
         main {
-            max-width: 700px;
-            margin: 40px auto;
+
+            width: 100%;
+
+            max-width: 1050px;
+
+            margin: 35px auto 60px;
+
             padding: 0 20px;
+
         }
+
+
+        .presentacion {
+
+            padding: 28px 30px;
+
+            margin-bottom: 25px;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-oscuro),
+                    var(--azul-marino)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 10px 30px rgba(6,25,45,.12);
+
+        }
+
+
+        .presentacion-etiqueta {
+
+            display: inline-block;
+
+            margin-bottom: 12px;
+
+            padding: 6px 10px;
+
+            border-radius: 7px;
+
+            background:
+                rgba(255,255,255,.12);
+
+            color: #dbeafe;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            letter-spacing: .7px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .presentacion h1 {
+
+            margin: 0 0 10px;
+
+            font-size: 28px;
+
+        }
+
+
+        .presentacion p {
+
+            margin: 0;
+
+            max-width: 720px;
+
+            color: #cbd5e1;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+
+        }
+
+
+        /* ==========================================
+           NAVEGACIÓN POR PESTAÑAS
+        ========================================== */
+
+        .navegacion-config {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 7px;
+
+            margin-bottom: 24px;
+
+            border-radius: 13px;
+
+            background: white;
+
+            border:
+                1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 18px rgba(15,23,42,.05);
+
+        }
+
+
+        .tab-config {
+
+            flex: 1;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 9px;
+
+            padding: 14px 18px;
+
+            margin: 0;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background: transparent;
+
+            color: var(--texto-secundario);
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+        }
+
+
+        .tab-config:hover {
+
+            background: #f1f5f9;
+
+            color: var(--azul-marino);
+
+        }
+
+
+        .tab-config.activo {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-marino),
+                    var(--azul)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 5px 15px rgba(18,90,156,.18);
+
+        }
+
+
+        .tab-config svg {
+
+            width: 19px;
+
+            height: 19px;
+
+            flex-shrink: 0;
+
+        }
+
+
+        /* ==========================================
+           VISTAS
+        ========================================== */
+
+        .vista-config {
+
+            width: 100%;
+
+        }
+
+
+        .oculto {
+
+            display: none !important;
+
+        }
+
+
+        /* ==========================================
+           TARJETAS
+        ========================================== */
 
         .tarjeta {
-            background: white;
+
             padding: 30px;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,.06);
+
+            margin-bottom: 22px;
+
+            border-radius: 16px;
+
+            background: white;
+
+            border:
+                1px solid #e2e8f0;
+
+            box-shadow:
+                0 8px 28px rgba(15,23,42,.06);
+
         }
 
-        h1 {
-            margin-top: 0;
+
+        .tarjeta h2 {
+
+            margin: 0 0 9px;
+
+            color: var(--azul-oscuro);
+
+            font-size: 21px;
+
         }
+
+
+        .tarjeta h3 {
+
+            margin: 0 0 10px;
+
+            color: var(--azul-marino);
+
+            font-size: 17px;
+
+        }
+
+
+        .tarjeta p {
+
+            margin: 0 0 20px;
+
+            color: var(--texto-secundario);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+        }
+
+
+        .separador {
+
+            height: 1px;
+
+            margin: 27px 0;
+
+            border: 0;
+
+            background: #e2e8f0;
+
+        }
+
+
+        /* ==========================================
+           FORMULARIOS
+        ========================================== */
 
         label {
+
             display: block;
+
             margin-top: 18px;
-            margin-bottom: 7px;
+
+            margin-bottom: 8px;
+
+            color: #334155;
+
+            font-size: 13px;
+
             font-weight: bold;
+
         }
+
 
         input {
+
             width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 7px;
-            font-size: 16px;
+
+            padding: 12px 13px;
+
+            border:
+                1px solid #cbd5e1;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: var(--texto);
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: .2s;
+
         }
 
-        .logo-contenedor {
-            margin: 20px 0;
-            min-height: 120px;
-            display: flex;
-            align-items: center;
+
+        input:focus {
+
+            border-color: var(--azul-claro);
+
+            box-shadow:
+                0 0 0 3px rgba(37,132,216,.12);
+
         }
 
-        #logoActual {
-            display: none;
-            max-width: 180px;
-            max-height: 140px;
-            object-fit: contain;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
-            padding: 8px;
+
+        input[type="file"] {
+
+            cursor: pointer;
+
+            background: #f8fafc;
+
         }
 
-        #sinLogo {
-            color: #6b7280;
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 0 20px;
+
         }
+
+
+        .form-grupo {
+
+            min-width: 0;
+
+        }
+
+
+        .form-grupo.ancho-completo {
+
+            grid-column: 1 / -1;
+
+        }
+
 
         small {
+
             display: block;
-            margin-top: 6px;
-            color: #6b7280;
+
+            margin-top: 8px;
+
+            color: var(--texto-secundario);
+
+            font-size: 12px;
+
+            line-height: 1.5;
+
         }
 
-        button {
+
+        /* ==========================================
+           LOGOTIPO DEL TALLER
+        ========================================== */
+
+        .logo-contenedor {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            min-height: 175px;
+
+            margin: 20px 0;
+
+            padding: 20px;
+
+            border:
+                1px dashed #cbd5e1;
+
+            border-radius: 13px;
+
+            background: #f8fafc;
+
+        }
+
+
+        #logoActual {
+
+            display: none;
+
+            max-width: 230px;
+
+            max-height: 155px;
+
+            object-fit: contain;
+
+        }
+
+
+        #sinLogo {
+
+            color: var(--texto-secundario);
+
+            font-size: 13px;
+
+            text-align: center;
+
+        }
+
+
+        /* ==========================================
+           BOTONES
+        ========================================== */
+
+        .btn-principal {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 8px;
+
             width: 100%;
+
             margin-top: 25px;
-            padding: 13px;
+
+            padding: 14px 18px;
+
             border: 0;
-            border-radius: 8px;
-            background: #2563eb;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--azul-marino),
+                    var(--azul)
+                );
+
             color: white;
-            font-size: 16px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+        }
+
+
+        .btn-principal:hover {
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 17px rgba(18,90,156,.2);
+
+        }
+
+
+        button:disabled {
+
+            opacity: .6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* ==========================================
+           MENSAJES
+        ========================================== */
+
+        #mensaje,
+        #mensajeOpciones {
+
+            margin-top: 17px;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .correcto {
+
+            color: var(--verde);
+
+        }
+
+
+        .error {
+
+            color: var(--rojo);
+
+        }
+        /* ==========================================
+           PERSONALIZAR ORDEN DE TRABAJO
+        ========================================== */
+
+        .opcion-config {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .opcion-config:last-child {
+            border-bottom: none;
+        }
+
+        .opcion-config span {
+            flex: 1;
+            min-width: 0;
+            color: #334155;
+            font-size: 14px;
+            overflow-wrap: anywhere;
+        }
+
+        .opcion-config button {
+            width: auto;
+            margin: 0;
+            padding: 9px 13px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        button:disabled {
-            opacity: .6;
-            cursor: not-allowed;
+        .btn-editar-opcion {
+            background: var(--azul);
         }
 
-        #mensaje {
-            margin-top: 20px;
-            line-height: 1.5;
+        .btn-editar-opcion:hover {
+            background: var(--azul-marino);
         }
 
-        .correcto {
-            color: #15803d;
+        .btn-eliminar-opcion {
+            background: var(--rojo);
         }
 
-        .error {
-            color: #dc2626;
+        .btn-eliminar-opcion:hover {
+            background: #b91c1c;
         }
+
+        .agregar-opcion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .agregar-opcion input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .btn-agregar {
+            width: auto;
+            flex-shrink: 0;
+            margin: 0;
+            padding: 13px 19px;
+            border: none;
+            border-radius: 9px;
+            background: var(--azul);
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-agregar:hover {
+            background: var(--azul-marino);
+        }
+
+        .btn-plantilla {
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--plomo-oscuro);
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .btn-plantilla:hover {
+            background: #334155;
+        }
+
+        .nota-config {
+            padding: 15px 17px;
+            margin-bottom: 22px;
+            border-left: 4px solid var(--azul-claro);
+            border-radius: 9px;
+            background: #eff6ff;
+            color: #334155;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        /* ==========================================
+           DISEÑO RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 13px 18px;
+            }
+
+            .marca-logo {
+                width: 48px;
+                height: 48px;
+            }
+
+            .marca-texto strong {
+                font-size: 17px;
+            }
+
+            .marca-texto span {
+                display: none;
+            }
+
+            .volver-panel {
+                padding: 9px 11px;
+                font-size: 12px;
+            }
+
+            main {
+                margin-top: 22px;
+                padding: 0 14px;
+            }
+
+            .presentacion {
+                padding: 23px 20px;
+            }
+
+            .presentacion h1 {
+                font-size: 23px;
+            }
+
+            .tab-config {
+                padding: 13px 9px;
+                font-size: 12px;
+            }
+
+            .tab-config svg {
+                width: 17px;
+                height: 17px;
+            }
+
+            .tarjeta {
+                padding: 22px 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .opcion-config {
+                flex-wrap: wrap;
+            }
+
+            .opcion-config span {
+                flex-basis: 100%;
+            }
+
+        }
+
+        @media (max-width: 420px) {
+
+            .agregar-opcion {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-agregar {
+                width: 100%;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
+<!-- ==========================================
+     CABECERA
+========================================== -->
+
 <header>
-    <div class="marca">SimplexTaller</div>
-    <a href="dashboard.html">← Volver al panel</a>
+
+    <div class="marca">
+
+        <div class="marca-logo">
+            <img
+                src="img/logo-simplextaller.png"
+                alt="SimplexTaller"
+            >
+        </div>
+
+        <div class="marca-texto">
+            <strong>SimplexTaller</strong>
+            <span>Configuración de tu taller</span>
+        </div>
+
+    </div>
+
+    <a
+        href="dashboard.html"
+        class="volver-panel"
+    >
+        ← Volver al panel
+    </a>
+
 </header>
+
 
 <main>
 
-    <div class="tarjeta">
+    <!-- ======================================
+         PRESENTACIÓN
+    ======================================= -->
 
-        <h1>Configuración del taller</h1>
+    <section class="presentacion">
+
+        <span class="presentacion-etiqueta">
+            Panel de configuración
+        </span>
+
+        <h1>Personaliza tu taller</h1>
 
         <p>
-            Actualiza la información que aparecerá en tus órdenes de trabajo.
+            Administra los datos de tu negocio
+            y configura las opciones que aparecerán
+            en tus órdenes de trabajo.
         </p>
 
-        <div class="logo-contenedor">
-
-            <img
-                id="logoActual"
-                alt="Logo del taller"
-            >
-
-            <span id="sinLogo">
-                Este taller todavía no tiene logotipo.
-            </span>
-
-        </div>
-
-        <form id="formConfiguracion">
-
-            <label for="nombreTaller">
-                Nombre del taller
-            </label>
-
-            <input
-                type="text"
-                id="nombreTaller"
-                required
-            >
-
-            <label for="responsable">
-                Nombre del responsable
-            </label>
-
-            <input
-                type="text"
-                id="responsable"
-                required
-            >
-
-            <label for="telefono">
-                Teléfono
-            </label>
-
-            <input
-                type="tel"
-                id="telefono"
-            >
-
-            <label for="direccion">
-                Dirección
-            </label>
-
-            <input
-                type="text"
-                id="direccion"
-            >
-
-            <label for="logo">
-                Cambiar logotipo
-            </label>
-
-            <input
-                type="file"
-                id="logo"
-                accept="image/png,image/jpeg,image/webp"
-            >
-
-            <small>
-                JPG, PNG o WEBP. Máximo 2 MB.
-                Si no seleccionas una imagen, se conservará el logo actual.
-            </small>
-
-            <button id="btnGuardar" type="submit">
-                Guardar cambios
-            </button>
-
-        </form>
-
-        <div id="mensaje"></div>
-
-    </div>
-
-<div class="tarjeta" style="margin-top: 25px;">
-
-    <h2>Personalizar orden de trabajo</h2>
-
-    <p>
-        Configura las casillas que aparecerán
-        en tus órdenes de trabajo.
-    </p>
-
-    <hr>
-
-    <h3>Inspección de recepción</h3>
-
-    <p>
-        Elementos que deseas revisar cuando
-        recibes un vehículo o equipo.
-    </p>
-
-    <div id="listaInspeccion"></div>
-
-    <div style="display:flex; gap:10px;">
-        <input
-            type="text"
-            id="nuevaInspeccion"
-            placeholder="Ej: Luces"
-        >
-
-        <button
-            type="button"
-            onclick="agregarOpcion('inspeccion')"
-            style="width:auto; margin-top:0;"
-        >
-            Agregar
-        </button>
-    </div>
+    </section>
 
 
-    <hr style="margin:30px 0;">
+    <!-- ======================================
+         PESTAÑAS
+    ======================================= -->
 
-
-    <h3>Servicios / trabajos</h3>
-
-    <p>
-        Servicios que podrás marcar al crear
-        una orden.
-    </p>
-
-    <div id="listaServicios"></div>
-
-    <div style="display:flex; gap:10px;">
-        <input
-            type="text"
-            id="nuevoServicio"
-            placeholder="Ej: Escaneo computarizado"
-        >
-
-        <button
-            type="button"
-            onclick="agregarOpcion('servicio')"
-            style="width:auto; margin-top:0;"
-        >
-            Agregar
-        </button>
-    </div>
-
-
-    <button
-        type="button"
-        onclick="cargarPlantillaAutomotriz()"
-        style="
-            margin-top:30px;
-            background:#374151;
-        "
+    <nav
+        class="navegacion-config"
+        aria-label="Secciones de configuración"
     >
-        Cargar plantilla automotriz
-    </button>
+
+        <button
+            type="button"
+            id="tabTaller"
+            class="tab-config activo"
+            aria-controls="vistaTaller"
+            aria-selected="true"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l7-4 7 4v14"></path>
+                <path d="M9 21v-6h6v6"></path>
+            </svg>
+
+            Configuración del taller
+
+        </button>
+
+
+        <button
+            type="button"
+            id="tabOrden"
+            class="tab-config"
+            aria-controls="vistaOrden"
+            aria-selected="false"
+        >
+
+            <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <rect
+                    x="5"
+                    y="3"
+                    width="14"
+                    height="18"
+                    rx="2"
+                ></rect>
+
+                <path d="M9 8h6"></path>
+                <path d="M9 12h6"></path>
+                <path d="M9 16h4"></path>
+            </svg>
+
+            Personalizar orden de trabajo
+
+        </button>
+
+    </nav>
+
+
+    <!-- ======================================
+         PESTAÑA 1: CONFIGURACIÓN DEL TALLER
+    ======================================= -->
 
     <div
-        id="mensajeOpciones"
-        style="margin-top:15px;"
-    ></div>
+        id="vistaTaller"
+        class="vista-config"
+    >
 
-</div>    
+        <section class="tarjeta">
+
+            <h2>Información del taller</h2>
+
+            <p>
+                Modifica los datos que identificarán
+                a tu taller en las órdenes de trabajo.
+            </p>
+
+            <div class="logo-contenedor">
+
+                <img
+                    id="logoActual"
+                    alt="Logotipo del taller"
+                >
+
+                <span id="sinLogo">
+                    Este taller todavía no tiene logotipo.
+                </span>
+
+            </div>
+
+
+            <form id="formConfiguracion">
+
+                <div class="form-grid">
+
+                    <div class="form-grupo">
+
+                        <label for="nombreTaller">
+                            Nombre del taller
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombreTaller"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-grupo">
+
+                        <label for="responsable">
+                            Nombre del responsable
+                        </label>
+
+                        <input
+                            type="text"
+                            id="responsable"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-grupo">
+
+                        <label for="telefono">
+                            Teléfono
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefono"
+                        >
+
+                    </div>
+
+
+                    <div class="form-grupo">
+
+                        <label for="direccion">
+                            Dirección
+                        </label>
+
+                        <input
+                            type="text"
+                            id="direccion"
+                        >
+
+                    </div>
+
+
+                    <div class="form-grupo ancho-completo">
+
+                        <label for="logo">
+                            Cambiar logotipo
+                        </label>
+
+                        <input
+                            type="file"
+                            id="logo"
+                            accept="image/png,image/jpeg,image/webp"
+                        >
+
+                        <small>
+                            JPG, PNG o WEBP. Máximo 2 MB.
+                            Si no seleccionas una imagen,
+                            se conservará el logotipo actual.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="btnGuardar"
+                    type="submit"
+                    class="btn-principal"
+                >
+                    Guardar cambios
+                </button>
+
+            </form>
+
+
+            <div
+                id="mensaje"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+    </div>
+
+
+    <!-- ======================================
+         PESTAÑA 2: PERSONALIZAR ORDEN
+    ======================================= -->
+
+    <div
+        id="vistaOrden"
+        class="vista-config oculto"
+    >
+
+        <div class="nota-config">
+            Las opciones que configures aquí
+            estarán disponibles al crear nuevas
+            órdenes de trabajo para tu taller.
+        </div>
+
+
+        <!-- INSPECCIÓN -->
+
+        <section class="tarjeta">
+
+            <h2>Inspección de recepción</h2>
+
+            <p>
+                Personaliza los elementos que
+                deseas revisar cuando recibes
+                un vehículo o equipo.
+            </p>
+
+            <div id="listaInspeccion"></div>
+
+
+            <div class="agregar-opcion">
+
+                <input
+                    type="text"
+                    id="nuevaInspeccion"
+                    placeholder="Ej: Luces"
+                    aria-label="Nueva opción de inspección"
+                >
+
+                <button
+                    type="button"
+                    class="btn-agregar"
+                    onclick="agregarOpcion('inspeccion')"
+                >
+                    + Agregar
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- SERVICIOS -->
+
+        <section class="tarjeta">
+
+            <h2>Servicios y trabajos</h2>
+
+            <p>
+                Configura los servicios que
+                podrás seleccionar al crear
+                una orden de trabajo.
+            </p>
+
+            <div id="listaServicios"></div>
+
+
+            <div class="agregar-opcion">
+
+                <input
+                    type="text"
+                    id="nuevoServicio"
+                    placeholder="Ej: Escaneo computarizado"
+                    aria-label="Nuevo servicio"
+                >
+
+                <button
+                    type="button"
+                    class="btn-agregar"
+                    onclick="agregarOpcion('servicio')"
+                >
+                    + Agregar
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- PLANTILLA AUTOMOTRIZ -->
+
+        <section class="tarjeta">
+
+            <h2>Plantilla automotriz</h2>
+
+            <p>
+                Agrega automáticamente las opciones
+                habituales de inspección y servicios
+                automotrices. Las opciones existentes
+                no se duplicarán.
+            </p>
+
+            <button
+                type="button"
+                class="btn-plantilla"
+                onclick="cargarPlantillaAutomotriz()"
+            >
+                Cargar plantilla automotriz
+            </button>
+
+
+            <div
+                id="mensajeOpciones"
+                role="status"
+                aria-live="polite"
+            ></div>
+
+        </section>
+
+    </div>
+
 </main>
+<!-- ==========================================
+     SUPABASE
+========================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="js/supabase.js"></script>
 
+
 <script>
+
+/* ==========================================
+   VARIABLES GENERALES
+========================================== */
 
 const formulario =
     document.getElementById("formConfiguracion");
@@ -352,12 +1359,88 @@ const boton =
     document.getElementById("btnGuardar");
 
 let usuarioActual = null;
+
 let tallerActual = null;
 
 
-// ==========================================
-// MOSTRAR LOGO
-// ==========================================
+/* ==========================================
+   NAVEGACIÓN ENTRE PESTAÑAS
+========================================== */
+
+const tabTaller =
+    document.getElementById("tabTaller");
+
+const tabOrden =
+    document.getElementById("tabOrden");
+
+const vistaTaller =
+    document.getElementById("vistaTaller");
+
+const vistaOrden =
+    document.getElementById("vistaOrden");
+
+
+function cambiarPestana(pestana) {
+
+    const mostrarTaller =
+        pestana === "taller";
+
+    vistaTaller.classList.toggle(
+        "oculto",
+        !mostrarTaller
+    );
+
+    vistaOrden.classList.toggle(
+        "oculto",
+        mostrarTaller
+    );
+
+    tabTaller.classList.toggle(
+        "activo",
+        mostrarTaller
+    );
+
+    tabOrden.classList.toggle(
+        "activo",
+        !mostrarTaller
+    );
+
+    tabTaller.setAttribute(
+        "aria-selected",
+        String(mostrarTaller)
+    );
+
+    tabOrden.setAttribute(
+        "aria-selected",
+        String(!mostrarTaller)
+    );
+
+}
+
+
+tabTaller.addEventListener(
+    "click",
+    function() {
+
+        cambiarPestana("taller");
+
+    }
+);
+
+
+tabOrden.addEventListener(
+    "click",
+    function() {
+
+        cambiarPestana("orden");
+
+    }
+);
+
+
+/* ==========================================
+   MOSTRAR LOGOTIPO
+========================================== */
 
 function mostrarLogo(url) {
 
@@ -369,29 +1452,32 @@ function mostrarLogo(url) {
 
     if (url) {
 
-        /*
-        Agregamos una marca de tiempo para evitar
-        que el navegador muestre una versión antigua
-        del logo después de reemplazarlo.
-        */
+        const separador =
+            url.includes("?") ? "&" : "?";
 
         imagen.src =
-            url + "?v=" + Date.now();
+            url + separador + "v=" + Date.now();
 
         imagen.style.display = "block";
+
         sinLogo.style.display = "none";
 
     } else {
 
+        imagen.removeAttribute("src");
+
         imagen.style.display = "none";
+
         sinLogo.style.display = "inline";
+
     }
+
 }
 
 
-// ==========================================
-// CARGAR DATOS
-// ==========================================
+/* ==========================================
+   CARGAR CONFIGURACIÓN
+========================================== */
 
 async function cargarConfiguracion() {
 
@@ -400,7 +1486,10 @@ async function cargarConfiguracion() {
         const {
             data: { user },
             error: errorUsuario
-        } = await supabaseClient.auth.getUser();
+        } = await supabaseClient
+            .auth
+            .getUser();
+
 
         if (errorUsuario || !user) {
 
@@ -408,7 +1497,9 @@ async function cargarConfiguracion() {
                 "login.html";
 
             return;
+
         }
+
 
         usuarioActual = user;
 
@@ -429,47 +1520,70 @@ async function cargarConfiguracion() {
             .eq("usuario_id", user.id)
             .single();
 
+
         if (errorTaller) {
+
             throw errorTaller;
+
         }
+
 
         tallerActual = taller;
 
 
         document.getElementById(
             "nombreTaller"
-        ).value = taller.nombre_taller || "";
+        ).value =
+            taller.nombre_taller || "";
+
 
         document.getElementById(
             "responsable"
-        ).value = taller.nombre_responsable || "";
+        ).value =
+            taller.nombre_responsable || "";
+
 
         document.getElementById(
             "telefono"
-        ).value = taller.telefono || "";
+        ).value =
+            taller.telefono || "";
+
 
         document.getElementById(
             "direccion"
-        ).value = taller.direccion || "";
+        ).value =
+            taller.direccion || "";
 
-        mostrarLogo(taller.logo_url);
+
+        mostrarLogo(
+            taller.logo_url
+        );
+
+
         await cargarOpciones();
+
+
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "Error cargando configuración:",
+            error
+        );
 
         mensaje.className = "error";
 
         mensaje.textContent =
             "Error al cargar los datos: " +
             error.message;
+
     }
+
 }
 
 
-// ==========================================
-// GUARDAR CONFIGURACIÓN
-// ==========================================
+/* ==========================================
+   GUARDAR CONFIGURACIÓN DEL TALLER
+========================================== */
 
 formulario.addEventListener(
     "submit",
@@ -478,40 +1592,56 @@ formulario.addEventListener(
         event.preventDefault();
 
         boton.disabled = true;
+
         boton.textContent =
             "Guardando...";
 
         mensaje.textContent = "";
+
         mensaje.className = "";
+
 
         try {
 
-            if (!usuarioActual || !tallerActual) {
+            if (
+                !usuarioActual ||
+                !tallerActual
+            ) {
+
                 throw new Error(
                     "No se pudo identificar el taller."
                 );
+
             }
 
+
+            /* ==================================
+               OBTENER DATOS DEL FORMULARIO
+            ================================== */
 
             const nombreTaller =
                 document.getElementById(
                     "nombreTaller"
                 ).value.trim();
 
+
             const responsable =
                 document.getElementById(
                     "responsable"
                 ).value.trim();
+
 
             const telefono =
                 document.getElementById(
                     "telefono"
                 ).value.trim();
 
+
             const direccion =
                 document.getElementById(
                     "direccion"
                 ).value.trim();
+
 
             const archivoLogo =
                 document.getElementById(
@@ -519,13 +1649,25 @@ formulario.addEventListener(
                 ).files[0];
 
 
+            if (
+                !nombreTaller ||
+                !responsable
+            ) {
+
+                throw new Error(
+                    "Completa el nombre del taller y del responsable."
+                );
+
+            }
+
+
             let nuevaLogoUrl =
                 tallerActual.logo_url;
 
 
-            // ======================================
-            // SI SE SELECCIONÓ UN NUEVO LOGO
-            // ======================================
+            /* ==================================
+               CAMBIAR LOGOTIPO
+            ================================== */
 
             if (archivoLogo) {
 
@@ -534,6 +1676,7 @@ formulario.addEventListener(
                     "image/png",
                     "image/webp"
                 ];
+
 
                 if (
                     !permitidos.includes(
@@ -544,6 +1687,7 @@ formulario.addEventListener(
                     throw new Error(
                         "El logo debe ser JPG, PNG o WEBP."
                     );
+
                 }
 
 
@@ -555,23 +1699,33 @@ formulario.addEventListener(
                     throw new Error(
                         "El logo no puede superar los 2 MB."
                     );
+
                 }
 
 
                 boton.textContent =
-                    "Subiendo logo...";
+                    "Subiendo logotipo...";
 
 
-                /*
-                Utilizamos siempre logo_actual con la
-                extensión correspondiente.
-                */
+                /* ==================================
+                   IDENTIFICAR EXTENSIÓN
+                ================================== */
+
+                const extensiones = {
+
+                    "image/jpeg": "jpg",
+
+                    "image/png": "png",
+
+                    "image/webp": "webp"
+
+                };
+
 
                 const extension =
-                    archivoLogo.name
-                        .split(".")
-                        .pop()
-                        .toLowerCase();
+                    extensiones[
+                        archivoLogo.type
+                    ];
 
 
                 const rutaLogo =
@@ -580,10 +1734,9 @@ formulario.addEventListener(
                     extension;
 
 
-                /*
-                Primero buscamos archivos anteriores
-                dentro de la carpeta del usuario.
-                */
+                /* ==================================
+                   LISTAR LOGOS ANTERIORES
+                ================================== */
 
                 const {
                     data: archivos,
@@ -591,17 +1744,21 @@ formulario.addEventListener(
                 } = await supabaseClient
                     .storage
                     .from("logos-talleres")
-                    .list(usuarioActual.id);
+                    .list(
+                        usuarioActual.id
+                    );
 
 
                 if (errorLista) {
+
                     throw errorLista;
+
                 }
 
 
-                /*
-                Eliminamos únicamente logos anteriores.
-                */
+                /* ==================================
+                   ELIMINAR LOGOS ANTERIORES
+                ================================== */
 
                 if (
                     archivos &&
@@ -609,14 +1766,17 @@ formulario.addEventListener(
                 ) {
 
                     const rutasEliminar =
-                        archivos.map(function(archivo) {
+                        archivos.map(
+                            function(archivo) {
 
-                            return (
-                                usuarioActual.id +
-                                "/" +
-                                archivo.name
-                            );
-                        });
+                                return (
+                                    usuarioActual.id +
+                                    "/" +
+                                    archivo.name
+                                );
+
+                            }
+                        );
 
 
                     const {
@@ -624,18 +1784,23 @@ formulario.addEventListener(
                     } = await supabaseClient
                         .storage
                         .from("logos-talleres")
-                        .remove(rutasEliminar);
+                        .remove(
+                            rutasEliminar
+                        );
 
 
                     if (errorEliminar) {
+
                         throw errorEliminar;
+
                     }
+
                 }
 
 
-                /*
-                Subimos el nuevo archivo.
-                */
+                /* ==================================
+                   SUBIR NUEVO LOGOTIPO
+                ================================== */
 
                 const {
                     error: errorSubida
@@ -653,30 +1818,35 @@ formulario.addEventListener(
 
 
                 if (errorSubida) {
+
                     throw errorSubida;
+
                 }
 
 
-                /*
-                Obtenemos la URL pública.
-                */
+                /* ==================================
+                   OBTENER URL PÚBLICA
+                ================================== */
 
                 const {
                     data: datosPublicos
                 } = supabaseClient
                     .storage
                     .from("logos-talleres")
-                    .getPublicUrl(rutaLogo);
+                    .getPublicUrl(
+                        rutaLogo
+                    );
 
 
                 nuevaLogoUrl =
                     datosPublicos.publicUrl;
+
             }
 
 
-            // ======================================
-            // ACTUALIZAR TALLER
-            // ======================================
+            /* ==================================
+               ACTUALIZAR DATOS EN SUPABASE
+            ================================== */
 
             const {
                 error: errorActualizar
@@ -707,27 +1877,39 @@ formulario.addEventListener(
 
 
             if (errorActualizar) {
+
                 throw errorActualizar;
+
             }
 
+
+            /* ==================================
+               ACTUALIZAR DATOS LOCALES
+            ================================== */
 
             tallerActual.nombre_taller =
                 nombreTaller;
 
+
             tallerActual.nombre_responsable =
                 responsable;
+
 
             tallerActual.telefono =
                 telefono;
 
+
             tallerActual.direccion =
                 direccion;
+
 
             tallerActual.logo_url =
                 nuevaLogoUrl;
 
 
-            mostrarLogo(nuevaLogoUrl);
+            mostrarLogo(
+                nuevaLogoUrl
+            );
 
 
             document.getElementById(
@@ -738,19 +1920,27 @@ formulario.addEventListener(
             mensaje.className =
                 "correcto";
 
+
             mensaje.textContent =
                 "Configuración guardada correctamente.";
 
 
         } catch (error) {
 
-            console.error(error);
+            console.error(
+                "Error guardando configuración:",
+                error
+            );
+
 
             mensaje.className =
                 "error";
 
+
             mensaje.textContent =
-                "Error: " + error.message;
+                "Error: " +
+                error.message;
+
 
         } finally {
 
@@ -758,9 +1948,14 @@ formulario.addEventListener(
 
             boton.textContent =
                 "Guardar cambios";
+
         }
+
     }
 );
+/* ==========================================
+   CARGAR OPCIONES DE LA ORDEN
+========================================== */
 
 async function cargarOpciones() {
 
@@ -768,123 +1963,262 @@ async function cargarOpciones() {
         return;
     }
 
-    const { data, error } =
-        await supabaseClient
-            .from("opciones_orden")
-            .select("*")
-            .eq("taller_id", tallerActual.id)
-            .eq("activo", true)
-            .order("orden", {
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("opciones_orden")
+        .select("*")
+        .eq(
+            "taller_id",
+            tallerActual.id
+        )
+        .eq(
+            "activo",
+            true
+        )
+        .order(
+            "orden",
+            {
                 ascending: true
-            });
+            }
+        );
+
 
     if (error) {
-        console.error(error);
+
+        console.error(
+            "Error cargando opciones:",
+            error
+        );
+
+        document.getElementById(
+            "mensajeOpciones"
+        ).className = "error";
+
+        document.getElementById(
+            "mensajeOpciones"
+        ).textContent =
+            "No se pudieron cargar las opciones.";
+
         return;
     }
 
+
+    const opciones = data || [];
+
+
     mostrarOpciones(
-        data.filter(
-            opcion =>
-                opcion.tipo === "inspeccion"
+        opciones.filter(
+            function(opcion) {
+
+                return (
+                    opcion.tipo === "inspeccion"
+                );
+
+            }
         ),
         "listaInspeccion"
     );
 
+
     mostrarOpciones(
-        data.filter(
-            opcion =>
-                opcion.tipo === "servicio"
+        opciones.filter(
+            function(opcion) {
+
+                return (
+                    opcion.tipo === "servicio"
+                );
+
+            }
         ),
         "listaServicios"
     );
+
 }
 
 
-function mostrarOpciones(opciones, contenedorId) {
+/* ==========================================
+   MOSTRAR OPCIONES
+========================================== */
+
+function mostrarOpciones(
+    opciones,
+    contenedorId
+) {
 
     const contenedor =
-        document.getElementById(contenedorId);
+        document.getElementById(
+            contenedorId
+        );
+
 
     contenedor.innerHTML = "";
 
+
     if (opciones.length === 0) {
 
-        contenedor.innerHTML =
-            '<p style="color:#6b7280;">' +
-            'No hay opciones configuradas.' +
-            '</p>';
+        const aviso =
+            document.createElement("p");
+
+        aviso.textContent =
+            "No hay opciones configuradas.";
+
+        aviso.style.color =
+            "#64748b";
+
+        aviso.style.margin =
+            "15px 0";
+
+        contenedor.appendChild(
+            aviso
+        );
 
         return;
     }
 
-    opciones.forEach(function(opcion) {
 
-        const fila =
-            document.createElement("div");
+    opciones.forEach(
+        function(opcion) {
 
-        fila.className =
-            "opcion-config";
-
-        const nombre =
-            document.createElement("span");
-
-        nombre.textContent =
-            "☐ " + opcion.nombre;
-
-
-        const editar =
-            document.createElement("button");
-
-        editar.type = "button";
-        editar.className =
-            "btn-editar-opcion";
-
-        editar.textContent =
-            "Editar";
-
-        editar.addEventListener(
-            "click",
-            function() {
-                editarOpcion(
-                    opcion.id,
-                    opcion.nombre
+            const fila =
+                document.createElement(
+                    "div"
                 );
-            }
-        );
 
 
-        const eliminar =
-            document.createElement("button");
+            fila.className =
+                "opcion-config";
 
-        eliminar.type = "button";
-        eliminar.className =
-            "btn-eliminar-opcion";
 
-        eliminar.textContent =
-            "Eliminar";
+            /* ==================================
+               NOMBRE DE LA OPCIÓN
+            ================================== */
 
-        eliminar.addEventListener(
-            "click",
-            function() {
-                eliminarOpcion(
-                    opcion.id,
-                    opcion.nombre
+            const nombre =
+                document.createElement(
+                    "span"
                 );
-            }
-        );
 
 
-        fila.appendChild(nombre);
-        fila.appendChild(editar);
-        fila.appendChild(eliminar);
+            nombre.textContent =
+                "☐ " + opcion.nombre;
 
-        contenedor.appendChild(fila);
-    });
+
+            /* ==================================
+               BOTÓN EDITAR
+            ================================== */
+
+            const editar =
+                document.createElement(
+                    "button"
+                );
+
+
+            editar.type =
+                "button";
+
+
+            editar.className =
+                "btn-editar-opcion";
+
+
+            editar.textContent =
+                "Editar";
+
+
+            editar.addEventListener(
+                "click",
+                function() {
+
+                    editarOpcion(
+                        opcion.id,
+                        opcion.nombre
+                    );
+
+                }
+            );
+
+
+            /* ==================================
+               BOTÓN ELIMINAR
+            ================================== */
+
+            const eliminar =
+                document.createElement(
+                    "button"
+                );
+
+
+            eliminar.type =
+                "button";
+
+
+            eliminar.className =
+                "btn-eliminar-opcion";
+
+
+            eliminar.textContent =
+                "Eliminar";
+
+
+            eliminar.addEventListener(
+                "click",
+                function() {
+
+                    eliminarOpcion(
+                        opcion.id,
+                        opcion.nombre
+                    );
+
+                }
+            );
+
+
+            /* ==================================
+               ARMAR FILA
+            ================================== */
+
+            fila.appendChild(
+                nombre
+            );
+
+
+            fila.appendChild(
+                editar
+            );
+
+
+            fila.appendChild(
+                eliminar
+            );
+
+
+            contenedor.appendChild(
+                fila
+            );
+
+        }
+    );
+
 }
 
 
+/* ==========================================
+   AGREGAR OPCIÓN
+========================================== */
+
 async function agregarOpcion(tipo) {
+
+    if (!tallerActual) {
+
+        alert(
+            "No se pudo identificar el taller."
+        );
+
+        return;
+    }
+
 
     const input =
         tipo === "inspeccion"
@@ -895,43 +2229,78 @@ async function agregarOpcion(tipo) {
                 "nuevoServicio"
             );
 
+
     const nombre =
         input.value.trim();
 
+
     if (!nombre) {
-        alert("Escribe el nombre de la opción.");
+
+        alert(
+            "Escribe el nombre de la opción."
+        );
+
+        input.focus();
+
         return;
     }
 
-    const { error } =
-        await supabaseClient
-            .from("opciones_orden")
-            .insert({
-                taller_id:
-                    tallerActual.id,
 
-                tipo:
-                    tipo,
+    const {
+        error
+    } = await supabaseClient
+        .from("opciones_orden")
+        .insert({
 
-                nombre:
-                    nombre
-            });
+            taller_id:
+                tallerActual.id,
+
+            tipo:
+                tipo,
+
+            nombre:
+                nombre
+
+        });
+
 
     if (error) {
+
+        console.error(
+            "Error agregando opción:",
+            error
+        );
+
         alert(
             "Error: " +
             error.message
         );
+
         return;
     }
 
+
     input.value = "";
 
+
     await cargarOpciones();
+
 }
 
 
-async function editarOpcion(id, nombreActual) {
+/* ==========================================
+   EDITAR OPCIÓN
+========================================== */
+
+async function editarOpcion(
+    id,
+    nombreActual
+) {
+
+    if (!tallerActual) {
+        return;
+    }
+
 
     const nuevoNombre =
         prompt(
@@ -939,45 +2308,80 @@ async function editarOpcion(id, nombreActual) {
             nombreActual
         );
 
+
     if (nuevoNombre === null) {
         return;
     }
 
+
     const nombre =
         nuevoNombre.trim();
 
+
     if (!nombre) {
+
         alert(
             "El nombre no puede estar vacío."
         );
+
         return;
     }
 
-    const { error } =
-        await supabaseClient
-            .from("opciones_orden")
-            .update({
-                nombre: nombre
-            })
-            .eq("id", id)
-            .eq(
-                "taller_id",
-                tallerActual.id
-            );
+
+    const {
+        error
+    } = await supabaseClient
+        .from("opciones_orden")
+        .update({
+
+            nombre:
+                nombre
+
+        })
+        .eq(
+            "id",
+            id
+        )
+        .eq(
+            "taller_id",
+            tallerActual.id
+        );
+
 
     if (error) {
+
+        console.error(
+            "Error editando opción:",
+            error
+        );
+
         alert(
             "Error: " +
             error.message
         );
+
         return;
     }
 
+
     await cargarOpciones();
+
 }
 
 
-async function eliminarOpcion(id, nombre) {
+/* ==========================================
+   ELIMINAR OPCIÓN
+========================================== */
+
+async function eliminarOpcion(
+    id,
+    nombre
+) {
+
+    if (!tallerActual) {
+        return;
+    }
+
 
     const confirmar =
         confirm(
@@ -986,40 +2390,60 @@ async function eliminarOpcion(id, nombre) {
             '"?'
         );
 
+
     if (!confirmar) {
         return;
     }
 
-    const { error } =
-        await supabaseClient
-            .from("opciones_orden")
-            .delete()
-            .eq("id", id)
-            .eq(
-                "taller_id",
-                tallerActual.id
-            );
+
+    const {
+        error
+    } = await supabaseClient
+        .from("opciones_orden")
+        .delete()
+        .eq(
+            "id",
+            id
+        )
+        .eq(
+            "taller_id",
+            tallerActual.id
+        );
+
 
     if (error) {
+
+        console.error(
+            "Error eliminando opción:",
+            error
+        );
+
         alert(
             "Error: " +
             error.message
         );
+
         return;
     }
 
+
     await cargarOpciones();
+
 }
 
 
-// ==========================================
-// PLANTILLA AUTOMOTRIZ
-// ==========================================
+/* ==========================================
+   CARGAR PLANTILLA AUTOMOTRIZ
+========================================== */
 
 async function cargarPlantillaAutomotriz() {
 
     if (!tallerActual) {
-        alert("No se pudo identificar el taller.");
+
+        alert(
+            "No se pudo identificar el taller."
+        );
+
         return;
     }
 
@@ -1027,61 +2451,120 @@ async function cargarPlantillaAutomotriz() {
     const confirmar =
         confirm(
             "¿Agregar la plantilla automotriz? " +
-            "Solo se agregarán las opciones que todavía no existan."
+            "Solo se agregarán las opciones " +
+            "que todavía no existan."
         );
+
 
     if (!confirmar) {
         return;
     }
 
 
+    /* ======================================
+       OPCIONES DE INSPECCIÓN
+    ====================================== */
+
     const inspeccion = [
+
         "Limpiaparabrisas",
+
         "Espejos",
+
         "Luces",
+
         "Placas",
+
         "Emblemas",
+
         "Radio",
+
         "Control de alarma",
+
         "Tapetes",
+
         "A/C",
+
         "Matrícula",
+
         "Herramientas",
+
         "Tuerca de seguridad",
+
         "Gata",
+
         "Llave de ruedas",
+
         "Extintor",
+
         "Encendedor",
+
         "Antena",
+
         "Llanta de emergencia"
+
     ];
 
+
+    /* ======================================
+       OPCIONES DE SERVICIOS
+    ====================================== */
 
     const servicios = [
+
         "Limpieza de inyectores",
+
         "Cambio de aceite y filtro",
+
         "Cambio de aceite de caja",
+
         "Limpieza cuerpo de aceleración",
+
         "Limpieza válvula IAC",
+
         "Cambio de kit de distribución",
+
         "Servicio de frenos completo",
+
         "Servicio de bomba de gasolina",
+
         "Cambio de filtro y pre filtro de gas",
+
         "Escaneo computarizado",
+
         "Medición de compresión",
+
         "Cambio de bujías"
+
     ];
+
+
+    const mensajeOpciones =
+        document.getElementById(
+            "mensajeOpciones"
+        );
+
+
+    mensajeOpciones.textContent =
+        "Cargando plantilla...";
+
+    mensajeOpciones.className = "";
 
 
     try {
 
-        // Obtener las opciones que ya tiene el taller
+        /* ==================================
+           CONSULTAR OPCIONES EXISTENTES
+        ================================== */
+
         const {
             data: existentes,
             error: errorExistentes
         } = await supabaseClient
             .from("opciones_orden")
-            .select("tipo, nombre")
+            .select(
+                "tipo, nombre"
+            )
             .eq(
                 "taller_id",
                 tallerActual.id
@@ -1089,14 +2572,15 @@ async function cargarPlantillaAutomotriz() {
 
 
         if (errorExistentes) {
+
             throw errorExistentes;
+
         }
 
 
-        /*
-        Normalizamos los nombres para comparar
-        sin importar mayúsculas o espacios.
-        */
+        /* ==================================
+           EVITAR OPCIONES DUPLICADAS
+        ================================== */
 
         const clavesExistentes =
             new Set(
@@ -1110,6 +2594,7 @@ async function cargarPlantillaAutomotriz() {
                                 .trim()
                                 .toLowerCase()
                         );
+
                     }
                 )
             );
@@ -1117,6 +2602,10 @@ async function cargarPlantillaAutomotriz() {
 
         const registros = [];
 
+
+        /* ==================================
+           AGREGAR INSPECCIONES NUEVAS
+        ================================== */
 
         inspeccion.forEach(
             function(nombre, indice) {
@@ -1128,7 +2617,11 @@ async function cargarPlantillaAutomotriz() {
                         .toLowerCase();
 
 
-                if (!clavesExistentes.has(clave)) {
+                if (
+                    !clavesExistentes.has(
+                        clave
+                    )
+                ) {
 
                     registros.push({
 
@@ -1143,11 +2636,22 @@ async function cargarPlantillaAutomotriz() {
 
                         orden:
                             indice + 1
+
                     });
+
+                    clavesExistentes.add(
+                        clave
+                    );
+
                 }
+
             }
         );
 
+
+        /* ==================================
+           AGREGAR SERVICIOS NUEVOS
+        ================================== */
 
         servicios.forEach(
             function(nombre, indice) {
@@ -1159,7 +2663,11 @@ async function cargarPlantillaAutomotriz() {
                         .toLowerCase();
 
 
-                if (!clavesExistentes.has(clave)) {
+                if (
+                    !clavesExistentes.has(
+                        clave
+                    )
+                ) {
 
                     registros.push({
 
@@ -1174,20 +2682,30 @@ async function cargarPlantillaAutomotriz() {
 
                         orden:
                             indice + 1
+
                     });
+
+                    clavesExistentes.add(
+                        clave
+                    );
+
                 }
+
             }
         );
 
 
-        const mensajeOpciones =
-            document.getElementById(
-                "mensajeOpciones"
-            );
+        /* ==================================
+           SI YA EXISTEN TODAS LAS OPCIONES
+        ================================== */
 
+        if (
+            registros.length === 0
+        ) {
 
-        // Ya estaban todas cargadas
-        if (registros.length === 0) {
+            mensajeOpciones.className =
+                "correcto";
+
 
             mensajeOpciones.textContent =
                 "La plantilla automotriz ya está cargada. " +
@@ -1197,16 +2715,28 @@ async function cargarPlantillaAutomotriz() {
         }
 
 
+        /* ==================================
+           INSERTAR NUEVAS OPCIONES
+        ================================== */
+
         const {
             error: errorInsertar
         } = await supabaseClient
             .from("opciones_orden")
-            .insert(registros);
+            .insert(
+                registros
+            );
 
 
         if (errorInsertar) {
+
             throw errorInsertar;
+
         }
+
+
+        mensajeOpciones.className =
+            "correcto";
 
 
         mensajeOpciones.textContent =
@@ -1220,17 +2750,34 @@ async function cargarPlantillaAutomotriz() {
 
     } catch (error) {
 
-        console.error(error);
-
-        alert(
-            "Error al cargar la plantilla: " +
-            error.message
+        console.error(
+            "Error cargando plantilla:",
+            error
         );
+
+
+        mensajeOpciones.className =
+            "error";
+
+
+        mensajeOpciones.textContent =
+            "Error al cargar la plantilla: " +
+            error.message;
+
     }
+
 }
+
+
+/* ==========================================
+   INICIAR CONFIGURACIÓN
+========================================== */
+
 cargarConfiguracion();
+
 
 </script>
 
 </body>
+
 </html>

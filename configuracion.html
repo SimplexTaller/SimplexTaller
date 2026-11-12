@@ -1331,9 +1331,149 @@
 
         </section>
 
-    </div>
+        </div>
 
 </main>
+
+<!-- ==========================================
+     BOTÓN VOLVER ARRIBA
+========================================== -->
+
+<button
+    type="button"
+    id="btnVolverArriba"
+    onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+    aria-label="Volver arriba"
+    title="Volver arriba"
+>
+    ↑
+</button>
+
+<style>
+
+    #btnVolverArriba {
+
+        position: fixed;
+
+        bottom: 25px;
+
+        right: 25px;
+
+        width: 52px;
+
+        height: 52px;
+
+        border: none;
+
+        border-radius: 50%;
+
+        background: linear-gradient(
+            135deg,
+            #0b3158,
+            #125a9c
+        );
+
+        color: white;
+
+        font-size: 25px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 6px 20px rgba(0,0,0,.25);
+
+        z-index: 1000;
+
+        display: none;
+
+        align-items: center;
+
+        justify-content: center;
+
+        transition:
+            transform .2s,
+            box-shadow .2s;
+
+    }
+
+    #btnVolverArriba:hover {
+
+        transform: translateY(-4px);
+
+        box-shadow:
+            0 9px 25px rgba(0,0,0,.3);
+
+    }
+
+    @media (max-width: 600px) {
+
+        #btnVolverArriba {
+
+            bottom: 18px;
+
+            right: 18px;
+
+            width: 46px;
+
+            height: 46px;
+
+            font-size: 22px;
+
+        }
+
+    }
+
+</style>
+
+<script>
+
+    function actualizarBotonVolverArriba() {
+
+        const botonArriba =
+            document.getElementById("btnVolverArriba");
+
+        const vistaOrden =
+            document.getElementById("vistaOrden");
+
+        if (
+            window.scrollY > 300 &&
+            !vistaOrden.classList.contains("oculto")
+        ) {
+
+            botonArriba.style.display = "flex";
+
+        } else {
+
+            botonArriba.style.display = "none";
+
+        }
+
+    }
+
+    window.addEventListener(
+        "scroll",
+        actualizarBotonVolverArriba
+    );
+
+    document.getElementById("tabTaller")
+        .addEventListener(
+            "click",
+            actualizarBotonVolverArriba
+        );
+
+    document.getElementById("tabOrden")
+        .addEventListener(
+            "click",
+            actualizarBotonVolverArriba
+        );
+
+</script>
+
+<!-- ==========================================
+     SUPABASE
+========================================== -->
 <!-- ==========================================
      SUPABASE
 ========================================== -->
